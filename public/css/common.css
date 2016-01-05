@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* CSS Document */
+*{word-wrap:break-word; padding:0; margin:0}
+html{padding:0;margin:0; overflow-y:scroll}
+*html{background-image:url(../images/about:blank);background-attachment:fixed;}/*解决IE6下滚动抖动的问题*/
+body{color:#fff;font:18px/1.5 "Microsoft yahei",Tahoma,Arial,sans-serif;background:#040413 url(../images/bg.jpg) no-repeat center top; background-size: 100%}
+a{ color:#fff;text-decoration:none}
+a:hover{text-decoration:none; color:#eee}
+img{border:0}
+li{list-style:none}
+body, ul, ol, li, dl, dt, dd, p, h1, h2, h3, h4, h5, h6, form, .pr, .pc {margin:0;padding:0}
+table{empty-cells:show;border-collapse:collapse}
+caption,th{text-align:left;font-weight:400}
+h1, h2, h3, h4, h5, h6 {font-size:1em}
+em, cite {font-style:normal}
+input,button,select,textarea{ font-family: Microsoft yahei}
+input{border:0;outline:none}
+button{outline:none; cursor: pointer; }
+select, textarea{outline: none}
+i{font-style:normal}
+
+.ipt_w{ width: 80px}
+.ipt_w0{ width: 120px}
+.ipt_w1{ width: 300px}
+button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: visible; background: #f8f8f8;}
+/* CSS */
+.fl{ float:left}
+.fr{ float:right}
+
+.oh{ overflow:hidden}
+.tab_nav{ position: relative; padding: 0 3%; line-height: 70px; text-align: center;}
+.tab_nav span.line{ position: absolute; left: 0; top: 70px; display: block; width: 100%; height: 1px; background-color: rgba(255,255,255,0.3); overflow: hidden;}
+.tab_nav li{ float: left; width: 33.33%;}
+.tab_nav li.on{ border-bottom: 3px solid #fff }
+
+.focus_data{ padding: 5%; height: 300px}
+
+.button_ab{ padding: 3%; overflow: hidden;}
+.button_ab span{ float: left; width: 40%; margin: 5%}
+.button_ab span a{ display: block; line-height: 40px; text-align: center; border-radius: 40px; }
+.button_ab span.d a{ border:2px solid #77ae00; }
+.button_ab span.z a{ border:2px solid #ff3636; background-color: #ff3636}
+
+.user_info{ border-top: 1px solid #1f1e2e; padding: 5%}
+.user_info li{ float: left; width: 50%; }
+.user_info span{ position: relative; display: block; font-size: 16px; color: #77778d; }
+.user_info em{ font-family: Arial; font-size: 20px; color: #007eff; }
+.user_info li.tz i{ position: absolute; display: block; top: 3px; width: 20px; height: 20px; line-height: 20px; font-family: Arial; color: #fff; text-align: center; border:2px solid #77778d; border-radius: 50%}
+.user_info li.tz i.down{ left: 0}
+.user_info li.tz i.up{ right: 0}
+.user_info li.tz em{ padding: 0 40px; color: #ff3636}

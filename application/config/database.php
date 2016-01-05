@@ -78,8 +78,9 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '123456',
-	'database' => 'eia',
-	'dbdriver' => 'mysqli',
+	'database' => 'cygjs_fr',
+	'dbdriver' => 'mysql',
+     
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
