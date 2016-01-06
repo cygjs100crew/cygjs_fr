@@ -4,6 +4,7 @@ class Kxian extends CI_Controller{
         parent::__construct();
         
     }
+    //k线图
     public function index(){
         $this->load->view('kxian.html');
     }
