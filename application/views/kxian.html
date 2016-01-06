@@ -7,6 +7,13 @@
 <title>测试</title>
  <base href="<?php echo base_url()?>">
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
+<link rel="stylesheet" type="text/css"
+	href="vendor/jqueryui/themes/base/jquery-ui.min.css">
+ <link rel="stylesheet" type="text/css"
+	href="vendor/bootstrap/dist/css/bootstrap.min.css">
+<script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="vendor/jqueryui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="vendor/jqueryui/ui/i18n/datepicker-zh-CN.js"></script>
 </head>
 <body>
 
@@ -30,10 +37,45 @@
 	<li class="tz"><span>投注金额：</span><span><i class="down">-</i><em>1,000</em><i class="up">+</i></span></li>
 </ul></div>
 <div class="out">
-   <span class="th" ><a href="<?php echo site_url('custom_info/index')?>">兑换</a></span>
+   <span class="th" ><a href="javascript:void(0)" >兑换</a></span>
    <span class="tc" ><a href="<?php echo site_url('index/index')?>">退出</a></span>
+</div>
+
+<div id="login">
+	  <table width="100%" class="table table-bordered" >
+	    <tr>
+	      <td align="right"  style=" padding:0 10px; ">账号</td>
+	      <td ><input style="width:40%;margin-bottom:10px;" type="text" name="user_info" /></td>
+	        
+	   </tr>    
+	  <tr>
+	      <td align="right"  style=" padding:0 10px; ">密码</td>
+	      <td ><input style="width:40%;margin-bottom:10px;" type="text" name="pwd"  /></td>
+	                
+	 </table>
 </div>
 
 
 </body>
 </html>
+<script>
+$(window).load(function(){
+	$('.th').click(function(){
+	  $('#login').dialog('open');
+	// console.log(123);
+	
+	});
+  $('#login').dialog({
+	  model:true,
+	  autoOpen:false,
+	  width:300,
+	  title:'登入',
+	  buttons:{
+		  "登入":function(){},
+		  "注册":function(){}
+	   }
+  });
+
+})
+
+</script>
