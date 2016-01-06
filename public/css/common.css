@@ -49,3 +49,6 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 .user_info li.tz i.down{ left: 0}
 .user_info li.tz i.up{ right: 0}
 .user_info li.tz em{ padding: 0 40px; color: #ff3636}
+.out{margin-right:50px;}
+.out span{width:50px; float:right;margin:50px 10px; border:2px solid #77778d;border-radius:5px; }
+.out span a{ display:block;text-align:center;}
