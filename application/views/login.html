@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="login" style="margin:50px auto;">
+	  <table width="100%" class="table table-bordered"  >
+	    <tr style="margin-left:30px;">
+	      <td align="right"  style=" padding:0 10px; ">账号</td>
+	      <td ><input style="width:50%;margin-bottom:10px;" type="text" name="name" /></td>
+	        
+	   </tr>    
+	  <tr >
+	      <td align="right"  style=" padding:0 10px; ">密码</td>
+	      <td ><input style="width:50%;margin-bottom:10px;" type="text" name="pwd"  /></td>
+	  </tr>
+	  <tr align="center" style="padding:20px; margin:10px;">
+	      <td colspan="2">
+	      <button onclick="javascript:window.location.href='<?php echo site_url("custom_info/index")?>'">登入</button>
+	      <button onclick="javascript:window.location.href='<?php echo site_url("register/index")?>'">注册</button>
+	      </td>
+	   </tr>             
+	 </table>
+</div>
+</body>
+</html>
