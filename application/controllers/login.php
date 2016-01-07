@@ -4,6 +4,7 @@ class Login extends CI_Controller{
         parent::__construct();
 
     }
+    //登入页面
    public function index(){
        $this->load->view('login.html');
    }
