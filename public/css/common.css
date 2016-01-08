@@ -46,7 +46,7 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 .user_info span{ position: relative; display: block; font-size: 16px; color: #77778d; }
 .user_info em{ font-family: Arial; font-size: 20px; color: #007eff; }
 .user_info li.tz i{ position: absolute; display: block; top: 3px; width: 20px; height: 20px; line-height: 20px; font-family: Arial; color: #fff; text-align: center; border:2px solid #77778d; border-radius: 50%}
-.user_info li.yl em{ color: #ff3636}
-.out{margin-left:48%;}
+.user_info li.yl em{ color: #ff3636;}
+.out{margin-left:48%}
 .out span{width:50px; margin:50px 10px; border:2px solid #77778d;border-radius:5px; float:left;}
 .out span a{ display:block;text-align:center;}
