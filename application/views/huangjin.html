@@ -45,9 +45,6 @@
                 var myChart = ec.init(document.getElementById('main'), 'default');
                 
                 var option = {
-    title : {
-        text: '2013年上半年上证指数'
-    },
     tooltip : {
         trigger: 'axis',
         formatter: function (params) {
@@ -60,17 +57,6 @@
     },
     legend: {
         data:['上证指数']
-    },
-    toolbox: {
-        show : true,
-        feature : {
-            mark : {show: true},
-            dataZoom : {show: true},
-            dataView : {show: true, readOnly: false},
-            magicType: {show: true, type: ['line', 'bar']},
-            restore : {show: true},
-            saveAsImage : {show: true}
-        }
     },
     dataZoom : {
         show : true,
