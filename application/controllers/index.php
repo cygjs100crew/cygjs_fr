@@ -9,8 +9,10 @@ class  Index extends CI_Controller{
     public function index(){
         $this->load->view('index.html');
 
-        //$content = file_get_contents("http://hq.sinajs.cn/list=sh601006");
-        //echo $content;
+        $content = file_get_contents("http://hq.sinajs.cn/list=sh601006");
+        $content=explode(',',$content);
+        //var_dump($content[31]);
+     
         
     }
     public function get(){

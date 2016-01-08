@@ -7,7 +7,7 @@
 <title>黄金</title>
  <base href="<?php echo base_url()?>">
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
-<!-- <script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script> -->
+ <!--  <script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script>-->
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
 
 </head>
@@ -215,9 +215,45 @@
 	<li class="jg"><span>价格：</span><span><em>1,000</em></span></li>
 	<li class="yl"><span>盈利：</span><span><em>涨/跌</em></span></li>
 </ul></div>
+<!-- 注册页面-->
+<div id="register"  style="display:none;width:300px;height:300px;">
+	<div id="reg" class="title" style="padding:30px 0px;">请注册<img  style="margin-left:180px;"src="<?php echo base_url()?>public/img/gb.jpg" alt="关闭" /></div>
+	  <table class="table" width="100%" >
+	    <tr><td style="text-align:right;">用户名：</td><td><input type="text" /></td></tr>
+	    <tr> <td style="text-align:right;">密码：</td><td><input type="text"/></td></tr>
+	    <tr><td style="text-align:right;">邮箱：</td><td><input type="text"/></td></tr>
+	     <tr><td style="text-align:right;">手机号：</td><td><input type="text"/></td></tr>
+	    <tr><td style="text-align:right;">手机验证码：</td><td><input type="text"/></td></tr>
+	    <tr><td><button onclick="back()">确定</button></td></tr>
+	 </table>
+</div>
+
+<!-- 弹出登入窗 -->
+<div id="login" style="margin:50px auto; width:300px; height:150px; display:none;">
+    <div id="title" class="title" style="padding:30px 0px;">请登入<img  style="margin-left:180px;"src="<?php echo base_url()?>public/img/gb.jpg" alt="关闭" /></div>
+	  <table width="100%" class="table"  >
+	    <tr style="margin-left:30px;">
+	      <td align="right"  style=" padding:0 10px; ">账号</td>
+	      <td ><input style="width:60%;margin-bottom:10px;text-align:center;" type="text" name="name" placeholder="用户名/手机号"/></td>
+	        
+	   </tr>    
+	  <tr >
+	      <td align="right"  style=" padding:0 10px; ">密码</td>
+	      <td ><input style="width:60%;margin-bottom:10px;" type="text" name="pwd"  /></td>
+	  </tr>
+	  <tr align="center" style="padding:20px; margin:10px;">
+	      <td colspan="2">
+	      <button onclick="login()">登录</button>
+	      <button onclick="register()">注册</button>
+	      
+	      </td>
+	   </tr>             
+	 </table>
+</div>
+
 <div class="out">
-   <span class="th" ><a href="<?php echo site_url('login/index')?>">取现</a></span>
-   <span class="th" ><a href="#">赚流量/机会</a></span>
+   <span class="qx" ><a href="javascript:void(0);">取现</a></span>
+   <span class="rw" ><a href="#">赚流量/机会</a></span>
 </div>
 
 
@@ -226,7 +262,60 @@
 </body>
 </html>
 <script>
+//弹出注册页
+function wit(){
+	windowHeight=$(window).height();
+	windowWidth=$(window).width();
+	popHeight=$('#register').height();
+	popWidth=$('#register').width();
+}
 
+function register(){
+		
+	//console.log(345);
+	wit();
+	var popY=(windowHeight-popHeight)/2;
+	var popX=(windowWidth-popWidth)/2;
+	$('#login').css('top',popY).css('left',popX).slideToggle('slow');
+	$('#register').css('top',popY).css('left',popX).slideToggle('slow');
+	//closeWindow();
+	$('#reg img').click(function(){
+			$(this).parent().parent().hide('slow');
+		});
+}
+//弹出窗口
+
+$(window).load(function(){
+	$('.qx').click(function(){
+		//console.log(123);
+		popCenterWindow();
+		
+	});
+	//获取窗口/弹窗的高跟宽
+	function init(){
+		windowHeight=$(window).height();
+		windowWidth=$(window).width();
+		popHeight=$('#login').height();
+		popWidth=$('#login').width();
+	};
+	//关闭窗口
+	function closeWindow(){
+		$('.title img').click(function(){
+			$(this).parent().parent().hide('slow');
+		})
+	};
+	function popCenterWindow(){
+		init();
+		//计算弹出窗口的左上角Y的偏移量
+		var popY=(windowHeight-popHeight)/2;
+		var popX=(windowWidth-popWidth)/2;
+		//设定窗口的位置
+		$('#login').css('top',popY).css('left',popX).slideToggle('slow');
+		closeWindow();
+		
+	};
+	
+})
 
 
 </script>
