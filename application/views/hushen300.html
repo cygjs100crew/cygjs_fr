@@ -4,11 +4,17 @@
 <meta charset="utf-8">
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>测试</title>
+<title>黄金</title>
  <base href="<?php echo base_url()?>">
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
-<!-- <script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script> -->
-<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+ <script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script>
+ <script type="text/javascript" src="public/js/code.js"></script>
+ <script type="text/javascript" src="public/js/register.js"></script>
+<!--  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>-->
+ <!--  <script src="doc/asset/ico/bar.png"></script>
+<script src="doc/example/www2/mix8.html"></script>-->
+
+ 
 <style>
 #mask{
 
@@ -69,83 +75,71 @@
  </ul>
 </div>
 <div class="tab_nav">
-    <span class="line"></span>
-    <ul>
-    <li ><a href="<?php echo site_url('huangjin/index')?>">黄金</a></li>
-    <li class="on"><a href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
-    
+	<span class="line"></span>
+	<ul>
+	<li class="on"><a href="<?php echo site_url('huangjin/index')?>">黄金</a></li>
+	<li><a href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
+	
 </ul></div>
 
 <div class="focus_data">
     <!-- 为新浪准备一个具备大小（宽高）的Dom -->
-    <embed src="http://finance.sina.com.cn/flash/cn.swf?symbol=sz399300" quality="high" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="100%" height="490"></embed>
+    
+            <div  style="height:400px;text-align:center;background: #fff;"><p id="m-chart-img"></p></div>
     <p id="m-chart-realhq">实时行情: -- | 今开: -- | 昨收: -- | 最高: -- | 最低: -- | 量: --手 | 额: --万元</p>
     <!-- ECharts单文件引入 -->
 
     <script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
+
     <script type="text/javascript">
     setInterval(function(){  
                             $.ajax({
                                     // url: "http://hq.sinajs.cn/?_="+new Date().getTime()+"&list=sh603518",
-                                    url: "http://hq.sinajs.cn/?list=s_sz399300",
+                                    url: "http://hq.sinajs.cn/?list=hf_GC",
                                     method: 'GET',
                                     dataType: "script",
                                     scriptCharset: "gb2312",
                                     cache: true,
                                     success: function(data, textStatus){
-                                         var hq = hq_str_s_sz399300.split(",");
+                                         var hq = hq_str_hf_GC.split(",");
                                         var title,rt_hq = '';
-                                        if(Number(hq[2])>Number(0)){
+                                        if(Number(hq[0])>Number(7)){
                                             title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-                                            rt_hq = '<span style="color:Red;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
-                                        }else if(Number(hq[2])<Number(0)){
+                                            rt_hq = '<span style="color:Red;">'+hq[0]+'&nbsp+'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
+                                        }else if(Number(hq[0])<Number(7)){
                                             title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-                                            rt_hq = '<span style="color:Lime;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
+                                            rt_hq = '<span style="color:Lime;">'+hq[0]+'&nbsp-'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
                                         }else{
                                             title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-                                           rt_hq = '<span style="color:Black;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
+                                           rt_hq = '<span style="color:Black;">'+hq[0]+'&nbsp'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
                                         }
                                         document.title = title;
                                         // var html_src = '实时行情: '+rt_hq+" | 今开: "+hq[1]+" | 昨收: "+hq[2]+" | 最高: "+hq[4]+" | 最低: "+hq[5]+" | 量: "+String((Number(hq[8])/100).toFixed(0))+"手 | 额: "+String((Number(hq[9])/10000).toFixed(2))+"万元";
-                                        var html_src = '实时行情: '+rt_hq+"|量: "+hq[4]+"手 | 额: "+hq[5]+"万元";
+                                        var html_src = '实时行情: '+rt_hq+"|最高: "+hq[3]+" | 最低: "+hq[2]+"|昨收: "+hq[7]+"| 北京时间: "+hq[6]+"";
+                                        var html_src_img = '<img src="http://image.sinajs.cn/newchart/v5/futures/global/min/GC.gif?'+new Date().getTime()+'">';
                                         // alert(html_src);
                                         $("#m-chart-realhq").html(html_src);
+                                        $("#m-chart-img").html(html_src_img);
                                         // res += '<br/>  开盘 : ' + params[0].value[0] + '  最高 : ' + params[0].value[3];
-
-                                        
+                                       
                                         // $.post('/cygjs_fr/index.php/hushen300/data_add',{open:hq[1],close:hq[2],current:hq[3],high:hq[4],low:hq[5],data_date:hq[30],data_time:hq[31]},function(data){
                                         //     // alert(data);
                                         // });
                 } 
             });
-             },1000);
+             },3000);
     </script>
 </div>
 
 <div class="button_ab">
-    <span class="d"><a href="<?php echo site_url('hushen300/tt')?>">跌</a></span> 
-    <span class="z"><a href="#">涨</a></span>
+	<span class="d"><a href="#">跌</a></span>
+	<span class="z"><a href="#">涨</a></span>
 </div>
 
 <div class="user_info"><ul>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 	<li class="mj"><span>买价：</span><span><em>42,500</em></span></li>
 	<li class="jg"><span>价格：</span><span><em>1,000</em></span></li>
 	<li class="yl"><span>盈利：</span><span><em>涨/跌</em></span></li>
-=======
-    <li><span>余额：</span><span><em>42,500</em><span class="tc" ><a href="<?php echo site_url('login/index')?>">取现</a><a href="<?php echo site_url('wanshan/index')?>">/完善信息</a><a href="<?php echo site_url('register/index')?>">/注册</a></span></span></li>
-    <li class="tz"><span>投注金额：</span><span><i class="down">-</i><em>1,000</em><i class="up">+</i></span></li>
->>>>>>> origin/master
-=======
-    <li><span>余额：</span><span><em>42,500</em><span class="tc" ><a href="<?php echo site_url('login/index')?>">取现</a><a href="<?php echo site_url('wanshan/index')?>">/完善信息</a><a href="<?php echo site_url('register/index')?>">/注册</a></span></span></li>
-    <li class="tz"><span>投注金额：</span><span><i class="down">-</i><em>1,000</em><i class="up">+</i></span></li>
->>>>>>> origin/master
-=======
-    <li><span>余额：</span><span><em>42,500</em><span class="tc" ><a href="<?php echo site_url('login/index')?>">取现</a><a href="<?php echo site_url('wanshan/index')?>">/完善信息</a><a href="<?php echo site_url('register/index')?>">/注册</a></span></span></li>
-    <li class="tz"><span>投注金额：</span><span><i class="down">-</i><em>1,000</em><i class="up">+</i></span></li>
->>>>>>> origin/master
 </ul></div>
 
 <!--遮罩层-->
@@ -155,36 +149,39 @@
 <div id="register">
 	<div id="reg" class="title">请注册<img  style="margin-left:180px;"src="<?php echo base_url()?>public/img/gb.jpg" alt="关闭" /></div>
 	  <table class="table" width="100%" >
-	    <tr><td style="text-align:right;">用户名：</td><td><input type="text" /></td></tr>
-	    <tr> <td style="text-align:right;">密码：</td><td><input type="text"/></td></tr>
-	    <tr><td style="text-align:right;">邮箱：</td><td><input type="text"/></td></tr>
-	     <tr><td style="text-align:right;">手机号：</td><td><input type="text"/></td></tr>
-	    <tr><td style="text-align:right;">手机验证码：</td><td><input type="text"/></td></tr>
-	    <tr><td><button onclick="back()">确定</button></td></tr>
+	    <tr><td style="text-align:right;">用户名：</td><td><input type="text" name="username" id="username"/></td></tr>
+	    <tr> <td style="text-align:right;">密码：</td><td><input type="password" name="password" id="password"/></td></tr>
+	    <tr> <td style="text-align:right;">确认密码：</td><td><input type="password" name="repassword" id="repassword"/></td></tr>
+	    <tr><td style="text-align:right;">手机号：</td><td><input type="text" id="phone" name="phone"/></td></tr>
+	    <tr><td style="text-align:right;">验证码：</td>
+	    <td ><input type="text" id="checkCode" name="checkCode" size="6"  />
+	    <input id="btnSendCode" type="button" value="发送验证码" /></td></tr>
+	    <tr><td><button id="sure" >确定</button></td></tr>
 	 </table>
 </div>
 
 <!-- 弹出登入窗 -->
 <div id="login" style="margin:50px auto; width:300px; height:150px; display:none;">
     <div id="title" class="title" style="padding:30px 0px;">请登入<img  style="margin-left:180px;"src="<?php echo base_url()?>public/img/gb.jpg" alt="关闭" /></div>
-	  <table width="100%" class="table"  >
-	    <tr style="margin-left:30px;">
-	      <td align="right"  style=" padding:0 10px; ">账号</td>
-	      <td ><input style="width:60%;margin-bottom:10px;text-align:center;" type="text" name="name" placeholder="用户名/手机号"/></td>
-	        
+	<table width="100%" class="table">
+		<tr style="margin-left:30px;">
+		  <td align="right"  style=" padding:0 10px; ">账号</td>
+		  <td ><input style="width:60%;margin-bottom:10px;text-align:center;" type="text" name="name" placeholder="用户名/手机号"/></td>
+			
 	   </tr>    
 	  <tr >
-	      <td align="right"  style=" padding:0 10px; ">密码</td>
-	      <td ><input style="width:60%;margin-bottom:10px;" type="text" name="pwd"  /></td>
+		  <td align="right"  style=" padding:0 10px; ">密码</td>
+		  <td ><input style="width:60%;margin-bottom:10px;" type="text" name="pwd"  /></td>
 	  </tr>
 	  <tr align="center" style="padding:20px; margin:10px;">
-	      <td colspan="2">
-	      <button id="login_btn">登录</button>
-	      <button id="register_btn">注册</button>
-	      
-	      </td>
+		  <td colspan="2">
+		  <button id="login_btn">登录</button>
+		  <button id="register_btn">注册</button>
+		  
+		  </td>
 	   </tr>             
-	 </table>
+ </table>
+
 </div>
 
 <div class="out">
@@ -198,17 +195,60 @@
 </body>
 </html>
 <script>
+
+
+
 //弹出窗口
 
 $(function(){
-	
+	//弹出注册框的时候，同时向后台请求验证码图片
 	$('#register_btn').on('click',function(){
-	   
+		/*$.ajax({
+			url:'<?php echo site_url("huangjin/img")?>',
+			dataType:'html',
+			async:false,
+			success:function(data){
+				$('#img_td').prepend(data);
+			}
+		});*/
 		$('#mask').show();
-		$('#register').show();
+		$('#register').show();	
+	});
+	//点击发送时发送手机验证码
+	$('#btnSendCode').click(function(){
+		var phone=$('#phone').val();
+		//这里应该检测一下是否是电话号码，我这里省略掉
 		
-		
-	})
+		$.ajax({
+			url:'<?php echo site_url("hushen300/send_sms")?>',
+			data:{phone:phone},
+			type:'post',
+			success:function(data){
+				alert(data.info);
+			}
+		});
+	});
+	
+	//检测用户名或者号码是否重复
+	$('#username,#phone').on('blur',function(){
+		var field=$(this).attr('name');//字段名称
+		var value=$(this).val();//字段值
+		if(!value){
+			alert('不能为空！');
+			return;
+		};
+		var post_data={};
+		post_data[field]=value;
+		$.ajax({
+			url:'<?php echo site_url("hushen300/check")?>',
+		    dataType:"json",
+			type:'post',
+			data:post_data,
+			success:function(data){
+				alert(data.info);
+			}
+		})
+	});
 
 	$('.qx').click(function(){
 		//console.log(123);
@@ -241,21 +281,37 @@ $(function(){
 		closeWindow();
 		
 	};
-	$.ajax({
-		url:"register",
-		dataTape:"json",
-		type:"post",
-		success:function(data){
-			if(data && data.success){
-				alert(data.info);
-			}else{
-				alert(data.info);
-			}
+	
+// ajax请求注册页面
+	$('#sure').click(function(){
+		var code=$('#checkCode').val();
+		if(code==''){
+			alert('验证码不能为空');
+			$("#checkCode").focus();
+			return false;
 		}
-	})
+		var post_arr=['username','password','phone','checkCode'];
+		var post_obj={};
+		$.each(post_arr,function(index,item){
+			post_obj[item]=$('#register').find('[name="'+item+'"]').val();
+		});
+		$.ajax({
+			url:"<?php echo site_url('hushen300/register')?>",
+			dataType:"json",
+			type:"post",
+			data:post_obj,
+			success:function(data){
+				if(data && data.success){
+					alert('注册成功');
+				}else{ 
+					alert('注册失败');
+				}
+			}
+		})
+	
+	});
 	
 })
-
 
 
 </script>
