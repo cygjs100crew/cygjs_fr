@@ -1,0 +1,214 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>测试</title>
+ <base href="<?php echo base_url()?>">
+<link rel="stylesheet" type="text/css" href="public/css/common.css" />
+<!-- <script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script> -->
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+
+</head>
+<body>
+
+<div class="tab_nav">
+    <span class="line"></span>
+    <ul>
+    <li ><a href="<?php echo site_url('huangjin/index')?>">黄金</a></li>
+    <li class="on"><a href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
+    
+</ul></div>
+
+<div class="focus_data">
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="height:400px"></div>
+    <p id="m-chart-realhq">实时行情: -- | 今开: -- | 昨收: -- | 最高: -- | 最低: -- | 量: --手 | 额: --万元</p>
+    <!-- ECharts单文件引入 -->
+
+    <script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
+    <script type="text/javascript">
+    setInterval(function(){  
+                            $.ajax({
+                                    url: "http://hq.sinajs.cn/?_="+new Date().getTime()+"&list=sh603518",
+                                    method: 'GET',
+                                    dataType: "script",
+                                    scriptCharset: "gb2312",
+                                    cache: true,
+                                    success: function(data, textStatus){
+                                         var hq = hq_str_sh603518.split(",");
+                                        var title,rt_hq = '';
+                                        if(Number(hq[3])>Number(hq[2])){
+                                            title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+                                            rt_hq = '<span style="color:Red;">'+hq[3]+'&nbsp;'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%</span>';
+                                        }else if(Number(hq[3])<Number(hq[2])){
+                                            title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+                                            rt_hq = '<span style="color:Lime;">'+hq[3]+'&nbsp;'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%</span>';
+                                        }else{
+                                            title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+                                            rt_hq = '<span style="color:Black;">'+hq[3]+'&nbsp;'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%</span>';
+                                        }
+                                        document.title = title;
+                                        // var html_src = '实时行情: '+rt_hq+" | 今开: "+hq[1]+" | 昨收: "+hq[2]+" | 最高: "+hq[4]+" | 最低: "+hq[5]+" | 量: "+String((Number(hq[8])/100).toFixed(0))+"手 | 额: "+String((Number(hq[9])/10000).toFixed(2))+"万元";
+                                        var html_src = '实时行情: '+rt_hq+" | 今开: "+hq[1]+" | 昨收: "+hq[2]+" | 最高: "+hq[4]+" | 最低: "+hq[5]+" | 量: "+String((Number(hq[8])/100).toFixed(0))+"手 | 额: "+String((Number(hq[9])/10000).toFixed(2))+"万元";
+                                        // alert(html_src);
+                                        // $("#m-chart-realhq").html(html_src);
+                                        // res += '<br/>  开盘 : ' + params[0].value[0] + '  最高 : ' + params[0].value[3];
+
+                                        
+                                        $.post('/cygjs_fr/index.php/hushen300/data_add',{open:hq[1],close:hq[2],current:hq[3],high:hq[4],low:hq[5],data_date:hq[30],data_time:hq[31]},function(data){
+                                            // alert(data);
+                                        });
+                                       
+
+                } 
+            });
+             },5000);
+    </script>
+
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        window.onresize = myChart.resize;
+
+
+        // 指定图表的配置项和数据
+        var option = {
+
+    backgroundColor: '#f5f5f5',
+
+    title : {
+        text: '沪深300指数变化',
+        subtext: '纯属虚构'
+    },
+     tooltip : {
+        trigger: 'axis',
+        formatter: function(params) {
+            return params[0].name + '<br/>'
+                + params[0].seriesName + ' : ' + params[0].value + ' (m^3/s)<br/>';
+        },
+        axisPointer: {
+            animation: false
+        }
+    },
+    legend: {
+        data:['沪深300']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            dataZoom: {},
+            dataView: {readOnly: false},
+            magicType: {type: ['line', 'bar']},
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    dataZoom: [
+        {
+            show: true,
+            realtime: true,
+            start: 60,
+            end: 80
+        },
+        {
+            type: 'inside',
+            realtime: true,
+            start: 60,
+            end: 80
+        }
+    ],
+    xAxis : [
+        {
+            type : 'category',
+            name: '时间线',
+        splitLine: {show: false},
+            boundaryGap : false,
+            axisLine: {onZero: false},
+            data : [<?php echo $data_date;?>
+            ].map(function (str) {
+                return str.replace('2016-', '\n')
+            })
+        }
+    ],
+        grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '10%',
+        containLabel: true
+    },
+    yAxis : [
+        {
+            type : 'value',
+            scale: true,
+            splitNumber: 5,
+            boundaryGap: [0.01, 0.01],
+            axisLabel : {
+                formatter: '{value}'
+            }
+        }
+    ],
+    series : [
+        {
+            name:'指数',
+            type:'line',
+            stack: '总量',
+            symbolRotate: -45,
+            itemStyle: {
+                normal: {
+                    color: 'red',
+                    lineStyle: {        // 系列级个性化折线样式
+                        width: 2,
+                        type: 'solid'
+                    }
+                },
+                emphasis: {
+                    color: 'blue'
+                }
+            },
+            data:[<?php echo $ipdata;?>],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        }
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</div>
+
+<div class="button_ab">
+    <span class="d"><a href="<?php echo site_url('hushen300/tt')?>">跌</a></span> 
+    <span class="z"><a href="#">涨</a></span>
+</div>
+
+<div class="user_info"><ul>
+    <li><span>余额：</span><span><em>42,500</em><span class="tc" ><a href="<?php echo site_url('login/index')?>">取现</a><a href="<?php echo site_url('wanshan/index')?>">/完善信息</a><a href="<?php echo site_url('register/index')?>">/注册</a></span></span></li>
+    <li class="tz"><span>投注金额：</span><span><i class="down">-</i><em>1,000</em><i class="up">+</i></span></li>
+</ul></div>
+<div class="out">
+   <span class="th" ><a href="#">刷新</a></span>
+   <span class="th" ><a href="#">赚流量/机会</a></span>
+</div>
+
+
+
+
+</body>
+</html>
+<script>
+/*function openwin(){window.open("<?php echo site_url('login/index')?>", "newwindow", "height=300, width=400")}*/
+
+
+</script>

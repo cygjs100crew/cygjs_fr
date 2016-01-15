@@ -22,131 +22,48 @@
 </ul></div>
 
 <div class="focus_data">
-    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div id="main" style="height:400px"></div>
+    <!-- 为新浪准备一个具备大小（宽高）的Dom -->
+    <embed src="http://finance.sina.com.cn/flash/cn.swf?symbol=sz399300" quality="high" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="100%" height="490"></embed>
     <p id="m-chart-realhq">实时行情: -- | 今开: -- | 昨收: -- | 最高: -- | 最低: -- | 量: --手 | 额: --万元</p>
     <!-- ECharts单文件引入 -->
 
     <script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
-
     <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
-        window.onresize = myChart.resize;
+    setInterval(function(){  
+                            $.ajax({
+                                    // url: "http://hq.sinajs.cn/?_="+new Date().getTime()+"&list=sh603518",
+                                    url: "http://hq.sinajs.cn/?list=s_sz399300",
+                                    method: 'GET',
+                                    dataType: "script",
+                                    scriptCharset: "gb2312",
+                                    cache: true,
+                                    success: function(data, textStatus){
+                                         var hq = hq_str_s_sz399300.split(",");
+                                        var title,rt_hq = '';
+                                        if(Number(hq[2])>Number(0)){
+                                            title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+                                            rt_hq = '<span style="color:Red;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
+                                        }else if(Number(hq[2])<Number(0)){
+                                            title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+                                            rt_hq = '<span style="color:Lime;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
+                                        }else{
+                                            title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+                                           rt_hq = '<span style="color:Black;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
+                                        }
+                                        document.title = title;
+                                        // var html_src = '实时行情: '+rt_hq+" | 今开: "+hq[1]+" | 昨收: "+hq[2]+" | 最高: "+hq[4]+" | 最低: "+hq[5]+" | 量: "+String((Number(hq[8])/100).toFixed(0))+"手 | 额: "+String((Number(hq[9])/10000).toFixed(2))+"万元";
+                                        var html_src = '实时行情: '+rt_hq+"|量: "+hq[4]+"手 | 额: "+hq[5]+"万元";
+                                        // alert(html_src);
+                                        $("#m-chart-realhq").html(html_src);
+                                        // res += '<br/>  开盘 : ' + params[0].value[0] + '  最高 : ' + params[0].value[3];
 
-
-        // 指定图表的配置项和数据
-        var option = {
-
-    backgroundColor: '#f5f5f5',
-
-    title : {
-        text: '沪深300指数变化',
-        subtext: '纯属虚构'
-    },
-     tooltip : {
-        trigger: 'axis',
-        formatter: function(params) {
-            return params[0].name + '<br/>'
-                + params[0].seriesName + ' : ' + params[0].value + ' (m^3/s)<br/>';
-        },
-        axisPointer: {
-            animation: false
-        }
-    },
-    legend: {
-        data:['沪深300']
-    },
-    toolbox: {
-        show : true,
-        feature : {
-            dataZoom: {},
-            dataView: {readOnly: false},
-            magicType: {type: ['line', 'bar']},
-            restore: {},
-            saveAsImage: {}
-        }
-    },
-    dataZoom: [
-        {
-            show: true,
-            realtime: true,
-            start: 60,
-            end: 80
-        },
-        {
-            type: 'inside',
-            realtime: true,
-            start: 60,
-            end: 80
-        }
-    ],
-    xAxis : [
-        {
-            type : 'category',
-            name: '时间线',
-        splitLine: {show: false},
-            boundaryGap : false,
-            axisLine: {onZero: false},
-            data : [<?php echo $data_date;?>
-            ].map(function (str) {
-                return str.replace('2016-', '\n')
-            })
-        }
-    ],
-        grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '10%',
-        containLabel: true
-    },
-    yAxis : [
-        {
-            type : 'value',
-            scale: true,
-            splitNumber: 5,
-            boundaryGap: [0.01, 0.01],
-            axisLabel : {
-                formatter: '{value}'
-            }
-        }
-    ],
-    series : [
-        {
-            name:'指数',
-            type:'line',
-            stack: '总量',
-            symbolRotate: -45,
-            itemStyle: {
-                normal: {
-                    color: 'red',
-                    lineStyle: {        // 系列级个性化折线样式
-                        width: 2,
-                        type: 'solid'
-                    }
-                },
-                emphasis: {
-                    color: 'blue'
-                }
-            },
-            data:[<?php echo $ipdata;?>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
-            markLine : {
-                data : [
-                    {type : 'average', name: '平均值'}
-                ]
-            }
-        }
-    ]
-};
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
+                                        
+                                        // $.post('/cygjs_fr/index.php/hushen300/data_add',{open:hq[1],close:hq[2],current:hq[3],high:hq[4],low:hq[5],data_date:hq[30],data_time:hq[31]},function(data){
+                                        //     // alert(data);
+                                        // });
+                } 
+            });
+             },1000);
     </script>
 </div>
 

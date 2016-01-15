@@ -33,7 +33,7 @@ class hushen300 extends CI_Controller{
 
             $result['data_date'] = implode(',', $data_date);
             $result['ipdata'] = implode(',', $Kdata);
-
+       
         }
 
 
@@ -43,15 +43,24 @@ class hushen300 extends CI_Controller{
     }
     public function data_add(){
     	$data = array(
-                'open' => $_POST['open'],
-                'close' => $_POST['close'],
-                'current' => $_POST['current'],
-                'high' => $_POST['high'],
-                'low' => $_POST['low'],
-                'data_date' => $_POST['data_date'],
-                'data_time' => $_POST['data_time'],
+                'open' => 1,
+                'close' => 1,
+                'current' => 1,
+                'high' => 1,
+                'low' => 1,
+                'data_date' => 1,
+                'data_time' => 1
             );
-        $this->db->insert('data_source',$data); //把数据增加到data_source表中
+        $data1=$this->db->get_where('data_source',array('data_date' => 2111112,'data_time' =>1))->result_array();
+        if(count($data1)==0){
+            // $list->add($data);
+            echo "成功";
+            //把数据增加到data_source表中
+        }
+        var_dump($data1);
+        echo "失败";
+        
+        // $this->db->insert('data_source',$data); //把数据增加到data_source表中
     }
         public function tt(){
 
