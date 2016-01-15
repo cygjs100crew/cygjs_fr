@@ -195,4 +195,22 @@ class hushen300 extends CI_Controller{
         );
         echo $this->phone->send($data);
     }
+    /* 数据添加 @ohyeah */
+    public function data_add(){
+        $data = array(
+                'open'      => 1,
+                'close'     => 1,
+                'current'   => 1,
+                'high'      => 1,
+                'low'       => 1,
+                'data_date' => 1,
+                'data_time' => 1
+            );
+        $data1=$this->db->get_where('data_source',array('data_date' => 2111112,'data_time' =>1))->result_array();
+        if(count($data1)==0){
+            // $list->add($data);
+            echo "成功";
+        }
+        echo "失败";
+    }
 }
