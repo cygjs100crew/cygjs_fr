@@ -96,7 +96,7 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 
-//欧业 数据库配置
+// 欧业 数据库配置
 // $db['default'] = array(
 // 	'dsn'	=> '',
 // 	'hostname' => 'localhost',

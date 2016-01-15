@@ -9,8 +9,8 @@ class  Index extends CI_Controller{
     public function index(){
         $this->load->view('index.html');
 
-        $content = file_get_contents("http://hq.sinajs.cn/list=sh601006");
-        $content=explode(',',$content);
+       // $content = file_get_contents("http://hq.sinajs.cn/list=sh601006");
+      //  $content=explode(',',$content);
         //var_dump($content[31]);
      
         
@@ -18,11 +18,16 @@ class  Index extends CI_Controller{
     public function get(){
         
         $_SESSION;
-        $this->session->set_userdata('name','张三');
+       // $this->session->set_userdata('name','张三');
+       // $data=$this->session->userdata([$key='ci_session']);
+       //$data=$this->session->has_userdata('ci_session');
         //var_dump($data);
       //echo $data["__ci_last_regenerate"];
-       //echo $data['name'];
       
+       //echo $data['name'];
+       
+       // $this->session->set_userdata('$data');
+      //  var_dump($data);
      }
     public  function a(){
         
@@ -30,7 +35,8 @@ class  Index extends CI_Controller{
         //var_dump($data);
         //$this->db->insert('user_info',$data);
         $data=array(
-            'name'=>'张三',
+            'id'=>'1',
+            'username'=>'张三',
             'email'=>'zhanshan@qq.com',
             'time'=>'20160107',
             'password'=>'123456'

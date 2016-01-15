@@ -26,12 +26,24 @@
 
 </body>
 <script>
-$(function(){
+/*$(function(){
 	$('button').click(function(){
-		
+		$.ajax({
+		url:"index",
+		dataType:'json',
+		type:"post",
+		success:function(data){
+			console.log(data);
+			if(data && data.success){
+				alert(data.info);
+			}else{
+				alert(data.info);
+			}
+		  }
+		});
 	})
 	
-})
+})*/
 
 </script>
 </html>
