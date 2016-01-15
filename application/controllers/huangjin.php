@@ -5,7 +5,7 @@ class huangjin extends CI_Controller{
         parent::__construct();
         $this->load->helper('cookie');
         $this->load->library('session');
-        
+        $this->load->library('encrypt');
                 
     }
     //判断cookie中是否有username,没有就是游客,看看游客有多少流量
@@ -87,7 +87,7 @@ class huangjin extends CI_Controller{
 			echo json_encode(array('success'=>false,'info'=>'注册失败'));
 		}
     }
-	
+    // 检验用户名和手机号是否重复注册
 	public function check(){
 		$data=$this->input->post();
 		
@@ -105,8 +105,22 @@ class huangjin extends CI_Controller{
 		}else{
 			echo json_encode(array('success'=>true,'info'=>$field.'正常'));
 		}
+		
+		
 	}
+    // 登入
+   public  function login(){
+       $data=$this->input->post();
+       $ret=$this->db->get_where('user_info',array('username'=>$data['username'],'password'=>md5($data['password'])))->result_array();
+	   if(count($ret)>0){
+		   set_cookie('username',$data['username']);//存入cookie
+		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
+	   }else{
+		   echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
+	   }
     
+       
+   }
    
     //生成唯一id
     function uuid($prefix = '')
@@ -161,7 +175,7 @@ class huangjin extends CI_Controller{
         $this->load->view('huangjin.html',$data);*/
     
     }
-	
+	//调用短信接口
 	public function send_sms(){
 		$this->load->model('phone_model','phone');
 		$phone=$this->input->post('phone');
@@ -187,7 +201,7 @@ class huangjin extends CI_Controller{
  			echo json_encode(array('success'=>false,'info'=>$ret));
  		}
 	}
-	
+	//测试短信接口用
 	public function test_sms(){
 		$this->load->model('phone_model','phone');
 		$data = array(

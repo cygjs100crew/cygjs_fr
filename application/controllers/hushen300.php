@@ -86,7 +86,7 @@ class hushen300 extends CI_Controller{
             echo json_encode(array('success'=>false,'info'=>'注册失败'));
         }
     }
-
+// 检验用户名和手机号是否重复注册
     public function check(){
         $data=$this->input->post();
 
@@ -160,7 +160,7 @@ class hushen300 extends CI_Controller{
         $this->load->view('huangjin.html',$data);*/
 
     }
-
+    //调用短信接口
     public function send_sms(){
         $this->load->model('phone_model','phone');
         $phone=$this->input->post('phone');
@@ -186,7 +186,7 @@ class hushen300 extends CI_Controller{
             echo json_encode(array('success'=>false,'info'=>$ret));
         }
     }
-
+    //测试短信接口用
     public function test_sms(){
         $this->load->model('phone_model','phone');
         $data = array(

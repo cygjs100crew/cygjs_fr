@@ -156,13 +156,12 @@
     <div id="title" class="title" style="padding:30px 0px;">请登入<img  style="margin-left:180px;"src="<?php echo base_url()?>public/img/gb.jpg" alt="关闭" /></div>
 	<table width="100%" class="table">
 		<tr style="margin-left:30px;">
-		  <td align="right"  style=" padding:0 10px; ">账号</td>
-		  <td ><input style="width:60%;margin-bottom:10px;text-align:center;" type="text" name="name" placeholder="用户名/手机号"/></td>
-			
+		  <td align="right"  style=" padding:0 10px; " >用户名</td>
+		  <td ><input style="width:60%;margin-bottom:10px;" type="text" name="username"/></td>	
 	   </tr>    
 	  <tr >
-		  <td align="right"  style=" padding:0 10px; ">密码</td>
-		  <td ><input style="width:60%;margin-bottom:10px;" type="text" name="pwd"  /></td>
+		  <td align="right"  style=" padding:0 10px; " >密码</td>
+		  <td ><input style="width:60%;margin-bottom:10px;" type="text" name="password"/></td>
 	  </tr>
 	  <tr align="center" style="padding:20px; margin:10px;">
 		  <td colspan="2">
@@ -300,6 +299,27 @@ $(function(){
 			}
 		})
 	
+	});
+	//ajax请求登录页面
+	$('#login_btn').click(function(){
+		var post_arr=['username','password'];
+		/*var username=$('.username').val();
+		var password=$('.password').val();*/
+		var post_obj={};
+		$.each(post_arr,function(index,item){
+			post_obj[item]=$('#login').find('[name="'+item+'"]').val();
+		});
+	   $.ajax({
+		   url:"<?php echo site_url('huangjin/login')?>",
+	       dataType:"json",
+	       type:"post",
+	       //data:{username:username,password:password},
+		   data:post_obj,
+	       success:function(data){
+	    	 alert(data.info);
+	    	
+	       }
+	   })	
 	});
 	
 })
