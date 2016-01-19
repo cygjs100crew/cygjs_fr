@@ -7,14 +7,10 @@
 <title>黄金</title>
  <base href="<?php echo base_url()?>">
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
- <script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script>
+ <!-- // <script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script> -->
  <script type="text/javascript" src="public/js/code.js"></script>
  <script type="text/javascript" src="public/js/register.js"></script>
-  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
- <!--  <script src="doc/asset/ico/bar.png"></script>
-<script src="doc/example/www2/mix8.html"></script>-->
-
- 
+ <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
 <style>
 #mask{
 
@@ -85,9 +81,10 @@
 <div class="focus_data">
     <!-- 为新浪准备一个具备大小（宽高）的Dom -->
     <embed src="http://finance.sina.com.cn/flash/cn.swf?symbol=sz399300" quality="high" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="100%" height="490"></embed>
-    <p id="m-chart-realhq">实时行情: -- | 今开: -- | 昨收: -- | 最高: -- | 最低: -- | 量: --手 | 额: --万元</p>
-    <!-- ECharts单文件引入 -->
+    <p id="m-chart-realhq">实时行情: -- | 今开: -- | 昨收: -- | 最高: -- | 最低: -- | 量: --手 | 额: --万元  </p>
+    
 
+    <!-- ECharts单文件引入 -->
 <script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
 <script type="text/javascript">
 setInterval(function(){  
@@ -121,19 +118,26 @@ setInterval(function(){
             } 
         });
     },1000);
+
+
 </script>
+
 </div>
 
 <div class="button_ab">
-	<span class="d"><a href="#">跌</a></span>
-	<span class="z"><a href="#">涨</a></span>
+	<span class="d"><a href="javascript:void(0);" id="die">跌</a></span>
+	<span class="z"><a href="javascript:void(0);" id="zhang">涨</a></span>
 </div>
+	<a href="javascript:void(0);" id="ls">成交历史</a>
+    <p id="lishi"></p>
 
-<div class="user_info"><ul>
-	<li class="mj"><span>买价：</span><span><em>42,500</em></span></li>
-	<li class="jg"><span>价格：</span><span><em>1,000</em></span></li>
-	<li class="yl"><span>盈利：</span><span><em>涨/跌</em></span></li>
-</ul></div>
+<div class="user_info">
+	<ul>
+		<li class="mj"><span>买价：</span><span><em>42,500</em></span></li>
+		<li class="jg"><span>价格：</span><span><em>1,000</em></span></li>
+		<li class="yl"><span>盈利：</span><span><em>涨/跌</em></span></li>
+	</ul>
+</div>
 
 <!--遮罩层-->
 <div id="mask"></div>
@@ -160,7 +164,6 @@ setInterval(function(){
 		<tr style="margin-left:30px;">
 		  <td align="right"  style=" padding:0 10px; ">账号</td>
 		  <td ><input style="width:60%;margin-bottom:10px;text-align:center;" type="text" name="name" placeholder="用户名/手机号"/></td>
-			
 	   </tr>    
 	  <tr >
 		  <td align="right"  style=" padding:0 10px; ">密码</td>
@@ -187,12 +190,32 @@ setInterval(function(){
 
 </body>
 </html>
+
 <script>
-
-
-
+// 涨事件
+$('#zhang').on('click', function(){
+    $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{open:123},function(data){
+    	 // var obj = eval(data);
+        // alert(data);
+        var json=JSON.parse(data);
+        alert('金额：'+json.capital+'，60秒后开奖');
+        // $("#lishi").html(json.capital);
+    });
+});
+// 跌事件
+$('#die').on('click', function(){
+alert('这是跌');
+});
+$('#ls').on('click', function(){
+    $.post('/cygjs_fr/index.php/hushen300/lishi_list',{open:123},function(data){
+    	 // var obj = eval(data);
+        // alert(data);
+        var json=JSON.parse(data);
+        alert(json.a);
+        // $("#lishi").html(json.a);
+    });
+});
 //弹出窗口
-
 $(function(){
 	//弹出注册框的时候，同时向后台请求验证码图片
 	$('#register_btn').on('click',function(){

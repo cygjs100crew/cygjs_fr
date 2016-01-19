@@ -213,4 +213,42 @@ class hushen300 extends CI_Controller{
         }
         echo "失败";
     }
+    /* 会员投资（下单） @ohyeah */
+    public function investor_detail_add(){
+
+        // $ip=$this->input->ip_address();
+        $data = array(
+                'start_time'   => time(),
+                'and_time'     => strtotime("+60 seconds"),
+                'capital'      => 1,
+                'duration'     => 60,
+                'add_ip'       =>$_SERVER["REMOTE_ADDR"],
+                'invest_type'  => 1,
+                'status'       => 1,
+                'investor_uid' => 1
+            );
+        // $data1=$this->db->get_where('investor_detail',array('data_date' => 2111112,'data_time' =>1))->result_array();/
+
+        if($this->db->insert('investor_detail',$data)){
+
+            echo json_encode($data);
+        }
+    }
+    /* 查询历史交易 @ohyeah */
+    public function lishi_list(){
+
+        $data = $this->db->get("investor_detail")->result_array();
+
+        $row = '';
+        foreach ($data as $key => $val)
+        {
+            // $row[$key]=$val['start_time'];
+            // $row[$key]=$val['and_time'];
+            $row .='编号：'.$val['id'].'金额:'.$val['capital'].'开始:'.date("Y-m-d H:i:s",$val['start_time']).'结束:'.date("Y-m-d H:i:s",$val['and_time']).'结果：'.$val['result'];
+        }
+        $row .= '';
+        // return$query->result();
+        echo json_encode(array('result' => true,'a' =>$row));
+
+    }
 }
