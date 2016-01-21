@@ -8,9 +8,12 @@
  <base href="<?php echo base_url()?>">
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
  <!-- // <script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script> -->
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
  <script type="text/javascript" src="public/js/code.js"></script>
  <script type="text/javascript" src="public/js/register.js"></script>
- <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+ <script type="text/javascript" src="public/layer/layer.js"></script>
+ <script type="text/javascript" src="public/layer/extend/layer.ext.js"></script>
+
 <style>
 #mask{
 
@@ -190,9 +193,8 @@ setInterval(function(){
 
 </body>
 </html>
-
-<script>
-// 涨事件
+<script type="text/javascript">
+	// 涨事件
 $('#zhang').on('click', function(){
     $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{open:123},function(data){
     	 // var obj = eval(data);
@@ -204,7 +206,7 @@ $('#zhang').on('click', function(){
 });
 // 跌事件
 $('#die').on('click', function(){
-alert('这是跌');
+layer.alert('这是跌');
 });
 $('#ls').on('click', function(){
     $.post('/cygjs_fr/index.php/hushen300/lishi_list',{open:123},function(data){
@@ -215,6 +217,57 @@ $('#ls').on('click', function(){
         // $("#lishi").html(json.a);
     });
 });
+/*120倒計時*/
+
+
+var intDiff = parseInt(119); //120秒倒计时总秒数量
+
+function timer(intDiff) {
+	window.setInterval(function() {
+		var day = 0,
+			hour = 0,
+			minute = 0,
+			second = 0; //时间默认值		
+		if (intDiff > 0) {
+			second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+		}
+		if (minute <= 9) minute = '0' + minute;
+		if (second <= 9) second = '0' + second;
+		$('#second_show').html('<s></s>' + second + '秒');
+		intDiff--;
+	}, 1000);
+}
+
+$(function() {
+	timer(intDiff);
+});
+
+/*60秒倒计时*/
+var intDiff = parseInt(60); //120秒倒计时总秒数量
+
+function timer(intDiff) {
+	window.setInterval(function() {
+		var day = 0,
+			hour = 0,
+			minute = 0,
+			second = 0; //时间默认值		
+		if (intDiff > 0) {
+			second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+		}
+		if (minute <= 9) minute = '0' + minute;
+		if (second <= 9) second = '0' + second;
+		$('#sixaoji').html('<s></s>' + second + ' ');
+		intDiff--;
+	}, 1000);
+}
+
+$(function() {
+	timer(intDiff);
+});
+
+</script>
+
+<script>
 //弹出窗口
 $(function(){
 	//弹出注册框的时候，同时向后台请求验证码图片
