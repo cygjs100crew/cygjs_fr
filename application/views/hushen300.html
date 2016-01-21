@@ -8,7 +8,7 @@
  <base href="<?php echo base_url()?>">
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
  <!-- // <script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script> -->
-  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+ <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
  <script type="text/javascript" src="public/js/code.js"></script>
  <script type="text/javascript" src="public/js/register.js"></script>
  <script type="text/javascript" src="public/layer/layer.js"></script>
@@ -82,49 +82,8 @@
 </ul></div>
 
 <div class="focus_data">
-    <!-- 为新浪准备一个具备大小（宽高）的Dom -->
-    <embed src="http://finance.sina.com.cn/flash/cn.swf?symbol=sz399300" quality="high" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="100%" height="490"></embed>
-    <p id="m-chart-realhq">实时行情: -- | 今开: -- | 昨收: -- | 最高: -- | 最低: -- | 量: --手 | 额: --万元  </p>
-    
-
-    <!-- ECharts单文件引入 -->
-<script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
-<script type="text/javascript">
-setInterval(function(){  
-    $.ajax({
-            // url: "http://hq.sinajs.cn/?_="+new Date().getTime()+"&list=sh603518",
-            url: "http://hq.sinajs.cn/?list=s_sz399300",
-            method: 'GET',
-            dataType: "script",
-            scriptCharset: "gb2312",
-            cache: true,
-            success: function(data, textStatus){
-                 var hq = hq_str_s_sz399300.split(",");
-                var title,rt_hq = '';
-                if(Number(hq[2])>Number(0)){
-                    title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-                    rt_hq = '<span style="color:Red;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
-                }else if(Number(hq[2])<Number(0)){
-                    title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-                    rt_hq = '<span style="color:Lime;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
-                }else{
-                    title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-                   rt_hq = '<span style="color:Black;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
-                }
-                document.title = title;
-                var html_src = '实时行情: '+rt_hq+"|量: "+hq[4]+"手 | 额: "+hq[5]+"万元";
-                $("#m-chart-realhq").html(html_src);
-                
-                // $.post('/cygjs_fr/index.php/hushen300/data_add',{open:hq[1],close:hq[2],current:hq[3],high:hq[4],low:hq[5],data_date:hq[30],data_time:hq[31]},function(data){
-                //     // alert(data);
-                // });
-            } 
-        });
-    },1000);
-
-
-</script>
-
+    <!-- 为走势图准备一个具备大小（宽高）的Dom -->
+    <iframe id="dd" name="dd" src="/cygjs_fr/index.php/hushen300/hushen_link" width="100%" height="464"></iframe>
 </div>
 
 <div class="button_ab">
@@ -200,7 +159,7 @@ $('#zhang').on('click', function(){
     	 // var obj = eval(data);
         // alert(data);
         var json=JSON.parse(data);
-        alert('金额：'+json.capital+'，60秒后开奖');
+        layer.alert('金额：'+json.capital+'，60秒后开奖');
         // $("#lishi").html(json.capital);
     });
 });
@@ -209,12 +168,21 @@ $('#die').on('click', function(){
 layer.alert('这是跌');
 });
 $('#ls').on('click', function(){
-    $.post('/cygjs_fr/index.php/hushen300/lishi_list',{open:123},function(data){
-    	 // var obj = eval(data);
-        // alert(data);
-        var json=JSON.parse(data);
-        alert(json.a);
-        // $("#lishi").html(json.a);
+    // $.post('/cygjs_fr/index.php/hushen300/lishi_list',{open:123},function(data){
+    //      // var obj = eval(data);
+    //     // alert(data);
+    //     var json=JSON.parse(data);
+    //     layer.alert(json.a);
+    //     // $("#lishi").html(json.a);
+    // });
+    layer.open({
+        type: 2,
+        title: '交易历史详情',
+        shadeClose: true,
+        shade: false,
+        maxmin: true, //开启最大化最小化按钮
+        area: ['893px', '600px'],
+        content: '/cygjs_fr/index.php/hushen300/lishi_html_list'
     });
 });
 /*120倒計時*/

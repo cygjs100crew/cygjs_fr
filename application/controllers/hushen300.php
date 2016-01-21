@@ -105,8 +105,6 @@ class hushen300 extends CI_Controller{
             echo json_encode(array('success'=>true,'info'=>$field.'正常'));
         }
     }
-
-     
     //生成唯一id
     function uuid($prefix = '')
 
@@ -208,15 +206,12 @@ class hushen300 extends CI_Controller{
             );
         $data1=$this->db->get_where('data_source',array('data_date' => 2111112,'data_time' =>1))->result_array();
         if(count($data1)==0){
-            // $list->add($data);
             echo "成功";
         }
         echo "失败";
     }
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
-
-        // $ip=$this->input->ip_address();
         $data = array(
                 'start_time'   => time(),
                 'and_time'     => strtotime("+60 seconds"),
@@ -225,30 +220,62 @@ class hushen300 extends CI_Controller{
                 'add_ip'       =>$_SERVER["REMOTE_ADDR"],
                 'invest_type'  => 1,
                 'status'       => 1,
-                'investor_uid' => 1
+                'investor_uid' => 1,
+                'current'=>1
             );
-        // $data1=$this->db->get_where('investor_detail',array('data_date' => 2111112,'data_time' =>1))->result_array();/
-
         if($this->db->insert('investor_detail',$data)){
-
             echo json_encode($data);
         }
     }
     /* 查询历史交易 @ohyeah */
     public function lishi_list(){
-
         $data = $this->db->get("investor_detail")->result_array();
-
         $row = '';
         foreach ($data as $key => $val)
         {
-            // $row[$key]=$val['start_time'];
-            // $row[$key]=$val['and_time'];
             $row .='编号：'.$val['id'].'金额:'.$val['capital'].'开始:'.date("Y-m-d H:i:s",$val['start_time']).'结束:'.date("Y-m-d H:i:s",$val['and_time']).'结果：'.$val['result'];
         }
         $row .= '';
-        // return$query->result();
         echo json_encode(array('result' => true,'a' =>$row));
-
+    }
+    //K线iframe显示页面
+    function hushen_link(){
+        $list=$this->db->get('data_source')->result_array();
+        foreach($list as $k=>$v){
+            $Kdata[$k] =$v['current'];
+            $data_date[$k] ='"'.$v['data_date'].$v['data_time'].'"';
+            $result['data_date'] = implode(',', $data_date);
+            $result['ipdata'] = implode(',', $Kdata);
+        }
+        $this->load->view('hushen_link.html',$result);//前端在某个地方输出$username,$flow；
+    }
+    //交易历史iframe显示页面
+    function lishi_html_list(){
+        $data['lishi'] = $this->db->get("investor_detail")->result_array();
+        $this->load->view('lishi_html_list.html',$data);//前端在某个地方输出$username,$flow；
+         
+    }
+    // 验证输赢
+    function shuying(){
+        // $map['result']="";
+        // $data = D('fr_investor_detail')->field('and_time,id,current')->where($map)->select();
+        // for ($i=0; $i < count($data); $i++) { 
+        //     $map['time']=array('gt',intval($data[$i]['and_time']));
+        //     $list= D('fr_data_source')->field('current')->where($map)->find();
+        //     if (count($list)>0) {
+        //         if ($data[$i]['current']>$list['current']) {
+        //             $a='赢';
+        //         }
+        //         else if ($data[$i]['current']<$list['current']) {
+        //             $a='输';
+        //         }
+        //         $User = D("fr_investor_detail"); // 实例化 User 对象
+        //         $User->find($data[$i]['id']); // 查找 id 为 1 的记录
+        //         $User->result=$a; // 把查找到的记录的名称字段修改为 ThinkPHP
+        //         $User->currented=$list['current'];
+        //         $User->save(); // 保存修改的数据
+        //         // echo $list['current'].$a;
+        //     }
+        // }
     }
 }
