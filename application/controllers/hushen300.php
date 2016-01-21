@@ -196,19 +196,19 @@ class hushen300 extends CI_Controller{
     /* 数据添加 @ohyeah */
     public function data_add(){
         $data = array(
-                'open'      => 1,
-                'close'     => 1,
-                'current'   => 1,
-                'high'      => 1,
-                'low'       => 1,
-                'data_date' => 1,
-                'data_time' => 1
+                'current' =>$_POST['current'],
+                'time'      => time(),
             );
-        $data1=$this->db->get_where('data_source',array('data_date' => 2111112,'data_time' =>1))->result_array();
-        if(count($data1)==0){
-            echo "成功";
-        }
-        echo "失败";
+        // $data1=$this->db->get_where('data_source',array('data_date' =>$_POST['data_date'],'data_time' =>$_POST['data_time']))->result_array();
+        // if(count($data1)==0){
+            $h = intval(date("Hi")); 
+            if (($h < 1500 && $h > 930)||($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) {
+                $this->db->insert('data_source',$data);
+            } else {
+                echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！'));
+            }
+        // }
+
     }
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
@@ -243,7 +243,7 @@ class hushen300 extends CI_Controller{
         $list=$this->db->get('data_source')->result_array();
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['current'];
-            $data_date[$k] ='"'.$v['data_date'].$v['data_time'].'"';
+            $data_date[$k] ='"'.date('Y-m-d H:i:s',$v['time']).'"';
             $result['data_date'] = implode(',', $data_date);
             $result['ipdata'] = implode(',', $Kdata);
         }
@@ -252,30 +252,35 @@ class hushen300 extends CI_Controller{
     //交易历史iframe显示页面
     function lishi_html_list(){
         $data['lishi'] = $this->db->get("investor_detail")->result_array();
+
+
+        // $this->load->library('pagination');
+        // $config['base_url'] = 'http://example.com/index.php/test/page/';
+        // $config['total_rows'] = 200;
+        // $config['per_page'] = 20;
+        // $this->pagination->initialize($config);//序列化
+        // echo $this->pagination->create_links();//生成分页导航
+
+
         $this->load->view('lishi_html_list.html',$data);//前端在某个地方输出$username,$flow；
          
     }
     // 验证输赢
     function shuying(){
-        // $map['result']="";
-        // $data = D('fr_investor_detail')->field('and_time,id,current')->where($map)->select();
-        // for ($i=0; $i < count($data); $i++) { 
-        //     $map['time']=array('gt',intval($data[$i]['and_time']));
-        //     $list= D('fr_data_source')->field('current')->where($map)->find();
-        //     if (count($list)>0) {
-        //         if ($data[$i]['current']>$list['current']) {
-        //             $a='赢';
-        //         }
-        //         else if ($data[$i]['current']<$list['current']) {
-        //             $a='输';
-        //         }
-        //         $User = D("fr_investor_detail"); // 实例化 User 对象
-        //         $User->find($data[$i]['id']); // 查找 id 为 1 的记录
-        //         $User->result=$a; // 把查找到的记录的名称字段修改为 ThinkPHP
-        //         $User->currented=$list['current'];
-        //         $User->save(); // 保存修改的数据
-        //         // echo $list['current'].$a;
-        //     }
-        // }
+        $data=$this->db->get_where('investor_detail',array('result'=>""))->result_array();
+        for ($i=0; $i < count($data); $i++) { 
+            $list=$this->db->get_where('data_source',array('time >'=>$data[$i]['and_time']))->result_array();
+            if (count($list)>0){
+                if ($data[$i]['current']>$list[0]['current']) {
+                    $a='赢';
+                }
+                else if ($data[$i]['current']<$list[0]['current']) {
+                    $a='输';
+                }
+                $condition['id'] =$data[$i]['id'];//更新id
+                $map['result'] =$a; //更新内容
+                $this->db->where($condition)->update("investor_detail",$map);
+            }
+        }
     }
 }

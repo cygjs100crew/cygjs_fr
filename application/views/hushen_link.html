@@ -19,38 +19,36 @@
     <script type="text/javascript">
         setInterval(function(){  
             $.ajax({
-                    url: "http://hq.sinajs.cn/?_="+new Date().getTime()+"&list=sh603518",
-                    method: 'GET',
-                    dataType: "script",
-                    scriptCharset: "gb2312",
-                    cache: true,
-                    success: function(data, textStatus){
-                        var hq = hq_str_sh603518.split(",");
-                        var title,rt_hq = '';
-                        if(Number(hq[3])>Number(hq[2])){
-                            title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-                            rt_hq = '<span style="color:Red;">'+hq[3]+'&nbsp;'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%</span>';
-                        }else if(Number(hq[3])<Number(hq[2])){
-                            title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-                            rt_hq = '<span style="color:Lime;">'+hq[3]+'&nbsp;'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%</span>';
-                        }else{
-                            title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-                            rt_hq = '<span style="color:Black;">'+hq[3]+'&nbsp;'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%</span>';
-                        }
-                        document.title = title;
+                url: "http://hq.sinajs.cn/?list=s_sz399300",
+                method: 'GET',
+                dataType: "script",
+                scriptCharset: "gb2312",
+                cache: true,
+                success: function(data, textStatus){
+                     var hq = hq_str_s_sz399300.split(",");
+                    var title,rt_hq = '';
+                    if(Number(hq[2])>Number(0)){
+                        title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+                        rt_hq = '<span style="color:Red;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
+                    }else if(Number(hq[2])<Number(0)){
+                        title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+                        rt_hq = '<span style="color:Lime;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
+                    }else{
+                        title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+                       rt_hq = '<span style="color:Black;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
+                    }
+                    document.title = title;
                     
-                        var html_src = '实时行情: '+rt_hq+" | 今开: "+hq[1]+" | 昨收: "+hq[2]+" | 最高: "+hq[4]+" | 最低: "+hq[5]+" | 量: "+String((Number(hq[8])/100).toFixed(0))+"手 | 额: "+String((Number(hq[9])/10000).toFixed(2))+"万元";
+                        var html_src = '实时行情: '+rt_hq+"|量: "+hq[4]+"手 | 额: "+hq[5]+"万元";
                         $("#m-chart-realhq").html(html_src);
-
-
-                        $.post('/cygjs_fr/index.php/hushen300/data_add',{open:hq[1],close:hq[2],current:hq[3],high:hq[4],low:hq[5],data_date:hq[30],data_time:hq[31]},function(data){
-                            console.log(data.data_date);
+                        $.post('/cygjs_fr/index.php/hushen300/data_add',{current:hq[1]},function(data){
+                            // console.log(data.data_date);
+                            var json=JSON.parse(data);
+                            $("#sxin").html(json.info);
                         });
                     } 
                 });
-        },1000)
-
-
+        },5000)
 
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
@@ -172,9 +170,9 @@
     window.location.reload();
     // alert('这是跌');
     });
-    // setInterval(function(){  
-    // window.location.reload();
-    // },10000);
+    setInterval(function(){  
+    window.location.reload();
+    },10000);
     </script>
 </body>
 </html>
