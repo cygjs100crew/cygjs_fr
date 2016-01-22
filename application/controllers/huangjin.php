@@ -180,4 +180,84 @@ class huangjin extends MY_Controller{
 		);
 		echo $this->phone->send($data);
 	}
+    /* 会员投资（下单） @ohyeah */
+    public function investor_detail_add(){
+        $data = array(
+                'start_time'   => time(),
+                'and_time'     => strtotime("+60 seconds"),
+                'capital'      => $_POST['capital'],
+                'duration'     => 60,
+                'add_ip'       => $_SERVER["REMOTE_ADDR"],
+                'invest_type'  => $_POST['invest_type'],
+                'status'       => 1,
+                'investor_uid' => get_cookie('id'),
+                'current'      => 1,
+                'symbol'       => 'XAU'
+            );
+        if($this->db->insert('investor_detail',$data)){
+            echo json_encode($data);
+        }
+    }
+    //黄金走势线iframe显示页面
+    function huangjin_link(){
+        $list=$this->db->limit(100)->get_where('recentquotation',array('symbol'=>"XAU"))->result_array();
+        foreach($list as $k=>$v){
+            $Kdata[$k] =$v['price'];
+            $data_date[$k] ='"'.$v['time'].'"';
+            $result['data_date'] = implode(',', $data_date);
+            $result['ipdata'] = implode(',', $Kdata);
+        }
+        $this->load->view('huangjin_link.html',$result);//前端在某个地方输出$username,$flow；
+    }
+    //交易历史iframe显示页面
+    function huangjin_html_list(){
+        $data['lishi'] = $this->db->limit(20)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array();
+
+
+        // $this->load->library('pagination');
+        // $config['base_url'] = 'http://example.com/index.php/test/page/';
+        // $config['total_rows'] = 200;
+        // $config['per_page'] = 20;
+        // $this->pagination->initialize($config);//序列化
+        // echo $this->pagination->create_links();//生成分页导航
+
+        $result=$this->shuying();
+
+        $this->load->view('lishi_html_list.html',$data);//前端在某个地方输出$username,$flow；
+         
+    }
+    // 验证输赢
+    function shuying(){
+        $data=$this->db->get_where('investor_detail',array('result'=>""))->result_array();
+
+
+        for ($i=0; $i < count($data); $i++){ 
+
+            $list=$this->db->get_where('data_source',array('time >'=>$data[$i]['and_time']))->result_array();
+
+            if (count($list)>0){
+
+                if (intval($data[$i]['current'])==1) {
+                    if ($data[$i]['current']>$list[0]['current']) {
+                        $a='赢';
+                    }
+                    else if ($data[$i]['current']<$list[0]['current']) {
+                        $a='输';
+                    }
+                }
+                if (intval($data[$i]['current'])==0) {
+                    if ($data[$i]['current']<$list[0]['current']) {
+                        $a='赢';
+                    }
+                    else if ($data[$i]['current']>$list[0]['current']) {
+                        $a='输';
+                    }
+                }
+
+                $condition['id'] =$data[$i]['id'];//更新id
+                $map['result'] =$a; //更新内容
+                $this->db->where($condition)->update("investor_detail",$map);
+            }
+        }
+    }
 }

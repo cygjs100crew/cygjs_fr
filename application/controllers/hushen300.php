@@ -105,8 +105,6 @@ class hushen300 extends MY_Controller{
             echo json_encode(array('success'=>true,'info'=>$field.'正常'));
         }
     }
-
-     
     //生成唯一id
     function uuid($prefix = '')
 
@@ -198,19 +196,109 @@ class hushen300 extends MY_Controller{
     /* 数据添加 @ohyeah */
     public function data_add(){
         $data = array(
-                'open'      => 1,
-                'close'     => 1,
-                'current'   => 1,
-                'high'      => 1,
-                'low'       => 1,
-                'data_date' => 1,
-                'data_time' => 1
+                'current' =>$_POST['current'],
+                'time'      => time(),
             );
-        $data1=$this->db->get_where('data_source',array('data_date' => 2111112,'data_time' =>1))->result_array();
-        if(count($data1)==0){
-            // $list->add($data);
-            echo "成功";
+        // $data1=$this->db->get_where('data_source',array('data_date' =>$_POST['data_date'],'data_time' =>$_POST['data_time']))->result_array();
+        // if(count($data1)==0){
+            $h = intval(date("Hi")); 
+            if (($h < 1500 && $h > 930)||($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) {
+                $this->db->insert('data_source',$data);
+            } else {
+                echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！'));
+            }
+        // }
+
+    }
+    /* 会员投资（下单） @ohyeah */
+    public function investor_detail_add(){
+        $data = array(
+                'start_time'   => time(),
+                'and_time'     => strtotime("+60 seconds"),
+                'capital'      => $_POST['capital'],
+                'duration'     => 60,
+                'add_ip'       => $_SERVER["REMOTE_ADDR"],
+                'invest_type'  => $_POST['invest_type'],
+                'status'       => 1,
+                'investor_uid' => get_cookie('id'),
+                'current'      => 1,
+                'symbol'       => 'CFIFZ5'
+            );
+        if($this->db->insert('investor_detail',$data)){
+            echo json_encode($data);
         }
-        echo "失败";
+    }
+    /* 查询历史交易 @ohyeah */
+    public function lishi_list(){
+        $data = $this->db->get("investor_detail")->result_array();
+        $row = '';
+        foreach ($data as $key => $val)
+        {
+            $row .='编号：'.$val['id'].'金额:'.$val['capital'].'开始:'.date("Y-m-d H:i:s",$val['start_time']).'结束:'.date("Y-m-d H:i:s",$val['and_time']).'结果：'.$val['result'];
+        }
+        $row .= '';
+        echo json_encode(array('result' => true,'a' =>$row));
+    }
+    //沪深300走势线iframe显示页面
+    function hushen_link(){
+        $list=$this->db->get('data_source')->result_array();
+        foreach($list as $k=>$v){
+            $Kdata[$k] =$v['current'];
+            $data_date[$k] ='"'.date('Y-m-d H:i:s',$v['time']).'"';
+            $result['data_date'] = implode(',', $data_date);
+            $result['ipdata'] = implode(',', $Kdata);
+        }
+        $this->load->view('hushen_link.html',$result);//前端在某个地方输出$username,$flow；
+    }
+    //交易历史iframe显示页面
+    function lishi_html_list(){
+        $data['lishi'] = $this->db->limit(20)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5"))->result_array();
+
+
+        // $this->load->library('pagination');
+        // $config['base_url'] = 'http://example.com/index.php/test/page/';
+        // $config['total_rows'] = 200;
+        // $config['per_page'] = 20;
+        // $this->pagination->initialize($config);//序列化
+        // echo $this->pagination->create_links();//生成分页导航
+
+        $result=$this->shuying();
+
+        $this->load->view('lishi_html_list.html',$data);//前端在某个地方输出$username,$flow；
+         
+    }
+    // 验证输赢
+    function shuying(){
+        $data=$this->db->get_where('investor_detail',array('result'=>""))->result_array();
+
+
+        for ($i=0; $i < count($data); $i++) { 
+
+            $list=$this->db->get_where('data_source',array('time >'=>$data[$i]['and_time']))->result_array();
+
+            if (count($list)>0){
+
+				if (intval($data[$i]['current'])==1) {
+				    if ($data[$i]['current']>$list[0]['current']) {
+				        $a='赢';
+				    }
+				    else if ($data[$i]['current']<$list[0]['current']) {
+				        $a='输';
+				    }
+				}
+				if (intval($data[$i]['current'])==0) {
+				    if ($data[$i]['current']<$list[0]['current']) {
+				        $a='赢';
+				    }
+				    else if ($data[$i]['current']>$list[0]['current']) {
+				        $a='输';
+				    }
+				}
+
+                $condition['id'] =$data[$i]['id'];//更新id
+                $map['result'] =$a; //更新内容
+                $this->db->where($condition)->update("investor_detail",$map);
+            }
+        }
     }
 }

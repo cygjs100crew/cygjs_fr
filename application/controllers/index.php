@@ -16,11 +16,19 @@ class  Index extends MY_Controller{
 		$data['signPackage']= $signPackage;
         $this->load->view('index.html',$data);
 
+<<<<<<< HEAD
       // $content = file_get_contents("http://g1.iexchange.bz/iExchange/TradingConsole/inner/QuotationService.asmx");
       //  $content=explode(',',$content);
        // var_dump($content);
        
        
+=======
+       // $content = file_get_contents("http://g1.iexchange.bz/iExchange/TradingConsole/inner/QuotationService.asmx");
+      //  $content=explode(',',$content);
+        // var_dump($content);
+     
+        
+>>>>>>> origin/master
     }
    
      public function share(){
