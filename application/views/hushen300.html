@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>黄金</title>
+<title>沪深300</title>
  <base href="<?php echo base_url()?>">
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
  <script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script>
@@ -71,7 +71,7 @@
 <ul>
 	 <li><span>用户</span><span><?php echo $username;?></span></li>
 	 <li><span>可用流量</span><span><?php echo $flow;?></span></li>
-	 <li><span>可玩次数</span><span>3次</span></li>
+	
  </ul>
 </div>
 <div class="tab_nav">
@@ -159,7 +159,7 @@ setInterval(function(){
 	<table width="100%" class="table">
 		<tr style="margin-left:30px;">
 		  <td align="right"  style=" padding:0 10px; ">账号</td>
-		  <td ><input style="width:60%;margin-bottom:10px;text-align:center;" type="text" name="name" placeholder="用户名/手机号"/></td>
+		  <td ><input style="width:60%;margin-bottom:10px;" type="text" name="name" /></td>
 			
 	   </tr>    
 	  <tr >
@@ -197,7 +197,7 @@ $(function(){
 	//弹出注册框的时候，同时向后台请求验证码图片
 	$('#register_btn').on('click',function(){
 		/*$.ajax({
-			url:'<?php echo site_url("huangjin/img")?>',
+			url:'<?php echo site_url("hushen300/img")?>',
 			dataType:'html',
 			async:false,
 			success:function(data){
@@ -294,12 +294,17 @@ $(function(){
 			type:"post",
 			data:post_obj,
 			success:function(data){
-				if(data && data.success){
-					alert('注册成功');
-				}else{ 
-					alert('注册失败');
-				}
-			}
+		    	// alert(data.info);
+		    	if(data && data.success){
+		    		alert(data.info);
+		    		location.href="<?php echo site_url('huangjin/index')?>";
+		    	}else{
+		    		alert(data.info);
+		    		window.history.back();
+		    		
+		    	}
+		    	
+		       }
 		})
 	
 	});

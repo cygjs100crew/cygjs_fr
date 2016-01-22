@@ -1,5 +1,5 @@
 <?php
-class hushen300 extends CI_Controller{
+class hushen300 extends MY_Controller{
     public function __construct(){
         parent::__construct();
         $this->load->helper('cookie');
@@ -13,10 +13,10 @@ class hushen300 extends CI_Controller{
          
 
 
-        if(!get_cookie('id')){//手动生成唯一的id，来唯一记录该游客
+        if(!get_cookie('sessonid')){//手动生成唯一的id，来唯一记录该游客
              
             $uid=$this->uuid();
-            set_cookie('id',$uid,0);
+            set_cookie('sessonid',$uid,0);
              
             //echo $uid;
         }
@@ -35,24 +35,24 @@ class hushen300 extends CI_Controller{
         $this->load->database();
         //存入cookie中
 
-        $yk_id=get_cookie('id');//获取游客id
+        $yk_id=get_cookie('sessionid');//获取游客id
         set_cookie('flow','100M');
 
-        $count=$this->db->where('id',$yk_id)->from('user_session')->count_all_results();//插入之前先查查游客表该游客是否被记录了
+        $count=$this->db->where('sessionid',$yk_id)->from('user_session')->count_all_results();//插入之前先查查游客表该游客是否被记录了
 
         $session_data=array(
-            'id'=>$yk_id,
-            'flow'=>'100M'
+            'sessionid'=>$yk_id,
+            
         );
         if($count>0){//游客已经存入表中，只是更新
-            unset($session_data['id']);
-            $this->db->where('id',$yk_id)->update('user_session',$session_data);
+            unset($session_data['sessionid']);
+            $this->db->where('sessionid',$yk_id)->update('user_session',$session_data);
         }else{
             $this->db->insert('user_session',$session_data);
         }
-        if(get_cookie('username')){//如果用户已经注册，则还要存入用户表
-            $this->db->where('username',$username)->update('user_info',array('flow'=>'100M'));
-        }
+//         if(get_cookie('username')){//如果用户已经注册，则还要存入用户表
+//             $this->db->where('username',$username)->update('user_info',array('flow'=>'100M'));
+//         }
         echo 'success';
     }
 
@@ -157,7 +157,7 @@ class hushen300 extends CI_Controller{
 
         /*$data['captcha'] = $cap['image'];
 
-        $this->load->view('huangjin.html',$data);*/
+        $this->load->view('hushen300.html',$data);*/
 
     }
     //调用短信接口

@@ -67,7 +67,7 @@
 <ul>
 	 <li><span>用户</span><span><?php echo $username;?></span></li>
 	 <li><span>可用流量</span><span><?php echo $flow;?></span></li>
-	 <li><span>可玩次数</span><span>3次</span></li>
+	<!-- <li><span>可玩次数</span><span><?php echo $count;?></span></li>-->
  </ul>
 </div>
 <div class="tab_nav">
@@ -242,6 +242,7 @@ $(function(){
 
 	$('.qx').click(function(){
 		//console.log(123);
+	
 		popCenterWindow();
 		
 	});
@@ -293,8 +294,10 @@ $(function(){
 			success:function(data){
 				if(data && data.success){
 					alert('注册成功');
+				  location.href="<?php echo site_url('huangjin/index')?>";
 				}else{ 
 					alert('注册失败');
+				  window.history.back();
 				}
 			}
 		})
@@ -316,7 +319,15 @@ $(function(){
 	       //data:{username:username,password:password},
 		   data:post_obj,
 	       success:function(data){
-	    	 alert(data.info);
+	    	// alert(data.info);
+	    	if(data && data.success){
+	    		alert(data.info);
+	    		location.href="<?php echo site_url('huangjin/index')?>";
+	    	}else{
+	    		alert(data.info);
+	    		window.history.back();
+	    		
+	    	}
 	    	
 	       }
 	   })	
