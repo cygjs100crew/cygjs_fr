@@ -178,7 +178,8 @@ class Huangjin extends MY_Controller{
     }
     /* 黄金走势线iframe显示页面（下单） @ohyeah */
     function huangjin_link(){
-        $list=$this->db->limit(5000)->get_where('recentquotation',array('symbol'=>"XAU"))->result_array();
+        $mun=$this->db->where('symbol',"XAU")->from('recentquotation')->count_all_results();
+        $list=$this->db->limit($mun,5000)->get_where('recentquotation',array('symbol'=>"XAU"))->result_array();
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';
