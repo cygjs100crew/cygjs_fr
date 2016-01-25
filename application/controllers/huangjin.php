@@ -1,61 +1,49 @@
 <?php
 //error_reporting(0);
-class huangjin extends CI_Controller{
+class huangjin extends MY_Controller{
     public function __construct(){
-        parent::__construct();
-        $this->load->helper('cookie');
-        $this->load->library('session');
-        $this->load->library('encrypt');
-                
+        parent::__construct();                
     }
-    //判断cookie中是否有username,没有就是游客,看看游客有多少流量
+    
+    
+  //判断cookie中是否有username,没有就是游客,看看游客有多少流量
     function index(){
         $this->load->database();
-   
 
-    
-        if(!get_cookie('id')){//手动生成唯一的id，来唯一记录该游客
-           
-            $uid=$this->uuid();
-            set_cookie('id',$uid,0);
-           
-            //echo $uid;
-        }
-        
         $username=get_cookie('username')?get_cookie('username'):'游客';
         $flow=get_cookie('flow')?get_cookie('flow'):'0M';
-        
+
         $data['username']=$username;
         $data['flow']=$flow;
-        
+
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username,$flow；
-       
+         
     }
     //这里设置游客有多少流量，此时用户可能没有注册;玩了游戏的游客才会被记录到游客表中
     function setFlow(){
         $this->load->database();
         //存入cookie中
-    
-        $yk_id=get_cookie('id');//获取游客id
-        set_cookie('flow','100M');
-    
-        $count=$this->db->where('id',$yk_id)->from('user_session')->count_all_results();//插入之前先查查游客表该游客是否被记录了
-    
+
+        $yk_id=get_cookie('sessionid');//获取游客id
+        set_cookie('flow',$flow,0);
+
+        $count=$this->db->where('sessionid',$yk_id)->from('user_session')->count_all_results();//插入之前先查查游客表该游客是否被记录了
+
         $session_data=array(
-            'id'=>$yk_id,
-            'flow'=>'100M'
+            'sessionid'=>$yk_id   
         );
         if($count>0){//游客已经存入表中，只是更新
-            unset($session_data['id']);
-            $this->db->where('id',$yk_id)->update('user_session',$session_data);
+            unset($session_data['sessionid']);
+            $this->db->where('sessionid',$yk_id)->update('user_session',$session_data);
         }else{
             $this->db->insert('user_session',$session_data);
         }
-        if(get_cookie('username')){//如果用户已经注册，则还要存入用户表
-            $this->db->where('username',$username)->update('user_info',array('flow'=>'100M'));
-        }
+//         if(get_cookie('username')){//如果用户已经注册，则还要存入用户表
+//             $this->db->where('username',$username)->update('user_info',array('flow'=>'100M'));
+//         }
         echo 'success';
     }
+  
     
     //用户注册的地方，假设用户表中有这几个字段，用户名，密码，确认密码，手机号,验证码
     function register(){
@@ -113,7 +101,7 @@ class huangjin extends CI_Controller{
        $data=$this->input->post();
        $ret=$this->db->get_where('user_info',array('username'=>$data['username'],'password'=>md5($data['password'])))->result_array();
 	   if(count($ret)>0){
-		   set_cookie('username',$data['username']);//存入cookie
+		   set_cookie('username',$data['username'],0);//存入cookie
 		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
 	   }else{
 		   echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
@@ -122,26 +110,8 @@ class huangjin extends CI_Controller{
        
    }
    
-    //生成唯一id
-    function uuid($prefix = '')
+   
     
-    {
-    
-        $chars = md5(uniqid(mt_rand(), true));
-    
-        $uuid     = substr($chars,0,8) . '-';
-    
-        $uuid .= substr($chars,8,4) . '-';
-    
-        $uuid .= substr($chars,12,4) . '-';
-    
-        $uuid .= substr($chars,16,4) . '-';
-    
-        $uuid .= substr($chars,20,12);
-    
-        return $prefix . $uuid;
-    
-    }
     //图片验证
     public function img(){
         //载入验证码辅助函数
