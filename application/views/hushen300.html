@@ -69,7 +69,7 @@
 <div class="header">
 <ul>
 	 <li><span>用户</span><span><?php echo $username;?></span></li>
-	 <li><span>可用流量</span><span><?php echo $flow;?></span></li>
+	 <!--  <li><span>可用流量</span><span><?php echo $flow;?></span></li>-->
 	
  </ul>
 </div>
@@ -362,6 +362,12 @@ $(function(){
 		})
 	
 	});
+	function get_current_flow(){
+		$.get('<?php echo site_url('hushen300/stat_total_flow')?>',function(data){
+			$('#total_flow').html(data);
+		})
+	}
+	get_current_flow();
 	
 })
 

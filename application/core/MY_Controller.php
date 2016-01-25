@@ -5,7 +5,7 @@ class MY_Controller extends CI_Controller {
 		parent::__construct ();
 		$this->load->helper ( 'cookie' );
 		$this->load->library ( 'session' );
-		$this->set_sessionid();//在所有controller前调用
+	    $this->set_customerId();//在所有controller前调用
 	}
 	
 	// 设置游客Id,在所有控制器调用前执行，这样就保证了无论用户从网站哪里进入，都可以第一时间分配一个唯一的sessionid
@@ -18,6 +18,7 @@ class MY_Controller extends CI_Controller {
 			$customerId=$this->db->insert_id();
 			set_cookie('customerId',$customerId,0);
 		}
+		
 	}
 
 }

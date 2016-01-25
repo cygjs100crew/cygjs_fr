@@ -7,42 +7,25 @@ class hushen300 extends MY_Controller{
     }
   
 
-    //判断cookie中是否有username,没有就是游客,看看游客有多少流量
+//判断cookie中是否有username,没有就是游客,看看游客有多少流量
     function index(){
-        $this->load->database();
-         
-
-
-        if(!get_cookie('sessonid')){//手动生成唯一的id，来唯一记录该游客
-             
-            $uid=$this->uuid();
-            set_cookie('sessonid',$uid,0);
-             
-            //echo $uid;
-        }
-
-        $username=get_cookie('username')?get_cookie('username'):'游客';
-        $flow=get_cookie('flow')?get_cookie('flow'):'0M';
-
+        $this->load->database();		
+        $username=get_cookie('username')?get_cookie('username'):'';
         $data['username']=$username;
-        $data['flow']=$flow;
-
-        $this->load->view('hushen300.html',$data);//前端在某个地方输出$username,$flow；
-         
+        $this->load->view('hushen300.html',$data);//前端在某个地方输出$username      
     }
     //这里设置游客有多少流量，此时用户可能没有注册;玩了游戏的游客才会被记录到游客表中
-    function setFlow(){
+  /*  function setFlow(){
         $this->load->database();
         //存入cookie中
 
         $yk_id=get_cookie('sessionid');//获取游客id
-        set_cookie('flow','100M');
+        set_cookie('flow',$flow,0);
 
         $count=$this->db->where('sessionid',$yk_id)->from('user_session')->count_all_results();//插入之前先查查游客表该游客是否被记录了
 
         $session_data=array(
-            'sessionid'=>$yk_id,
-            
+            'sessionid'=>$yk_id   
         );
         if($count>0){//游客已经存入表中，只是更新
             unset($session_data['sessionid']);
@@ -54,141 +37,124 @@ class hushen300 extends MY_Controller{
 //             $this->db->where('username',$username)->update('user_info',array('flow'=>'100M'));
 //         }
         echo 'success';
-    }
-
+    }*/
+  
+    
     //用户注册的地方，假设用户表中有这几个字段，用户名，密码，确认密码，手机号,验证码
     function register(){
         $this->load->database();
         $data=$this->input->post();
-        $userinfo['username']=$data['username'];
-        $userinfo['password']=md5($data['password']);
-        //$userinfo['email']=$data['email'];
+        $userinfo['name']=$data['username'];
+		$userinfo['passwd']=md5($data['password']);
         $userinfo['phone']=$data['phone'];
-        $userinfo['checkCode']=$data['checkCode'];
-        $userinfo['time']=date('Y-m-d H:i:s');
-        //将用户名到cookie中,千万不要将密码写入cookie中，这样容易导致信息泄露
-        if(!get_cookie('username') || get_cookie('username')!==$data['username']){//cookie中不存在用户名，或者存在的用户名与上传的用户名不同，就新增或者更新用户名
-            set_cookie('username',$data['username'],0);
-        }
+		$userinfo['register_time']=date('Y-m-d H:i:s');
 
-        //$userinfo['repassword']=md5($data['repassword']);//不要传重复输入的密码，这是在前端验证的
-        //取出该用户cookie中的流量数据，如果cookie中没有，就设置为0M
-        //$userinfo['flow']=get_cookie('flow')?get_cookie('flow'):'0M';]
-        $sms_code=$this->session->userdata('sms_code');
-        if($sms_code!=$data['checkCode']){
-            echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
-            return;
-        }
+		$sms_code=$this->session->userdata('sms_code');
+		if($sms_code!=$data['checkCode']){
+			echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
+			return;
+		}
         $ret=$this->db->insert('user_info',$userinfo);
-        if($ret){
-            echo json_encode(array('success'=>true,'info'=>'注册成功'));
-        }else{
-            echo json_encode(array('success'=>false,'info'=>'注册失败'));
-        }
+		if($ret){
+			echo json_encode(array('success'=>true,'info'=>'注册成功'));
+			set_cookie('username',$data['username'],0);
+		}else{
+			echo json_encode(array('success'=>false,'info'=>'注册失败'));
+		}
     }
-// 检验用户名和手机号是否重复注册
-    public function check(){
-        $data=$this->input->post();
-
-        if(isset($data['username'])){
-            $ret=$this->db->get_where('user_info',array('username'=>$data['username']))->result_array();
-            $field='用户名';
-        }elseif(isset($data['phone'])){
-            $ret=$this->db->get_where('user_info',array('phone'=>$data['phone']))->result_array();
-            $field='手机号';
-        }
-
-        if(count($ret)>0){
-            echo json_encode(array('success'=>false,'info'=>$field.'已注册，请重新输入'));
-            return;
-        }else{
-            echo json_encode(array('success'=>true,'info'=>$field.'正常'));
-        }
-    }
-    //生成唯一id
-    function uuid($prefix = '')
-
-    {
-
-        $chars = md5(uniqid(mt_rand(), true));
-
-        $uuid     = substr($chars,0,8) . '-';
-
-        $uuid .= substr($chars,8,4) . '-';
-
-        $uuid .= substr($chars,12,4) . '-';
-
-        $uuid .= substr($chars,16,4) . '-';
-
-        $uuid .= substr($chars,20,12);
-
-        return $prefix . $uuid;
-
-    }
-    //图片验证
-    public function img(){
-        //载入验证码辅助函数
-        $this->load->helper('captcha');
-        $speed = 'sfljlwjqrljlfafasdfasldfj1231443534507698';
-        $word="";
-        for($i=0;$i<4;$i++){
-            $word .=$speed[mt_rand(0,strlen($speed)-1)];
-        }
-        //配置项
-        $vals=array(
-            'word'=>'$word',
-            'img_path'=>'./captcha/',
-            'img_url'=>base_url().'captcha/',
-            'img_width'=> 80,
-            'img_height'=>25,
-            'expiration'=>60
-        );
-        //创建验证码
-        $cap = create_captcha($vals);
-        $_SESSION['code'] = $cap['word'];
-        echo $cap['image'];
-        //print_r($cap);
-        /*if(!isset($_SESSION)){
-         session_start();
-        }*/
-
-
-        /*$data['captcha'] = $cap['image'];
-
-        $this->load->view('hushen300.html',$data);*/
-
-    }
-    //调用短信接口
-    public function send_sms(){
-        $this->load->model('phone_model','phone');
-        $phone=$this->input->post('phone');
-        //$phone='15074716900';
-        //$MessageContent='手机测试';
-        //生成验证码
-        $code = rand(1000,9999);
-        $this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
-        //短信内容
-        //$date=date('Y年m月d日',time());
-        $MessageContent ='您本次验证码为'.$code.'，如需退订回复TD。';
-        $data = array(
-            'phone' => $phone,
-            'MessageContent' => $MessageContent
-        );
-        var_dump($data);
-        $ret=$this->phone->send($data);
-        //echo $ret;
-        if(preg_match('/^result=0.*/i',$ret)){
-            echo json_encode(array('success'=>true,'info'=>'发送成功'));
-            return;
-        }else{
-            echo json_encode(array('success'=>false,'info'=>$ret));
-        }
-    }
+    // 检验用户名和手机号是否重复注册
+	public function check(){
+		$data=$this->input->post();
+		
+		if(isset($data['username'])){
+			$ret=$this->db->get_where('customer',array('username'=>$data['username']))->result_array();
+			$field='用户名';
+		}elseif(isset($data['phone'])){
+			$ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
+			$field='手机号';
+		}
+		
+		if(count($ret)>0){
+			echo json_encode(array('success'=>false,'info'=>$field.'已注册，请重新输入'));
+			return;
+		}else{
+			echo json_encode(array('success'=>true,'info'=>$field.'正常'));
+		}
+		
+		
+	}
+    // 登入
+   public  function login_name(){
+	   if(get_cookie('username')){//如果登陆了，就不用再登陆了
+		   die('你已经登陆！');
+	   }
+       $data=$this->input->post();
+       $ret=$this->db->get_where('customer',array('name'=>$data['username'],'passwd'=>md5($data['password'])))->result_array();
+	   if(count($ret)>0){
+		   $customerId=$ret['id'];//登陆后从数据库里获取的id
+		   $new_customerId=get_cookie('customerId');//cookie里的id,这是客户进来就有的id,可能跟数据库里的id不一致
+		   if($customerId!=$new_customerId){//登陆成功后，把用户原来作为游客玩游戏和分享的记录更新为用户的名下
+			   set_cookie('customerId',$customerId,0);//覆盖原来的游客id
+			   set_cookie('username',$data['username'],0);//用户名存入cookie
+			   $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
+			   $this->db->where('customer_id',$new_customerId)->update('game',array('customer_id'=>$customerId));
+		   }  
+		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
+	   }else{
+		   echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
+	   }      
+	}
+	
+	public  function login_phone(){
+       $data=$this->input->post();
+       $ret=$this->db->get_where('user_info',array('username'=>$data['username'],'password'=>md5($data['password'])))->result_array();
+	   if(count($ret)>0){
+		   set_cookie('username',$data['username'],0);//存入cookie
+		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
+	   }else{
+		   echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
+	   }   
+	}
+   
+	//调用短信接口
+	public function send_sms(){
+		$this->load->model('phone_model','phone');
+		$phone=$this->input->post('phone');
+		//$phone='15074716900';
+		//$MessageContent='手机测试';
+		//生成验证码
+		$code = rand(1000,9999);
+		$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
+		//短信内容
+		//$date=date('Y年m月d日',time());
+		$MessageContent ='您本次验证码为'.$code.'，如需退订回复TD。';
+		$data = array(
+		    'phone' => $phone,
+		    'MessageContent' => $MessageContent
+		);
+		var_dump($data);
+		$ret=$this->phone->send($data);
+		//echo $ret;
+ 		if(preg_match('/^result=0.*/i',$ret)){
+ 			echo json_encode(array('success'=>true,'info'=>'发送成功'));
+ 			return;
+ 		}else{
+ 			echo json_encode(array('success'=>false,'info'=>$ret));
+ 		}
+	}
+	//统计总流量
+	public function stat_total_flow(){
+		$customerId=get_cookie('customerId');
+		$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
+		$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
+		echo $share_flow+$game_flow;
+		
+	}
     //测试短信接口用
     public function test_sms(){
         $this->load->model('phone_model','phone');
         $data = array(
-            'phone' => '15817375365',
+            'phone' => '158****365',
             'MessageContent' => '您本次验证码为12345678如需退订回复TD。',
         );
         echo $this->phone->send($data);

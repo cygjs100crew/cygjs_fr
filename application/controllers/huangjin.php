@@ -158,8 +158,8 @@ class Huangjin extends MY_Controller{
 		);
 		echo $this->phone->send($data);
 	}
-<<<<<<< HEAD
-=======
+
+
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
         $data = array(
@@ -233,5 +233,5 @@ class Huangjin extends MY_Controller{
             }
         }
     }
->>>>>>> origin/master
+
 }

@@ -191,6 +191,10 @@ $config['controller_trigger'] = 'c';
 $config['function_trigger'] = 'm';
 $config['directory_trigger'] = 'd';
 
+$config['flow_per_share']=1;
+$config['flow_per_game']=1;
+$config['sharetime_per_day']=3;
+
 /*
 |--------------------------------------------------------------------------
 | Error Logging Threshold
