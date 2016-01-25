@@ -202,7 +202,7 @@ class hushen300 extends MY_Controller{
         // $data1=$this->db->get_where('data_source',array('data_date' =>$_POST['data_date'],'data_time' =>$_POST['data_time']))->result_array();
         // if(count($data1)==0){
             $h = intval(date("Hi")); 
-            if (($h < 1500 && $h > 930)||($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) {
+            if (($h < 1500 && $h > 930)&&($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) {
                 $this->db->insert('data_source',$data);
             } else {
                 echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！'));
@@ -241,7 +241,7 @@ class hushen300 extends MY_Controller{
     }
     //沪深300走势线iframe显示页面
     function hushen_link(){
-        $list=$this->db->get('data_source')->result_array();
+        $list=$this->db->limit(5000)->order_by("id","asc")->get('data_source')->result_array();
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['current'];
             $data_date[$k] ='"'.date('Y-m-d H:i:s',$v['time']).'"';
