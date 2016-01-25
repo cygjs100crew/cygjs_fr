@@ -9,33 +9,15 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	// 设置游客Id,在所有控制器调用前执行，这样就保证了无论用户从网站哪里进入，都可以第一时间分配一个唯一的sessionid
-	public function set_sessionid() {
-		if (! get_cookie ( 'sessionid' )) { // 手动生成唯一的id，来唯一记录该游客
-			
-			$uid = $this->uuid ();
-			set_cookie ( 'sessionid', $uid, 0 );
-			
-			echo $uid;
+	public function set_customerId() {
+		if (! get_cookie ( 'customerId' )) { // 手动生成唯一的id，来唯一记录该游客
+			$data=array(
+				'create_time'=>date('Y-m-d H:i:s')
+			);
+			$this->db->insert('customer',$data);
+			$customerId=$this->db->insert_id();
+			set_cookie('customerId',$customerId,0);
 		}
-		echo '钩子';
 	}
-	
-	// 生成唯一id
-	function uuid($prefix = '') 
 
-	{
-		$chars = md5 ( uniqid ( mt_rand (), true ) );
-		
-		$uuid = substr ( $chars, 0, 8 ) . '-';
-		
-		$uuid .= substr ( $chars, 8, 4 ) . '-';
-		
-		$uuid .= substr ( $chars, 12, 4 ) . '-';
-		
-		$uuid .= substr ( $chars, 16, 4 ) . '-';
-		
-		$uuid .= substr ( $chars, 20, 12 );
-		
-		return $prefix . $uuid;
-	}
 }
