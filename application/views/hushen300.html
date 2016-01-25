@@ -68,8 +68,8 @@
 <body>
 <div class="header">
 <ul>
-	 <li><span>用户</span><span><?php echo $username;?></span></li>
-	 <!--  <li><span>可用流量</span><span><?php echo $flow;?></span></li>-->
+	 <li><span style="color:#fff;">用户</span><span><?php echo $username;?></span></li>
+	<li><span style="color:#fff;">可用流量</span><span id="total_flow"></span></li>
 	
  </ul>
 </div>
@@ -361,6 +361,35 @@ $(function(){
 		       }
 		})
 	
+	});
+	//ajax请求登录页面
+	$('#login_btn').click(function(){
+		var post_arr=['username','password'];
+		/*var username=$('.username').val();
+		var password=$('.password').val();*/
+		var post_obj={};
+		$.each(post_arr,function(index,item){
+			post_obj[item]=$('#login').find('[name="'+item+'"]').val();
+		});
+	   $.ajax({
+		   url:"<?php echo site_url('hushen300/login_name')?>",
+	       dataType:"json",
+	       type:"post",
+	       //data:{username:username,password:password},
+		   data:post_obj,
+	       success:function(data){
+	    	// alert(data.info);
+	    	if(data && data.success){
+	    		alert(data.info);
+	    		location.href="<?php echo site_url('huangjin/index')?>";
+	    	}else{
+	    		alert(data.info);
+	    		window.history.back();
+	    		
+	    	}
+	    	
+	       }
+	   })	
 	});
 	function get_current_flow(){
 		$.get('<?php echo site_url('hushen300/stat_total_flow')?>',function(data){

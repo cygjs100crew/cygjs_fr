@@ -53,7 +53,7 @@ class Huangjin extends MY_Controller{
 			echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
 			return;
 		}
-        $ret=$this->db->insert('user_info',$userinfo);
+        $ret=$this->db->insert('customer',$userinfo);
 		if($ret){
 			echo json_encode(array('success'=>true,'info'=>'注册成功'));
 			set_cookie('username',$data['username'],0);
@@ -89,14 +89,18 @@ class Huangjin extends MY_Controller{
 	   }
        $data=$this->input->post();
        $ret=$this->db->get_where('customer',array('name'=>$data['username'],'passwd'=>md5($data['password'])))->result_array();
+      // var_dump($ret);
 	   if(count($ret)>0){
-		   $customerId=$ret['id'];//登陆后从数据库里获取的id
+		   $customerId=$ret[0]['id'];//登陆后从数据库里获取的id
+		  // var_dump($customerId);//3
+		    
 		   $new_customerId=get_cookie('customerId');//cookie里的id,这是客户进来就有的id,可能跟数据库里的id不一致
+		  //var_dump( $new_customerId);//16
 		   if($customerId!=$new_customerId){//登陆成功后，把用户原来作为游客玩游戏和分享的记录更新为用户的名下
 			   set_cookie('customerId',$customerId,0);//覆盖原来的游客id
 			   set_cookie('username',$data['username'],0);//用户名存入cookie
 			   $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
-			   $this->db->where('customer_id',$new_customerId)->update('game',array('customer_id'=>$customerId));
+			   $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
 		   }  
 		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
 	   }else{
@@ -106,7 +110,7 @@ class Huangjin extends MY_Controller{
 	
 	public  function login_phone(){
        $data=$this->input->post();
-       $ret=$this->db->get_where('user_info',array('username'=>$data['username'],'password'=>md5($data['password'])))->result_array();
+       $ret=$this->db->get_where('customer',array('username'=>$data['username'],'password'=>md5($data['password'])))->result_array();
 	   if(count($ret)>0){
 		   set_cookie('username',$data['username'],0);//存入cookie
 		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
@@ -131,7 +135,7 @@ class Huangjin extends MY_Controller{
 		    'phone' => $phone,
 		    'MessageContent' => $MessageContent
 		);
-		var_dump($data);
+		//var_dump($data);
 		$ret=$this->phone->send($data);
 		//echo $ret;
  		if(preg_match('/^result=0.*/i',$ret)){
