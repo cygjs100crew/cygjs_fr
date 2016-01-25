@@ -220,23 +220,16 @@ class huangjin extends MY_Controller{
         // $config['per_page'] = 20;
         // $this->pagination->initialize($config);//序列化
         // echo $this->pagination->create_links();//生成分页导航
-
         $result=$this->shuying();
-
         $this->load->view('lishi_html_list.html',$data);//前端在某个地方输出$username,$flow；
-         
     }
     // 验证输赢
     function shuying(){
         $data=$this->db->get_where('investor_detail',array('result'=>""))->result_array();
 
-
         for ($i=0; $i < count($data); $i++){ 
-
             $list=$this->db->get_where('data_source',array('time >'=>$data[$i]['and_time']))->result_array();
-
             if (count($list)>0){
-
                 if (intval($data[$i]['current'])==1) {
                     if ($data[$i]['current']>$list[0]['current']) {
                         $a='赢';
