@@ -1,6 +1,6 @@
 <?php
 //error_reporting(0);
-class huangjin extends MY_Controller{
+class Huangjin extends MY_Controller{
     public function __construct(){
         parent::__construct();                
     }
@@ -8,19 +8,13 @@ class huangjin extends MY_Controller{
     
   //判断cookie中是否有username,没有就是游客,看看游客有多少流量
     function index(){
-        $this->load->database();
-
-        $username=get_cookie('username')?get_cookie('username'):'游客';
-        $flow=get_cookie('flow')?get_cookie('flow'):'0M';
-
+        $this->load->database();		
+        $username=get_cookie('username')?get_cookie('username'):'';
         $data['username']=$username;
-        $data['flow']=$flow;
-
-        $this->load->view('huangjin.html',$data);//前端在某个地方输出$username,$flow；
-         
+        $this->load->view('huangjin.html',$data);//前端在某个地方输出$username      
     }
     //这里设置游客有多少流量，此时用户可能没有注册;玩了游戏的游客才会被记录到游客表中
-    function setFlow(){
+  /*  function setFlow(){
         $this->load->database();
         //存入cookie中
 
@@ -42,27 +36,18 @@ class huangjin extends MY_Controller{
 //             $this->db->where('username',$username)->update('user_info',array('flow'=>'100M'));
 //         }
         echo 'success';
-    }
+    }*/
   
     
     //用户注册的地方，假设用户表中有这几个字段，用户名，密码，确认密码，手机号,验证码
     function register(){
         $this->load->database();
         $data=$this->input->post();
-        $userinfo['username']=$data['username'];
-		$userinfo['password']=md5($data['password']);
-        //$userinfo['email']=$data['email'];
+        $userinfo['name']=$data['username'];
+		$userinfo['passwd']=md5($data['password']);
         $userinfo['phone']=$data['phone'];
-        $userinfo['checkCode']=$data['checkCode'];
-		$userinfo['time']=date('Y-m-d H:i:s');
-        //将用户名到cookie中,千万不要将密码写入cookie中，这样容易导致信息泄露
-        if(!get_cookie('username') || get_cookie('username')!==$data['username']){//cookie中不存在用户名，或者存在的用户名与上传的用户名不同，就新增或者更新用户名
-            set_cookie('username',$data['username'],0);
-        }
-        
-        //$userinfo['repassword']=md5($data['repassword']);//不要传重复输入的密码，这是在前端验证的
-        //取出该用户cookie中的流量数据，如果cookie中没有，就设置为0M
-        //$userinfo['flow']=get_cookie('flow')?get_cookie('flow'):'0M';]
+		$userinfo['register_time']=date('Y-m-d H:i:s');
+
 		$sms_code=$this->session->userdata('sms_code');
 		if($sms_code!=$data['checkCode']){
 			echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
@@ -71,6 +56,7 @@ class huangjin extends MY_Controller{
         $ret=$this->db->insert('user_info',$userinfo);
 		if($ret){
 			echo json_encode(array('success'=>true,'info'=>'注册成功'));
+			set_cookie('username',$data['username'],0);
 		}else{
 			echo json_encode(array('success'=>false,'info'=>'注册失败'));
 		}
@@ -80,10 +66,10 @@ class huangjin extends MY_Controller{
 		$data=$this->input->post();
 		
 		if(isset($data['username'])){
-			$ret=$this->db->get_where('user_info',array('username'=>$data['username']))->result_array();
+			$ret=$this->db->get_where('customer',array('username'=>$data['username']))->result_array();
 			$field='用户名';
 		}elseif(isset($data['phone'])){
-			$ret=$this->db->get_where('user_info',array('phone'=>$data['phone']))->result_array();
+			$ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
 			$field='手机号';
 		}
 		
@@ -97,7 +83,28 @@ class huangjin extends MY_Controller{
 		
 	}
     // 登入
-   public  function login(){
+   public  function login_name(){
+	   if(get_cookie('username')){//如果登陆了，就不用再登陆了
+		   die('你已经登陆！');
+	   }
+       $data=$this->input->post();
+       $ret=$this->db->get_where('customer',array('name'=>$data['username'],'passwd'=>md5($data['password'])))->result_array();
+	   if(count($ret)>0){
+		   $customerId=$ret['id'];//登陆后从数据库里获取的id
+		   $new_customerId=get_cookie('customerId');//cookie里的id,这是客户进来就有的id,可能跟数据库里的id不一致
+		   if($customerId!=$new_customerId){//登陆成功后，把用户原来作为游客玩游戏和分享的记录更新为用户的名下
+			   set_cookie('customerId',$customerId,0);//覆盖原来的游客id
+			   set_cookie('username',$data['username'],0);//用户名存入cookie
+			   $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
+			   $this->db->where('customer_id',$new_customerId)->update('game',array('customer_id'=>$customerId));
+		   }  
+		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
+	   }else{
+		   echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
+	   }      
+	}
+	
+	public  function login_phone(){
        $data=$this->input->post();
        $ret=$this->db->get_where('user_info',array('username'=>$data['username'],'password'=>md5($data['password'])))->result_array();
 	   if(count($ret)>0){
@@ -105,46 +112,9 @@ class huangjin extends MY_Controller{
 		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
 	   }else{
 		   echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
-	   }
-    
-       
-   }
+	   }   
+	}
    
-   
-    
-    //图片验证
-    public function img(){
-        //载入验证码辅助函数
-        $this->load->helper('captcha');
-        $speed = 'sfljlwjqrljlfafasdfasldfj1231443534507698';
-        $word="";
-        for($i=0;$i<4;$i++){
-            $word .=$speed[mt_rand(0,strlen($speed)-1)];
-        }
-        //配置项
-        $vals=array(
-            'word'=>'$word',
-            'img_path'=>'./captcha/',
-            'img_url'=>base_url().'captcha/',
-            'img_width'=> 80,
-            'img_height'=>25,
-            'expiration'=>60
-        );
-        //创建验证码
-        $cap = create_captcha($vals);
-        $_SESSION['code'] = $cap['word'];
-        echo $cap['image'];
-        //print_r($cap);
-        /*if(!isset($_SESSION)){
-         session_start();
-        }*/
-    
-    
-        /*$data['captcha'] = $cap['image'];
-    
-        $this->load->view('huangjin.html',$data);*/
-    
-    }
 	//调用短信接口
 	public function send_sms(){
 		$this->load->model('phone_model','phone');
@@ -171,6 +141,14 @@ class huangjin extends MY_Controller{
  			echo json_encode(array('success'=>false,'info'=>$ret));
  		}
 	}
+	//统计总流量
+	public function stat_total_flow(){
+		$customerId=get_cookie('customerId');
+		$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
+		$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
+		echo $share_flow+$game_flow;
+		
+	}
 	//测试短信接口用
 	public function test_sms(){
 		$this->load->model('phone_model','phone');
@@ -180,6 +158,8 @@ class huangjin extends MY_Controller{
 		);
 		echo $this->phone->send($data);
 	}
+<<<<<<< HEAD
+=======
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
         $data = array(
@@ -253,4 +233,5 @@ class huangjin extends MY_Controller{
             }
         }
     }
+>>>>>>> origin/master
 }
