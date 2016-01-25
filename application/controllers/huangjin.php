@@ -230,7 +230,7 @@ class huangjin extends CI_Controller{
     }
     //黄金走势线iframe显示页面
     function huangjin_link(){
-        $list=$this->db->limit(100)->get_where('recentquotation',array('symbol'=>"XAU"))->result_array();
+        $list=$this->db->limit(5000)->order_by("id","asc")->get_where('recentquotation',array('symbol'=>"XAU"))->result_array();
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';

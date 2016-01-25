@@ -241,7 +241,7 @@ class hushen300 extends CI_Controller{
     }
     //沪深300走势线iframe显示页面
     function hushen_link(){
-        $list=$this->db->get('data_source')->result_array();
+        $list=$this->db->limit(5000)->order_by("id","asc")->get('data_source')->result_array();
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['current'];
             $data_date[$k] ='"'.date('Y-m-d H:i:s',$v['time']).'"';
