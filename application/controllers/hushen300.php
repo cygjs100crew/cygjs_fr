@@ -165,16 +165,12 @@ class hushen300 extends MY_Controller{
                 'current' =>$_POST['current'],
                 'time'      => time(),
             );
-        // $data1=$this->db->get_where('data_source',array('data_date' =>$_POST['data_date'],'data_time' =>$_POST['data_time']))->result_array();
-        // if(count($data1)==0){
             $h = intval(date("Hi")); 
             if (($h < 1500 && $h > 930)&&($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) {
-                $this->db->insert('data_source',$data);
+                // $this->db->insert('data_source',$data);
             } else {
                 echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！'));
             }
-        // }
-
     }
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
@@ -205,18 +201,18 @@ class hushen300 extends MY_Controller{
         $row .= '';
         echo json_encode(array('result' => true,'a' =>$row));
     }
-    //沪深300走势线iframe显示页面
+    /* 沪深300走势线iframe显示页面 @ohyeah */
     function hushen_link(){
-        $list=$this->db->limit(5000)->order_by("id","asc")->get('data_source')->result_array();
+        $list=$this->db->limit(5000)->order_by("id","asc")->get_where('recentquotation',array('symbol'=>"CFIFZ5"))->result_array();
         foreach($list as $k=>$v){
-            $Kdata[$k] =$v['current'];
-            $data_date[$k] ='"'.date('Y-m-d H:i:s',$v['time']).'"';
+            $Kdata[$k] =$v['price'];
+            $data_date[$k] ='"'.$v['time'].'"';
             $result['data_date'] = implode(',', $data_date);
             $result['ipdata'] = implode(',', $Kdata);
         }
         $this->load->view('hushen_link.html',$result);//前端在某个地方输出$username,$flow；
     }
-    //交易历史iframe显示页面
+    /* 交易历史iframe显示页面 @ohyeah */
     function lishi_html_list(){
         $data['lishi'] = $this->db->limit(20)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5"))->result_array();
 
@@ -233,38 +229,40 @@ class hushen300 extends MY_Controller{
         $this->load->view('lishi_html_list.html',$data);//前端在某个地方输出$username,$flow；
          
     }
-    // 验证输赢
-    function shuying(){
-        $data=$this->db->get_where('investor_detail',array('result'=>""))->result_array();
+    function tt(){
+        $uid = $this->shuying();
+        echo $uid;
 
-
-        for ($i=0; $i < count($data); $i++) { 
-
-            $list=$this->db->get_where('data_source',array('time >'=>$data[$i]['and_time']))->result_array();
-
-            if (count($list)>0){
-
-				if (intval($data[$i]['current'])==1) {
-				    if ($data[$i]['current']>$list[0]['current']) {
-				        $a='赢';
-				    }
-				    else if ($data[$i]['current']<$list[0]['current']) {
-				        $a='输';
-				    }
-				}
-				if (intval($data[$i]['current'])==0) {
-				    if ($data[$i]['current']<$list[0]['current']) {
-				        $a='赢';
-				    }
-				    else if ($data[$i]['current']>$list[0]['current']) {
-				        $a='输';
-				    }
-				}
-
-                $condition['id'] =$data[$i]['id'];//更新id
-                $map['result'] =$a; //更新内容
-                $this->db->where($condition)->update("investor_detail",$map);
-            }
-        }
     }
+    // /* 验证输赢 @ohyeah */
+    // function shuying(){
+    //     $data=$this->db->get_where('investor_detail',array('result'=>""))->result_array();
+    //     for ($i=0; $i < count($data); $i++) { 
+
+    //         $list=$this->db->get_where('data_source',array('time >'=>$data[$i]['and_time']))->result_array();
+
+    //         if (count($list)>0){
+
+				// if (intval($data[$i]['current'])==1) {
+				//     if ($data[$i]['current']>$list[0]['current']) {
+				//         $a='赢';
+				//     }
+				//     else if ($data[$i]['current']<$list[0]['current']) {
+				//         $a='输';
+				//     }
+				// }
+				// if (intval($data[$i]['current'])==0) {
+				//     if ($data[$i]['current']<$list[0]['current']) {
+				//         $a='赢';
+				//     }
+				//     else if ($data[$i]['current']>$list[0]['current']) {
+				//         $a='输';
+				//     }
+				// }
+    //             $condition['id'] =$data[$i]['id'];//更新id
+    //             $map['result'] =$a; //更新内容
+    //             $this->db->where($condition)->update("investor_detail",$map);
+    //         }
+    //     }
+    // }
 }
