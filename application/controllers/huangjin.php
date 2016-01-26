@@ -192,6 +192,6 @@ class Huangjin extends MY_Controller{
     function huangjin_html_list(){
         $data['lishi'] = $this->db->limit(20)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array();
         $result=$this->shuying();
-        $this->load->view('lishi_html_list.html',$data);
+        $this->load->view('huangjin_html_list.html',$data);
     }
 }
