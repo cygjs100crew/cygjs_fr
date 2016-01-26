@@ -15,7 +15,7 @@ class MY_Controller extends CI_Controller {
 				'create_time'=>date('Y-m-d H:i:s')
 			);
 			$ret=$this->db->insert('customer',$data);
-			var_dump($ret);
+			//var_dump($ret);
 			$customerId=$this->db->insert_id();
 			set_cookie('customerId',$customerId,0);
 		}

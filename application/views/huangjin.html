@@ -143,7 +143,7 @@
 <div id="mask"></div>
 
 <!-- 注册页面-->
-<div id="register">
+<!--  <div id="register">
 	<div id="reg" class="title">请注册<img  style="margin-left:180px;"src="<?php echo base_url()?>public/img/gb.jpg" alt="关闭" /></div>
 	  <table class="table" width="100%" >
 	    <tr><td style="text-align:right;">用户名：</td><td><input type="text" name="username" id="username"/></td></tr>
@@ -155,29 +155,28 @@
 	    <input id="btnSendCode" type="button" value="发送验证码" /></td></tr>
 	    <tr><td><button id="sure" >确定</button></td></tr>
 	 </table>
-</div>
-
-<!-- 弹出登入窗 -->
-<div id="login" style="margin:50px auto; width:300px; height:150px; display:none;">
-    <div id="title" class="title" style="padding:30px 0px;">请登入<img  style="margin-left:180px;"src="<?php echo base_url()?>public/img/gb.jpg" alt="关闭" /></div>
-	<table width="100%" class="table">
-		<tr style="margin-left:30px;">
-		  <td align="right"  style=" padding:0 10px; " >用户名</td>
-		  <td ><input style="width:60%;margin-bottom:10px;" type="text" name="username"/></td>	
-	   </tr>    
-	  <tr >
-		  <td align="right"  style=" padding:0 10px; " >密码</td>
-		  <td ><input style="width:60%;margin-bottom:10px;" type="text" name="password"/></td>
-	  </tr>
-	  <tr align="center" style="padding:20px; margin:10px;">
-		  <td colspan="2">
-		  <button id="login_btn">登录</button>
-		  <button id="register_btn">注册</button>
-		  
-		  </td>
-	   </tr>             
- </table>
-
+</div>-->
+<div class="weui_dialog_confirm" id="register" style="display:none;">
+  <div class="weui_mask"></div>
+   <img  style="margin-left:90%;"src="<?php echo base_url()?>public/img/gb.jpg" alt="关闭" />
+      <div class="weui_dialog_hd"><strong class="weui_dialog_title">请注册</strong></div>
+      <div class="weui_dialog_bd">
+		 <div  style="margin:10px auto;"class="weui_cell_hd" >
+			   <div class="weui_cell_bd weui_cell_primary" >
+				 <p class="weui_cell_bd weui_cell_primary">手机号:</p>
+				 <div class="weui_cell_bd" style="border:1px solid #DEDEDE;line-height:2.5em;border-radius:5px;">
+			       <input style="width:60%;" type="text" name="phonelg" /></div>
+			    </div>
+			    <div class="weui_cell_bd weui_cell_primary" >
+					  <p class="weui_cell_bd weui_cell_primary" style=" padding:0 10px; " >验证码:</p>
+					  <div class="weui_cell_bd" style="border:1px solid #DEDEDE;line-height:2.5em;border-radius:5px;">
+					  <input style="width:60%;" type="text" name="codelg"/></div>			 
+				</div>	 
+			</div>
+		 <div class="weui_dialog_ft">
+            <a href="#" class="weui_btn_dialog primary">确定</a>
+        </div>
+	</div>
 </div>
 
 <div class="out">
@@ -185,52 +184,80 @@
    <span class="rw" ><a href="#">赚流量/机会</a></span>
 </div>
 <button class="dj">点击</button>
-
+<!-- 弹出登入窗 -->
  <div class="weui_dialog_confirm" style="display:none;">
     <div class="weui_mask"></div>
     <div class="weui_dialog">
+        <img  style="margin-left:90%;"src="<?php echo base_url()?>public/img/gb.jpg" alt="关闭" />
         <div class="weui_dialog_hd"><strong class="weui_dialog_title">请登入</strong></div>
-        <div calss="select" ><button style="width:50%;">手机号登入</button><button style="width:50%;">用户名登入</button></div>
-        <div class="weui_dialog_bd">自定义弹窗内容，居左对齐显示，告知需要确认的信息等</div>
+        <div calss="select" ><button style="width:50%;float:left;"class="weui_btn weui_btn_default" id="sj">手机号登入</button><button style="width:50%;"class="weui_btn weui_btn_default" id="yh">用户名登入</button></div>
+        <div class="weui_dialog_bd"  id="dialog"><!-- 弹出登录框 -->
+	           <div id="login" style="margin:10px auto;"class="weui_cell_hd" >
+		           <div class="weui_cell_bd weui_cell_primary" >
+						<p class="weui_cell_bd weui_cell_primary">用户名:</p>
+						<div class="weui_cell_bd" style="border:1px solid #DEDEDE;line-height:2.5em;border-radius:5px;">
+					       <input style="width:60%;" type="text" name="username" />
+				         </div>
+				    </div>
+				    <div class="weui_cell_bd weui_cell_primary" >
+						  <p class="weui_cell_bd weui_cell_primary" style=" padding:0 10px; " >密&nbsp&nbsp&nbsp&nbsp码:</p>
+						  <div class="weui_cell_bd" style="border:1px solid #DEDEDE;line-height:2.5em;border-radius:5px;">
+						  <input style="width:60%;" type="text" name="password"/></div>			 
+					 </div>			 
+	           </div>
+			   <div id="phLogin" style="margin:10px auto; display:none;"class="weui_cell_hd" >
+			      <div class="weui_cell_bd weui_cell_primary" >
+					<p class="weui_cell_bd weui_cell_primary">手机号:</p>
+					<div class="weui_cell_bd" style="border:1px solid #DEDEDE;line-height:2.5em;border-radius:5px;">
+				       <input style="width:60%;" type="text" name="phonelg" /></div>
+			       </div>
+				    <div class="weui_cell_bd weui_cell_primary" >
+						  <p class="weui_cell_bd weui_cell_primary" style=" padding:0 10px; " >验证码:</p>
+						  <div class="weui_cell_bd" style="border:1px solid #DEDEDE;line-height:2.5em;border-radius:5px;">
+						  <input style="width:60%;" type="text" name="codelg"/></div>			 
+					 </div>
+			 
+			  </div>
+        </div>
         <div class="weui_dialog_ft">
-            <a href="#" class="weui_btn_dialog default">取消</a>
-            <a href="<?php echo site_url('huangjin/index')?>" class="weui_btn_dialog primary">确定</a>
+            <a href="#" class="weui_btn_dialog default" id="login_btn">登入</a>
+            <a href="<?php echo site_url('huangjin/index')?>" class="weui_btn_dialog primary" id="register_btn">注册</a>
        </div>
     </div>
 </div> 
 
-
-<div class="weui_cells_title">带图标、说明、跳转的列表项</div>
-<div class="weui_cells weui_cells_access">
-
-    <a class="weui_cell" href="#">
-        <div class="weui_cell_hd">
-            <img src="" alt="icon" style="width:20px;margin-right:5px;display:block">
-        </div>
-        <div class="weui_cell_bd weui_cell_primary">
-            <p>cell standard</p>
-        </div>
-        <div class="weui_cell_ft">
-            说明文字
-        </div>
-    </a>
-    <a class="weui_cell" href="#">
-        <div class="weui_cell_hd">
-            <img src="" alt="icon" style="width:20px;margin-right:5px;display:block">
-        </div>
-        <div class="weui_cell_bd weui_cell_primary">
-            <p>cell standard</p>
-        </div>
-        <div class="weui_cell_ft">
-            说明文字
-        </div>
-    </a>
-</div>
+	
+	
 </body>
 </html>
 <script>
 
+//弹出窗口
 
+$('.dj').click(function(){
+		$('.weui_dialog_confirm').attr('style','display:block');
+	});
+//弹出 用户登入框
+$('#yh').click(function(){
+  if($('.dialog').html($('#login').hide())){
+	  $('.dialog').html($('#login').show());  
+  }
+  if($('.dialog').html($('#phLogin').show())){
+	  $('.dialog').html($('#phLogin').show())
+  }
+  
+});
+//弹出手机登入框
+$('#sj').click(function(){
+	if($('.dialog').html($('#login').show())){
+		$('.dialog').html($('#login').hide());
+		$('.dialog').html($('#phLogin').show());
+	}else{
+		$('.dialog').html($('#phLogin').show());
+	}
+	
+	
+})
 	// 涨事件
 $('#zhang').on('click', function(){
     $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').val(),invest_type:1},function(data){
@@ -269,11 +296,6 @@ $('#ls').on('click', function(){
         content: '/cygjs_fr/index.php/huangjin/huangjin_html_list'
     });
 });
-//弹出窗口
-
-$('.dj').click(function(){
-		$('.weui_dialog_confirm').attr('style','display:block');
-	});
 
 $(function(){
 	//弹出注册框的时候，同时向后台请求验证码图片
