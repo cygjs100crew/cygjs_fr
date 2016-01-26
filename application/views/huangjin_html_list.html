@@ -28,16 +28,13 @@
                             结束时间
                         </th> -->
                         <th>
-                            金额
+                            买入价
                         </th>
                         <th>
-                            投资类型
+                            开盘价
                         </th>
                         <th>
-                            投资用户
-                        </th>
-                        <th>
-                            结果
+                            结果[<a href='javascript:void(0);' id='sxin'>刷新</a>]
                         </th>
                     </tr>
                 </thead>
@@ -54,13 +51,15 @@
                             <?php echo $row['and_time'] ?>
                         </td> -->
                         <td>
-                            <?php echo $row['capital'] ?>
+                            <?php echo $row['capital'] ?>/
+                            <?php if ($row['invest_type'] === '1'): ?>
+                                涨
+                            <?php elseif ($row['invest_type'] === '0'): ?>
+                                跌
+                            <?php endif; ?>
                         </td>
                         <td>
-                            <?php echo $row['invest_type'] ?>
-                        </td>
-                        <td>
-                            <?php echo $row['investor_uid'] ?>
+                            <?php echo $row['currented'] ?>
                         </td>
                         <td>
                             <?php if ($row['result'] === ''): ?>
@@ -78,5 +77,14 @@
         </div>
     </div>
 </div>
+    <script type="text/javascript">
+    $('#sxin').on('click', function(){
+    window.location.reload();
+    // alert('这是跌');
+    });
+    setInterval(function(){  
+    window.location.reload();
+    },60000);
+    </script>
 </body>
 </html>

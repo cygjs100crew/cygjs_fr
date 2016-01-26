@@ -6,8 +6,10 @@
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>黄金</title>
  <base href="<?php echo base_url()?>">
+<link rel="stylesheet" type="text/css" href="http://layoutit.justjavac.com/css/bootstrap-combined.min.css">
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
 <link rel="stylesheet" type="text/css" href="public/css/weui.css" />
+
  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
  <script type="text/javascript" src="public/js/code.js"></script>
  <script type="text/javascript" src="public/js/register.js"></script>
@@ -69,7 +71,7 @@
 <div class="header">
 <ul>
 	 <li style="color:#fff;"><span >用户</span><span><?php echo $username;?></span></li>
-	 <li style="color:#fff;"><span>可用流量</span><span id="total_flow"></span></li>
+	 <li style="color:#fff;"><span>已获流量</span><span id="total_flow"></span></li>
 	<!-- <li><span>可玩次数</span><span><?php echo $count;?></span></li>-->
  </ul>
 </div>
@@ -78,67 +80,30 @@
 	<ul>
 	<li class="on"><a href="<?php echo site_url('huangjin/index')?>">黄金</a></li>
 	<li><a href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
-	
 </ul></div>
-
 <div class="focus_data">
     <!-- 为新浪准备一个具备大小（宽高）的Dom -->
     <iframe id="dd" name="dd" src="/cygjs_fr/index.php/huangjin/huangjin_link" width="100%" height="410"></iframe>
-    <p id="m-chart-realhq" style="width: 50%;float:left;">实时行情: -- | 今开: -- | 昨收: -- | 最高: -- | 最低: -- | 量: --手 | 额: --万元</p>
-    <p style="width: 50%;float:left;"><a href='javascript:void(0);' id='sxin'>刷新</a></p>
-    <input type="button" name="capital" id="capital" value=""  style="display:none;"/>
-    <!-- ECharts单文件引入 -->
-<script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
-<script type="text/javascript">
-	setInterval(function(){  
-		$.ajax({
-	            // url: "http://hq.sinajs.cn/?_="+new Date().getTime()+"&list=sh603518",
-	            url: "http://hq.sinajs.cn/?list=hf_GC",
-	            method: 'GET',
-	            dataType: "script",
-	            scriptCharset: "gb2312",
-	            cache: true,
-	            success: function(data, textStatus){
-	            	var hq = hq_str_hf_GC.split(",");
-	            	var title,rt_hq = '';
-	            	if(Number(hq[0])>Number(7)){
-	            		title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-	            		rt_hq = '<span style="color:Red;">'+hq[0]+'&nbsp+'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
-	            	}else if(Number(hq[0])<Number(7)){
-	            		title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-	            		rt_hq = '<span style="color:Lime;">'+hq[0]+'&nbsp-'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
-	            	}else{
-	            		title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-	            		rt_hq = '<span style="color:Black;">'+hq[0]+'&nbsp'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
-	            	}
-	            	document.title = title;
-	                var html_src = '实时行情: '+rt_hq+"|最高: "+hq[3]+" | 最低: "+hq[2]+"|昨收: "+hq[7]+"| 北京时间: "+hq[6]+"";
-	                var html_src_img = '<img src="http://image.sinajs.cn/newchart/v5/futures/global/min/GC.gif?'+new Date().getTime()+'">';
-	                $('#capital').val(hq[3]);
-	                $("#m-chart-realhq").html(html_src);
-	                $("#m-chart-img").html(html_src_img);
 
-	                // $.post('/cygjs_fr/index.php/hushen300/data_add',{open:hq[1],close:hq[2],current:hq[3],high:hq[4],low:hq[5],data_date:hq[30],data_time:hq[31]},function(data){
-	                //     // alert(data);
-	                // });
-	        	} 
-	    });
-	},3000);
-</script>
+</div>
+<div  class="row-fluid">
+	<div class="user_info">
+    	<ul>
+    		<li class="mj"><span>买价：</span><span><em><input type="button" name="capital" id="capital" value=""/></em></span></li>
+    		<li class="yl"><span>盈利：</span><span><em>涨/跌&nbsp&nbsp<a href="javascript:void(0);" id="ls">成交历史</a>
+    		</em></span></li>
+    	</ul>
+    </div>
 </div>
 
 <div class="button_ab">
 	<span class="d"><a href="javascript:void(0);" id="die">跌</a></span>
 	<span class="z"><a href="javascript:void(0);" id="zhang">涨</a></span>
 </div>
-	<a href="javascript:void(0);" id="ls">成交历史</a>
-    <p id="lishi"></p>
-<div class="user_info"><ul>
-	<li class="mj"><span>买价：</span><span><em>42,500</em></span></li>
-	<li class="jg"><span>价格：</span><span><em>1,000</em></span></li>
-	<li class="yl"><span>盈利：</span><span><em>涨/跌</em></span></li>
-</ul></div>
-
+<div class="out">
+   <span class="qx" ><a href="javascript:void(0);">取现</a></span>
+   <span class="rw" ><a href="#">赚流量/机会</a></span>
+</div>
 <!--遮罩层-->
 <div id="mask"></div>
 
@@ -179,10 +144,7 @@
 	</div>
 </div>
 
-<div class="out">
-   <span class="qx" ><a href="javascript:void(0);">取现</a></span>
-   <span class="rw" ><a href="#">赚流量/机会</a></span>
-</div>
+
 <button class="dj">点击</button>
 <!-- 弹出登入窗 -->
  <div class="weui_dialog_confirm" style="display:none;">
@@ -452,4 +414,42 @@ $(function(){
 })
 
 
+</script>
+<!-- ECharts单文件引入 -->
+<script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
+<script type="text/javascript">
+	setInterval(function(){  
+		$.ajax({
+	            // url: "http://hq.sinajs.cn/?_="+new Date().getTime()+"&list=sh603518",
+	            url: "http://hq.sinajs.cn/?list=hf_GC",
+	            method: 'GET',
+	            dataType: "script",
+	            scriptCharset: "gb2312",
+	            cache: true,
+	            success: function(data, textStatus){
+	            	var hq = hq_str_hf_GC.split(",");
+	            	var title,rt_hq = '';
+	            	if(Number(hq[0])>Number(7)){
+	            		title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+	            		rt_hq = '<span style="color:Red;">'+hq[0]+'&nbsp+'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
+	            	}else if(Number(hq[0])<Number(7)){
+	            		title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+	            		rt_hq = '<span style="color:Lime;">'+hq[0]+'&nbsp-'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
+	            	}else{
+	            		title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+	            		rt_hq = '<span style="color:Black;">'+hq[0]+'&nbsp'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
+	            	}
+	            	document.title = title;
+	                var html_src = '实时行情: '+rt_hq+"|最高: "+hq[3]+" | 最低: "+hq[2]+"|昨收: "+hq[7]+"| 北京时间: "+hq[6]+"";
+	                var html_src_img = '<img src="http://image.sinajs.cn/newchart/v5/futures/global/min/GC.gif?'+new Date().getTime()+'">';
+	                $('#capital').val(hq[3]);
+	                $("#m-chart-realhq").html(html_src);
+	                $("#m-chart-img").html(html_src_img);
+
+	                // $.post('/cygjs_fr/index.php/hushen300/data_add',{open:hq[1],close:hq[2],current:hq[3],high:hq[4],low:hq[5],data_date:hq[30],data_time:hq[31]},function(data){
+	                //     // alert(data);
+	                // });
+	        	} 
+	    });
+	},3000);
 </script>

@@ -6,6 +6,7 @@
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>沪深300</title>
  <base href="<?php echo base_url()?>">
+<link rel="stylesheet" type="text/css" href="http://layoutit.justjavac.com/css/bootstrap-combined.min.css">
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
  <!-- // <script type="text/javascript" src="vendor/jquery/jquery-1.11.3.min.js"></script> -->
  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
@@ -69,7 +70,7 @@
 <div class="header">
 <ul>
 	 <li><span style="color:#fff;">用户</span><span><?php echo $username;?></span></li>
-	<li><span style="color:#fff;">可用流量</span><span id="total_flow"></span></li>
+	<li><span style="color:#fff;">已获流量</span><span id="total_flow"></span></li>
 	
  </ul>
 </div>
@@ -84,25 +85,22 @@
 <div class="focus_data">
     <!-- 为走势图准备一个具备大小（宽高）的Dom -->
     <iframe id="dd" name="dd" src="/cygjs_fr/index.php/hushen300/hushen_link" width="100%" height="410"></iframe>
-    <p id="m-chart-realhq" style="width: 50%;float:left;">实时行情: -- | 今开: -- | 昨收: -- | 最高: -- | 最低: -- | 量: --手 | 额: --万元</p>
-    <p style="width: 50%;float:left;"><a href='javascript:void(0);' id='sxin'>刷新</a></p>
-    <input type="button" name="capital" id="capital" value=""  style="display:none;"/>
+</div>
+<div  class="row-fluid">
+	<div class="user_info">
+		<ul>
+			<li class="mj"><span>买价：</span><span><em><input type="button" name="capital" id="capital" value=""/></em></span></li>
+			<li class="yl"><span>盈利：</span><span><em>涨/跌&nbsp&nbsp<a href="javascript:void(0);" id="ls">成交历史</a>
+			</em></span></li>
+		</ul>
+	</div>
 </div>
 
 <div class="button_ab">
-	<span class="d"><a href="javascript:void(0);" id="die">跌</a></span>
-	<span class="z"><a href="javascript:void(0);" id="zhang">涨</a></span>
+	<span class="d"><a href="javascript:void(0);" id="die" class="die">跌</a></span>
+	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">涨</a></span>
 </div>
-	<a href="javascript:void(0);" id="ls">成交历史</a>
-    <p id="lishi"></p>
 
-<div class="user_info">
-	<ul>
-		<li class="mj"><span>买价：</span><span><em>42,500</em></span></li>
-		<li class="jg"><span>价格：</span><span><em>1,000</em></span></li>
-		<li class="yl"><span>盈利：</span><span><em>涨/跌</em></span></li>
-	</ul>
-</div>
 
 <!--遮罩层-->
 <div id="mask"></div>
@@ -149,42 +147,52 @@
    <span class="qx" ><a href="javascript:void(0);">取现</a></span>
    <span class="rw" ><a href="#">赚流量/机会</a></span>
 </div>
-
-
-
-
 </body>
 </html>
-
 <script type="text/javascript">
-	// 涨事件
+// 涨事件
 $('#zhang').on('click', function(){
-    $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:1},function(data){
-    	 // var obj = eval(data);
-        // alert(data);
-        var json=JSON.parse(data);
-        layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。');
-        // $("#lishi").html(json.capital);
+	$.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:1},function(data){
+	    var json=JSON.parse(data);
+	    layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。');
+	    /*60秒倒计时*/
+
+		var intDiff = parseInt(9); //120秒倒计时总秒数量
+		function timer(intDiff) {
+			window.setInterval(function() {
+				var day = 0,
+					hour = 0,
+					minute = 0,
+					second = 0; //时间默认值
+
+				if (intDiff > -1) {
+					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+					if (minute <= 9) minute = '0' + minute;
+					if (second <= 9) second = '0' + second;
+					if (second == '00') {
+						$('.zhang').html('涨');
+						$('.zhang').attr('id','zhang');
+					}else{
+						$('.zhang').html('<s></s>' + second + ' ');
+						$('.zhang').attr('id','');
+					}
+				}
+				intDiff--;
+			}, 1000);
+		}
+		$(function() {
+			timer(intDiff);
+		});
     });
 });
 // 跌事件
 $('#die').on('click', function(){
     $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:0},function(data){
-    	 // var obj = eval(data);
-        // alert(data);
         var json=JSON.parse(data);
         layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。');
-        // $("#lishi").html(json.capital);
     });
 });
 $('#ls').on('click', function(){
-    // $.post('/cygjs_fr/index.php/hushen300/lishi_list',{open:123},function(data){
-    //      // var obj = eval(data);
-    //     // alert(data);
-    //     var json=JSON.parse(data);
-    //     layer.alert(json.a);
-    //     // $("#lishi").html(json.a);
-    // });
     layer.open({
         type: 2,
         title: '交易历史详情',
@@ -195,53 +203,9 @@ $('#ls').on('click', function(){
         content: '/cygjs_fr/index.php/hushen300/lishi_html_list'
     });
 });
-/*120倒計時*/
 
 
-var intDiff = parseInt(119); //120秒倒计时总秒数量
 
-function timer(intDiff) {
-	window.setInterval(function() {
-		var day = 0,
-			hour = 0,
-			minute = 0,
-			second = 0; //时间默认值		
-		if (intDiff > 0) {
-			second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
-		}
-		if (minute <= 9) minute = '0' + minute;
-		if (second <= 9) second = '0' + second;
-		$('#second_show').html('<s></s>' + second + '秒');
-		intDiff--;
-	}, 1000);
-}
-
-$(function() {
-	timer(intDiff);
-});
-
-/*60秒倒计时*/
-var intDiff = parseInt(60); //120秒倒计时总秒数量
-
-function timer(intDiff) {
-	window.setInterval(function() {
-		var day = 0,
-			hour = 0,
-			minute = 0,
-			second = 0; //时间默认值		
-		if (intDiff > 0) {
-			second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
-		}
-		if (minute <= 9) minute = '0' + minute;
-		if (second <= 9) second = '0' + second;
-		$('#sixaoji').html('<s></s>' + second + ' ');
-		intDiff--;
-	}, 1000);
-}
-
-$(function() {
-	timer(intDiff);
-});
 
 </script>
 

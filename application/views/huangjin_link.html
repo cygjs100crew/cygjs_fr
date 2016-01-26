@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>黄金走势线</title>
+<title>沪深K线</title>
 <base href="<?php echo base_url()?>">
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
 <script src="<?php echo base_url()?>public/js/echarts.min.js"></script><!-- ECharts单文件引入 -->
@@ -24,7 +24,7 @@
             backgroundColor: '#f5f5f5',
             animation:false,
             title : {
-                text: '黄金分时报价变化',
+                text: '沪深300指数变化',
                 subtext:$("#m-chart-realhq").html()
             },
              tooltip : {
@@ -136,7 +136,7 @@
     });
     setInterval(function(){  
     window.location.reload();
-    },20000);
+    },60000);
     </script>
 </body>
 </html>
