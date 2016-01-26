@@ -50,4 +50,4 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 .out span{ width:50%; float:left;}
 .out span a{ display:block; margin:2%; text-align:center; line-height: 2.5em; border:2px solid #77778d;border-radius:5px; }
 .header li{float:left;padding:0 20px;}
-.header li span{padding:0 10px;}
+.header li span{padding:0 10px; color: #fff;}

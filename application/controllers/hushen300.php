@@ -54,7 +54,7 @@ class hushen300 extends MY_Controller{
 			echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
 			return;
 		}
-        $ret=$this->db->insert('user_info',$userinfo);
+        $ret=$this->db->insert('customer',$userinfo);
 		if($ret){
 			echo json_encode(array('success'=>true,'info'=>'注册成功'));
 			set_cookie('username',$data['username'],0);
@@ -91,7 +91,7 @@ class hushen300 extends MY_Controller{
        $data=$this->input->post();
        $ret=$this->db->get_where('customer',array('name'=>$data['username'],'passwd'=>md5($data['password'])))->result_array();
 	   if(count($ret)>0){
-		   $customerId=$ret['id'];//登陆后从数据库里获取的id
+		   $customerId=$ret[0]['id'];//登陆后从数据库里获取的id
 		   $new_customerId=get_cookie('customerId');//cookie里的id,这是客户进来就有的id,可能跟数据库里的id不一致
 		   if($customerId!=$new_customerId){//登陆成功后，把用户原来作为游客玩游戏和分享的记录更新为用户的名下
 			   set_cookie('customerId',$customerId,0);//覆盖原来的游客id

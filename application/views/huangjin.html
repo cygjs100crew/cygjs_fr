@@ -7,6 +7,7 @@
 <title>黄金</title>
  <base href="<?php echo base_url()?>">
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
+<link rel="stylesheet" type="text/css" href="public/css/weui.css" />
  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
  <script type="text/javascript" src="public/js/code.js"></script>
  <script type="text/javascript" src="public/js/register.js"></script>
@@ -67,8 +68,8 @@
 <body>
 <div class="header">
 <ul>
-	 <li><span>用户</span><span><?php echo $username;?></span></li>
-	 <li><span>可用流量</span><span id="total_flow"></span></li>
+	 <li style="color:#fff;"><span >用户</span><span><?php echo $username;?></span></li>
+	 <li style="color:#fff;"><span>可用流量</span><span id="total_flow"></span></li>
 	<!-- <li><span>可玩次数</span><span><?php echo $count;?></span></li>-->
  </ul>
 </div>
@@ -183,10 +184,48 @@
    <span class="qx" ><a href="javascript:void(0);">取现</a></span>
    <span class="rw" ><a href="#">赚流量/机会</a></span>
 </div>
+<button class="dj">点击</button>
+
+ <div class="weui_dialog_confirm" style="display:none;">
+    <div class="weui_mask"></div>
+    <div class="weui_dialog">
+        <div class="weui_dialog_hd"><strong class="weui_dialog_title">请登入</strong></div>
+        <div calss="select" ><button style="width:50%;">手机号登入</button><button style="width:50%;">用户名登入</button></div>
+        <div class="weui_dialog_bd">自定义弹窗内容，居左对齐显示，告知需要确认的信息等</div>
+        <div class="weui_dialog_ft">
+            <a href="#" class="weui_btn_dialog default">取消</a>
+            <a href="<?php echo site_url('huangjin/index')?>" class="weui_btn_dialog primary">确定</a>
+       </div>
+    </div>
+</div> 
 
 
+<div class="weui_cells_title">带图标、说明、跳转的列表项</div>
+<div class="weui_cells weui_cells_access">
 
-
+    <a class="weui_cell" href="#">
+        <div class="weui_cell_hd">
+            <img src="" alt="icon" style="width:20px;margin-right:5px;display:block">
+        </div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>cell standard</p>
+        </div>
+        <div class="weui_cell_ft">
+            说明文字
+        </div>
+    </a>
+    <a class="weui_cell" href="#">
+        <div class="weui_cell_hd">
+            <img src="" alt="icon" style="width:20px;margin-right:5px;display:block">
+        </div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>cell standard</p>
+        </div>
+        <div class="weui_cell_ft">
+            说明文字
+        </div>
+    </a>
+</div>
 </body>
 </html>
 <script>
@@ -231,6 +270,10 @@ $('#ls').on('click', function(){
     });
 });
 //弹出窗口
+
+$('.dj').click(function(){
+		$('.weui_dialog_confirm').attr('style','display:block');
+	});
 
 $(function(){
 	//弹出注册框的时候，同时向后台请求验证码图片
@@ -355,7 +398,7 @@ $(function(){
 			post_obj[item]=$('#login').find('[name="'+item+'"]').val();
 		});
 	   $.ajax({
-		   url:"<?php echo site_url('huangjin/login')?>",
+		   url:"<?php echo site_url('huangjin/login_name')?>",
 	       dataType:"json",
 	       type:"post",
 	       //data:{username:username,password:password},
@@ -381,6 +424,9 @@ $(function(){
 		})
 	}
 	get_current_flow();
+	
+	
+	
 })
 
 
