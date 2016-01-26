@@ -28,13 +28,10 @@
                             结束时间
                         </th> -->
                         <th>
-                            金额
+                            买入价
                         </th>
                         <th>
-                            投资类型
-                        </th>
-                        <th>
-                            投资用户
+                            开盘价
                         </th>
                         <th>
                             结果
@@ -52,15 +49,17 @@
                         </td> -->
 <!--                         <td>
                             <?php echo $row['and_time'] ?>
-                        </td> -->
+                        </td> -->  
                         <td>
-                            <?php echo $row['capital'] ?>
+                            <?php echo $row['capital'] ?>/
+                            <?php if ($row['invest_type'] === '1'): ?>
+                                涨
+                            <?php elseif ($row['invest_type'] === '0'): ?>
+                                跌
+                            <?php endif; ?>
                         </td>
                         <td>
-                            <?php echo $row['invest_type'] ?>
-                        </td>
-                        <td>
-                            <?php echo $row['investor_uid'] ?>
+                            <?php echo $row['currented'] ?>
                         </td>
                         <td>
                             <?php if ($row['result'] === ''): ?>

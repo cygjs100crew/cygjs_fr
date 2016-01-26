@@ -190,7 +190,7 @@ class Huangjin extends MY_Controller{
             $result['data_date'] = implode(',', $data_date);
             $result['ipdata'] = implode(',', $Kdata);
         }
-        $this->load->view('huangjin_link.html',$result);//前端在某个地方输出$username,$flow；
+        $this->load->view('huangjin_link.html',$result);
     }
     /* 交易历史iframe显示页面 @ohyeah */
     function huangjin_html_list(){
