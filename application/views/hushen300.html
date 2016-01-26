@@ -70,7 +70,7 @@
 <div class="header">
 <ul>
 	 <li><span style="color:#fff;">用户</span><span><?php echo $username;?></span></li>
-	<li><span style="color:#fff;">可用流量</span><span id="total_flow"></span></li>
+	<li><span style="color:#fff;">已获流量</span><span id="total_flow"></span></li>
 	
  </ul>
 </div>
@@ -90,7 +90,6 @@
 	<div class="user_info">
 		<ul>
 			<li class="mj"><span>买价：</span><span><em><input type="button" name="capital" id="capital" value=""/></em></span></li>
-			<li class="jg"><span>价格：</span><span><em>1M</em></span></li>
 			<li class="yl"><span>盈利：</span><span><em>涨/跌&nbsp&nbsp<a href="javascript:void(0);" id="ls">成交历史</a>
 			</em></span></li>
 		</ul>
@@ -98,8 +97,8 @@
 </div>
 
 <div class="button_ab">
-	<span class="d"><a href="javascript:void(0);" id="die">跌</a></span>
-	<span class="z"><a href="javascript:void(0);" id="zhang">涨</a></span>
+	<span class="d"><a href="javascript:void(0);" id="die" class="die">跌</a></span>
+	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">涨</a></span>
 </div>
 
 
@@ -154,11 +153,36 @@
 // 涨事件
 $('#zhang').on('click', function(){
 	$.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:1},function(data){
-		// var obj = eval(data);
-	    // alert(data);
 	    var json=JSON.parse(data);
 	    layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。');
-	    // $("#lishi").html(json.capital);
+	    /*60秒倒计时*/
+
+		var intDiff = parseInt(9); //120秒倒计时总秒数量
+		function timer(intDiff) {
+			window.setInterval(function() {
+				var day = 0,
+					hour = 0,
+					minute = 0,
+					second = 0; //时间默认值
+
+				if (intDiff > -1) {
+					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+					if (minute <= 9) minute = '0' + minute;
+					if (second <= 9) second = '0' + second;
+					if (second == '00') {
+						$('.zhang').html('涨');
+						$('.zhang').attr('id','zhang');
+					}else{
+						$('.zhang').html('<s></s>' + second + ' ');
+						$('.zhang').attr('id','');
+					}
+				}
+				intDiff--;
+			}, 1000);
+		}
+		$(function() {
+			timer(intDiff);
+		});
     });
 });
 // 跌事件
@@ -179,47 +203,9 @@ $('#ls').on('click', function(){
         content: '/cygjs_fr/index.php/hushen300/lishi_html_list'
     });
 });
-/*120倒計時*/
-var intDiff = parseInt(119); //120秒倒计时总秒数量
-function timer(intDiff) {
-	window.setInterval(function() {
-		var day = 0,
-			hour = 0,
-			minute = 0,
-			second = 0; //时间默认值		
-		if (intDiff > 0) {
-			second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
-		}
-		if (minute <= 9) minute = '0' + minute;
-		if (second <= 9) second = '0' + second;
-		$('#second_show').html('<s></s>' + second + '秒');
-		intDiff--;
-	}, 1000);
-}
-$(function() {
-	timer(intDiff);
-});
-/*60秒倒计时*/
-var intDiff = parseInt(60); //120秒倒计时总秒数量
 
-function timer(intDiff) {
-	window.setInterval(function() {
-		var day = 0,
-			hour = 0,
-			minute = 0,
-			second = 0; //时间默认值		
-		if (intDiff > 0) {
-			second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
-		}
-		if (minute <= 9) minute = '0' + minute;
-		if (second <= 9) second = '0' + second;
-		$('#sixaoji').html('<s></s>' + second + ' ');
-		intDiff--;
-	}, 1000);
-}
-$(function() {
-	timer(intDiff);
-});
+
+
 
 </script>
 
