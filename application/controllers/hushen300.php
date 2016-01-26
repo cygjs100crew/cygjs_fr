@@ -162,14 +162,14 @@ class hushen300 extends MY_Controller{
     /* 数据添加 @ohyeah */
     public function data_add(){
         $data = array(
-                'current' =>$_POST['current'],
-                'time'      => time(),
+                'current' => $_POST['current'],
+                'time'    => time(),
             );
-            $h = intval(date("Hi")); 
-            if (($h < 1500 && $h > 930)||($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) {
-                // $this->db->insert('data_source',$data);
+            $h = intval(date("Hi"));                                                                       // 获取当前时间值
+            if (($h < 1500 && $h > 930)||($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) { // 判断股市休市时间范围
+            // $this->db->insert('data_source',$data);
             } else {
-                echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！'));
+            echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！'));                        // 返回属性信息
             }
     }
     /* 会员投资（下单） @ohyeah */
@@ -182,7 +182,7 @@ class hushen300 extends MY_Controller{
                 'add_ip'       => $_SERVER["REMOTE_ADDR"],      // 间隔时间
                 'invest_type'  => $_POST['invest_type'],        // 投资方向，涨或者跌
                 'status'       => 1,                            // 状态
-                'investor_uid' => get_cookie('id'),             // 用户ID
+                'investor_uid' => $this->is_uid(),              // 用户ID
                 'current'      => 1,
                 'symbol'       => 'CFIFZ5'                      // 数据标
             );
