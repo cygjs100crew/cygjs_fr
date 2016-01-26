@@ -166,7 +166,7 @@ class hushen300 extends MY_Controller{
                 'time'      => time(),
             );
             $h = intval(date("Hi")); 
-            if (($h < 1500 && $h > 930)&&($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) {
+            if (($h < 1500 && $h > 930)||($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) {
                 // $this->db->insert('data_source',$data);
             } else {
                 echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！'));
@@ -175,19 +175,19 @@ class hushen300 extends MY_Controller{
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
         $data = array(
-                'start_time'   => time(),
-                'and_time'     => strtotime("+60 seconds"),
-                'capital'      => $_POST['capital'],
-                'duration'     => 60,
-                'add_ip'       => $_SERVER["REMOTE_ADDR"],
-                'invest_type'  => $_POST['invest_type'],
-                'status'       => 1,
-                'investor_uid' => get_cookie('id'),
+                'start_time'   => time(),                       // 开始时间
+                'and_time'     => strtotime("+60 seconds"),     // 结束时间
+                'capital'      => $_POST['capital'],            // 买入价
+                'duration'     => 60,                           // 间隔时间
+                'add_ip'       => $_SERVER["REMOTE_ADDR"],      // 间隔时间
+                'invest_type'  => $_POST['invest_type'],        // 投资方向，涨或者跌
+                'status'       => 1,                            // 状态
+                'investor_uid' => get_cookie('id'),             // 用户ID
                 'current'      => 1,
-                'symbol'       => 'CFIFZ5'
+                'symbol'       => 'CFIFZ5'                      // 数据标
             );
-        if($this->db->insert('investor_detail',$data)){
-            echo json_encode($data);
+        if($this->db->insert('investor_detail',$data)){         // 执行插入语句
+        echo json_encode($data);                                // 返回属性信息
         }
     }
     /* 查询历史交易 @ohyeah */
@@ -203,21 +203,21 @@ class hushen300 extends MY_Controller{
     }
     /* 沪深300走势线iframe显示页面 @ohyeah */
     function hushen_link(){
-        $mun=$this->db->where('symbol',"CFIFZ5")->from('recentquotation')->count_all_results();
-        $list=$this->db->limit($mun,5000)->order_by("id","asc")->get_where('recentquotation',array('symbol'=>"CFIFZ5"))->result_array();
+        $mun=$this->db->where('symbol',"CFIFZ5")->from('recentquotation')->count_all_results();                                          // 计算条目总和
+        $list=$this->db->limit($mun,5000)->order_by("id","asc")->get_where('recentquotation',array('symbol'=>"CFIFZ5"))->result_array(); // 查询图表数据
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';
-            $result['data_date'] = implode(',', $data_date);
-            $result['ipdata'] = implode(',', $Kdata);
+        $result['data_date'] = implode(',', $data_date);                                                                                 // 拼接报价数据格式
+        $result['ipdata'] = implode(',', $Kdata);                                                                                        // 拼接时间数据格式
         }
-        $this->load->view('hushen_link.html',$result);
+        $this->load->view('hushen_link.html',$result);                                                                                   // 加载模板
     }
     /* 交易历史iframe显示页面 @ohyeah */
     function lishi_html_list(){
-        $data['lishi'] = $this->db->limit(20)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5"))->result_array();
-        $result=$this->shuying();
-        $this->load->view('lishi_html_list.html',$data); 
+        $data['lishi'] = $this->db->limit(20)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5"))->result_array(); // 查询历史交易
+        $result=$this->shuying();                                                                                                             // 验证结果
+        $this->load->view('lishi_html_list.html',$data);                                                                                      // 加载模板
     }
     function tt(){
         $uid = $this->shuying();
