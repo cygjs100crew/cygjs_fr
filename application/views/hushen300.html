@@ -90,7 +90,7 @@
 	<div class="user_info">
 		<ul>
 			<li class="mj"><span>买价：</span><span><em><input type="button" name="capital" id="capital" value=""/></em></span></li>
-			<li class="yl"><span>盈利：</span><span><em>涨/跌&nbsp&nbsp<a href="javascript:void(0);" id="ls">成交历史</a>
+			<li class="yl"><span>今日盈利：</span><span><em>20M&nbsp&nbsp<a href="javascript:void(0);" id="ls">成交历史</a>
 			</em></span></li>
 		</ul>
 	</div>
@@ -152,9 +152,20 @@
 <script type="text/javascript">
 // 涨事件
 $('#zhang').on('click', function(){
+	/*买入价不能为空*/
+	if($('#capital').val() == '') {
+	layer.alert('数据加载未完成', {
+    icon: 5,
+    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+	});
+	return false;
+	}
 	$.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:1},function(data){
 	    var json=JSON.parse(data);
-	    layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。');
+	    layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
+	    icon: 1,
+	    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+		});
 	    /*60秒倒计时开始*/
 		var intDiff = parseInt(59); //120秒倒计时总秒数量
 		function timer(intDiff) {
@@ -187,9 +198,20 @@ $('#zhang').on('click', function(){
 });
 // 跌事件
 $('#die').on('click', function(){
+	/*买入价不能为空*/
+	if($('#capital').val() == '') {
+	layer.alert('数据加载未完成', {
+    icon: 5,
+    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+	});
+	return false;
+	}
     $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:0},function(data){
         var json=JSON.parse(data);
-        layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。');
+        layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
+	    icon: 1,
+	    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+		});
         /*60秒倒计时开始*/
 		var intDiff = parseInt(59); //120秒倒计时总秒数量
 		function timer(intDiff) {

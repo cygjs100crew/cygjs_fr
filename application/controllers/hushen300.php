@@ -205,6 +205,10 @@ class hushen300 extends MY_Controller{
     /* 沪深300走势线iframe显示页面 @ohyeah */
     function hushen_link(){
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"CFIFZ5"))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+            echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+            exit();
+        }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';
@@ -216,6 +220,10 @@ class hushen300 extends MY_Controller{
     /* [新浪]沪深300走势线iframe显示页面 @ohyeah */
     function hushen_sinalink(){
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"s_sz399300"))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+            echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+            exit();
+        }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';

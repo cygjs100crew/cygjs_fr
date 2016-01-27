@@ -192,6 +192,10 @@ class Huangjin extends MY_Controller{
     /* 黄金走势线iframe显示页面（下单） @ohyeah */
     function huangjin_link(){
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"XAU"))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+        	echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+        	exit();
+        }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';
@@ -203,6 +207,10 @@ class Huangjin extends MY_Controller{
     /* [新浪]黄金走势线iframe显示页面（下单） @ohyeah */
     function huangjin_sinalink(){
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"hf_GC"))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+        	echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+        	exit();
+        }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';
