@@ -78,7 +78,7 @@
 	<span class="line"></span>
 	<ul>
 	<li ><a href="<?php echo site_url('huangjin/index')?>">黄金</a></li>
-	<li class="on"><a href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
+	<li class="on"><a>沪深300</a><a href="<?php echo site_url('hushen300/index')?>" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a></li>
 	
 </ul></div>
 
@@ -157,7 +157,7 @@ $('#zhang').on('click', function(){
 	    layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。');
 	    /*60秒倒计时*/
 
-		var intDiff = parseInt(9); //120秒倒计时总秒数量
+		var intDiff = parseInt(59); //120秒倒计时总秒数量
 		function timer(intDiff) {
 			window.setInterval(function() {
 				var day = 0,
@@ -203,10 +203,12 @@ $('#ls').on('click', function(){
         content: '/cygjs_fr/index.php/hushen300/lishi_html_list'
     });
 });
-
-
-
-
+$('#sinalink').on('click', function(){
+           $("#dd").attr('src','/cygjs_fr/index.php/hushen300/hushen_sinalink');
+});
+$('#jinyulink').on('click', function(){
+           $("#dd").attr('src','/cygjs_fr/index.php/hushen300/hushen_link');
+});
 </script>
 
 <script>
@@ -392,7 +394,7 @@ $(function(){
                         var html_src = '实时行情: '+rt_hq+"|量: "+hq[4]+"手 | 额: "+hq[5]+"万元";
                         $("#m-chart-realhq").html(html_src);
                         $('#capital').val(hq[1]);
-                        $.post('/cygjs_fr/index.php/hushen300/data_add',{current:hq[1]},function(data){
+                        $.post('/cygjs_fr/index.php/hushen300/data_add',{price:hq[1]},function(data){
                             // console.log(data.data_date);
                             var json=JSON.parse(data);
                             $("#sxin").html(json.info);

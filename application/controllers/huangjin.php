@@ -162,6 +162,15 @@ class Huangjin extends MY_Controller{
 		);
 		echo $this->phone->send($data);
 	}
+	/* 新浪数据添加 @ohyeah */
+    public function data_add(){
+        $data = array(
+                'price' => $_POST['price'],//最新报价
+                'time'    =>date("Y-m-d H:i:s",time()),//时间
+                'symbol' =>'hf_GC',//黄金数据标识
+        );
+        $this->db->insert('recentquotation',$data);
+    }
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
         $data = array(
@@ -190,6 +199,17 @@ class Huangjin extends MY_Controller{
         $result['ipdata'] = implode(',', $Kdata);                                                               // 拼接时间数据格式
         }
         $this->load->view('huangjin_link.html',$result);                                                        // 加载模板
+    }
+    /* [新浪]黄金走势线iframe显示页面（下单） @ohyeah */
+    function huangjin_sinalink(){
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"hf_GC"))->result_array(); // 查询图表数据
+        foreach($list as $k=>$v){
+            $Kdata[$k] =$v['price'];
+            $data_date[$k] ='"'.$v['time'].'"';
+        $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
+        $result['ipdata'] = implode(',', $Kdata);                                                               // 拼接时间数据格式
+        }
+        $this->load->view('huangjin_sinalink.html',$result);                                                        // 加载模板
     }
     /* 交易历史iframe显示页面 @ohyeah */
     function huangjin_html_list(){
