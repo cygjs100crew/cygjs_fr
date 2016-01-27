@@ -97,8 +97,8 @@
 </div>
 
 <div class="button_ab">
-	<span class="d"><a href="javascript:void(0);" id="die">跌</a></span>
-	<span class="z"><a href="javascript:void(0);" id="zhang">涨</a></span>
+	<span class="d"><a href="javascript:void(0);" id="die" class="die">跌</a></span>
+	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">涨</a></span>
 </div>
 <div class="out">
    <span class="qx" ><a href="javascript:void(0);">取现</a></span>
@@ -227,7 +227,34 @@ $('#zhang').on('click', function(){
         // alert(data);
         var json=JSON.parse(data);
         layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。');
-        // $("#lishi").html(json.capital);
+        /*60秒倒计时开始*/
+		var intDiff = parseInt(59); //120秒倒计时总秒数量
+		function timer(intDiff) {
+			window.setInterval(function() {
+				var day = 0,
+					hour = 0,
+					minute = 0,
+					second = 0; //时间默认值
+
+				if (intDiff > -1) {
+					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+					if (minute <= 9) minute = '0' + minute;
+					if (second <= 9) second = '0' + second;
+					if (second == '00') {
+						$('.zhang').html('涨');
+						$('.zhang').attr('id','zhang');
+					}else{
+						$('.zhang').html('<s></s>' + second + ' ');
+						$('.zhang').attr('id','');
+					}
+				}
+				intDiff--;
+			}, 1000);
+		}
+		$(function() {
+			timer(intDiff);
+		});
+		/*60秒倒计时结束*/
     });
 });
 // 跌事件
@@ -237,7 +264,34 @@ $('#die').on('click', function(){
         // alert(data);
         var json=JSON.parse(data);
         layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。');
-        // $("#lishi").html(json.capital);
+        /*60秒倒计时开始*/
+		var intDiff = parseInt(59); //120秒倒计时总秒数量
+		function timer(intDiff) {
+			window.setInterval(function() {
+				var day = 0,
+					hour = 0,
+					minute = 0,
+					second = 0; //时间默认值
+
+				if (intDiff > -1) {
+					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+					if (minute <= 9) minute = '0' + minute;
+					if (second <= 9) second = '0' + second;
+					if (second == '00') {
+						$('.die').html('跌');
+						$('.die').attr('id','zhang');
+					}else{
+						$('.die').html('<s></s>' + second + ' ');
+						$('.die').attr('id','');
+					}
+				}
+				intDiff--;
+			}, 1000);
+		}
+		$(function() {
+			timer(intDiff);
+		});
+		/*60秒倒计时结束*/
     });
 });
 $('#ls').on('click', function(){
