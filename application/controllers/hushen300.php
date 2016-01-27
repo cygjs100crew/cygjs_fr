@@ -165,11 +165,11 @@ class hushen300 extends MY_Controller{
                 'current' => $_POST['current'],
                 'time'    => time(),
             );
-            $h = intval(date("Hi"));                                                                       // 获取当前时间值
-            if (($h < 1500 && $h > 930)||($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) { // 判断股市休市时间范围
+            $result =$this->is_opentime();                                          // 返回结果
+            if ($result>0) {                                                        // 判断执行
             // $this->db->insert('data_source',$data);
             } else {
-            echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！'));                        // 返回属性信息
+            echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！')); // 返回属性信息
             }
     }
     /* 会员投资（下单） @ohyeah */
@@ -219,7 +219,7 @@ class hushen300 extends MY_Controller{
         $this->load->view('lishi_html_list.html',$data);                                                                                      // 加载模板
     }
     function tt(){
-        $uid = $this->shuying();
+        $uid = $this->is_user_num(1,'CFIFZ5',1);
         echo $uid;
     }
 }
