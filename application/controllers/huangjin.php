@@ -110,12 +110,18 @@ class Huangjin extends MY_Controller{
 	
 	public  function login_phone(){
        $data=$this->input->post();
-       $ret=$this->db->get_where('customer',array('username'=>$data['username'],'password'=>md5($data['password'])))->result_array();
+       $sms_code=$this->session->userdata('sms_code');
+       $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
+       $username=$ret[0]['name'];
+       if($sms_code !=$data['code']){
+           echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
+           return;
+       }
 	   if(count($ret)>0){
-		   set_cookie('username',$data['username'],0);//存入cookie
+		   set_cookie('username',$username,0);//存入cookie
 		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
 	   }else{
-		   echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
+		   echo json_encode(array('success'=>false,'info'=>'手机号或者密码不对'));
 	   }   
 	}
    

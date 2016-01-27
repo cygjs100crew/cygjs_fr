@@ -1,9 +1,9 @@
 @charset "utf-8";
 /* CSS Document */
 *{word-wrap:break-word; padding:0; margin:0}
-html{padding:0;margin:0; overflow-y:scroll}
+html{ width: 100%; height: 100%; padding:0;margin:0; overflow-y:scroll}
 *html{background-image:url(../images/about:blank);background-attachment:fixed;}/*解决IE6下滚动抖动的问题*/
-body{font:18px/1.5 "Microsoft yahei",Tahoma,Arial,sans-serif;background:#040413 url(../img/bg.jpg) no-repeat center top; background-size: 100%}
+body{ width: 100%; height: 100%; color:#fff;font:14px/1.5 "Microsoft yahei",Tahoma,Arial,sans-serif;background:#201e28; }
 a{color:#fff;text-decoration:none}
 a:hover{text-decoration:none; color:#eee}
 img{border:0}
@@ -14,7 +14,7 @@ caption,th{text-align:left;font-weight:400}
 h1, h2, h3, h4, h5, h6 {font-size:1em}
 em, cite {font-style:normal}
 input,button,select,textarea{ font-family: Microsoft yahei}
-input{border:0;outline:none}
+input{border:0;-webkit-appearance:none;outline:none}
 button{outline:none; cursor: pointer; }
 select, textarea{outline: none}
 i{font-style:normal}
@@ -28,26 +28,120 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 .fr{ float:right}
 
 .oh{ overflow:hidden}
-.tab_nav{ position: relative; padding: 0 3%; line-height: 70px; text-align: center; overflow: hidden;}
-.tab_nav span.line{ position: absolute; left: 0; top: 70px; display: block; width: 100%; height: 1px; background-color: rgba(255,255,255,0.3); overflow: hidden;}
+.index{ width: 100%; height: 100%; background: #1a1821}
+.rule a{ position: absolute; top: 0; right:0; margin: 5%; display: block; width: 6rem; line-height: 1.6rem; font-size: .8rem; background: #fff; color: #a00; text-align: center; border-radius: 2rem}
+#rule_cont{ display: none; z-index: 9999; position: absolute; left: 0; top: 0; margin: 5%; background: #fff; color: #333; font-size: .8rem; border-radius: 6px; padding: 5% 5% 10%; overflow: hidden;}
+#rule_cont center{ border-bottom: 1px solid #ddd; padding-bottom: .5rem; margin-bottom: .5rem}
+#rule_cont p{ text-indent: 1rem; padding: .2rem; color: #555}
+#rule_cont h2{ color: #222}
+#rule_cont h3{ color: #a00; margin-top: .2rem}
+
+.start a{ display: block; margin:0 25%; width: 50%; line-height: 2.5rem; background: #d99204; color: #300; font-size: 1rem; font-weight: 700; text-align: center; border-radius: 2rem}
+.check2{ width: 100%; margin: 5% 0; overflow: hidden;}
+.check2 li{ float: left; width: 47%; height: 250px; margin: 0 0 0 2%; border:1px solid #413f47; font-size: .8rem; border-radius: 6px; padding: 3%; box-sizing: border-box; overflow: hidden; background: url(../img/check.png) no-repeat right top; background-size: 10%}
+.check2 center{ line-height: 2rem; font-size: 1rem}
+.check2 span{ color: #fedd78}
+.check2 p{ padding-top: 1rem}
+.check2 b{ color: #f60}
+
+.animated {
+  animation: gostart 0.5s linear infinite alternate;
+  -ms-animation: gostart 0.5s linear infinite alternate;
+  -moz-animation: gostart 0.5s linear infinite alternate;
+  -webkit-animation: gostart 0.5s linear infinite alternate;
+  -o-animation: gostart 0.5s linear infinite alternate;
+}
+@keyframes gostart {
+  from {
+    transform: scale(1, 1);
+  }
+  to {
+    transform: scale(1.1, 1.1);
+  }
+}
+@-ms-keyframes gostart {
+  from {
+    -ms-transform: scale(1, 1);
+  }
+  to {
+    -ms-transform: scale(1.1, 1.1);
+  }
+}
+@-moz-keyframes gostart {
+  from {
+    -moz-transform: scale(1, 1);
+  }
+  to {
+    -moz-transform: scale(1.1, 1.1);
+  }
+}
+@-webkit-keyframes gostart {
+  from {
+    -webkit-transform: scale(1, 1);
+  }
+  to {
+    -webkit-transform: scale(1.1, 1.1);
+  }
+}
+@-o-keyframes gostart {
+  from {
+    -o-transform: scale(1, 1);
+  }
+  to {
+    -o-transform: scale(1.1, 1.1);
+  }
+}
+
+.view{ background: #1a1821; overflow: hidden;}
+.tab_nav{ position: relative; padding: 3%; line-height: 46px; text-align: center; overflow: hidden;}
 .tab_nav li{ float: left; width: 50%;}
-.tab_nav li.on{ border-bottom: 3px solid #fff }
+.tab_nav li a{ display: block; border:2px solid #413f47;}
+.tab_nav li.on a{ background: #413f47}
 
-.focus_data{ padding: 0; }
+.focus_data{ padding: 0; width: 120%; margin-left: -10% }
 
-.button_ab{ padding: 3%; overflow: hidden;}
-.button_ab span{ float: left; width: 40%; margin: 5%}
-.button_ab span a{ display: block; line-height: 40px; text-align: center; border-radius: 40px; }
-.button_ab span.d a{ border:2px solid #77ae00; }
-.button_ab span.z a{ border:2px solid #ff3636; background-color: #ff3636}
+.button_ab{ padding: 3%; height: 240px; position: relative; z-index: 9; overflow: hidden;}
+.button_ab span{ float: left; width: 40%; margin: 50px 5%}
+.button_ab span a{ display: block; line-height: 80px; border-radius: 40px; font-size: 20px }
+.button_ab span.d a{ background: #77ae00; text-indent: 20%}
+.button_ab span.z a{ background-color: #ff3636; text-indent: 65%}
+.button_ab dl{ position: absolute; left: 0; top: 20px; right: 0; bottom: 0; margin:0 auto; padding-top: 35px; width: 150px; height: 115px; border-radius: 50%; background: #1a1821; text-align: center; border:4px solid #413f47;}
+.button_ab dt{ color: #63606b}
+.button_ab dd{ font-family: Arial; font-size: 30px}
 
-.user_info{ border-top: 1px solid #1f1e2e; padding: 5%}
-.user_info li{ float: left; width: 50%; }
-.user_info span{ position: relative; display: block; font-size: 16px; color: #77778d; }
-.user_info em{ font-family: Arial; font-size: 20px; color: #007eff; }
-.user_info li.yl em{ color: #ff3636;}
-.out{ width: 96%; margin: 2%; overflow: hidden;}
-.out span{ width:50%; float:left;}
-.out span a{ display:block; margin:2%; text-align:center; line-height: 2.5em; border:2px solid #77778d;border-radius:5px; }
-.header li{float:left;padding:0 20px;}
-.header li span{padding:0 10px; color: #fff;}
+.user_info{ width: 100%; height: 60px; background: #a00; position:fixed; bottom: 0; z-index: 999}
+.user_info dl{ float: left; position: absolute; left: 10px; top: -30px}
+.user_info dt{ width: 60px; height: 60px; border:2px solid #e52c2c; border-radius: 50%; overflow: hidden;}
+.user_info dt img{ width: 60px; height: 60px;}
+.user_info dd{ width: 70px; font-size: 10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.user_info ul{ float: left; margin: 5px 0 0 90px;}
+.user_info span{color: #650000}
+.user_info p{ font-size: 8px}
+.user_info em{ font-size: 16px}
+.user_info span.tx a{ margin: 5px; float: right; font-size: 20px; color: #300; width: 40%; height: 46px; line-height: 46px; text-align: center; background: #d99204; border:0; border-radius: 6px}
+
+/* 按钮和登陆框样式 */
+.flatbtn{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;display:inline-block;outline:0;border:0;color:#f3faef;text-decoration:none;background-color:#6bb642;border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);font-size:1.2em;font-weight:bold;padding:12px 22px 12px 22px;line-height:normal;text-align:center;vertical-align:middle;cursor:pointer;text-transform:uppercase;text-shadow:0 1px 0 rgba(0,0,0,0.3);-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(15, 15, 15, 0.3);-moz-box-shadow:0 1px 0 rgba(15, 15, 15, 0.3);box-shadow:0 1px 0 rgba(15, 15, 15, 0.3);}
+.flatbtn:hover{color:#fff;background-color:#73c437;}
+.flatbtn:active{-webkit-box-shadow:inset 0 1px 5px rgba(0, 0, 0, 0.1);-moz-box-shadow:inset 0 1px 5px rgba(0, 0, 0, 0.1);box-shadow:inset 0 1px 5px rgba(0, 0, 0, 0.1);}
+/** custom login button **/
+.flatbtn-red{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;padding:0 50px;display:inline-block;outline:0;border:0;color:#edf4f9;text-decoration:none;background-color:#c00;border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);font-size:1.3em;font-weight:bold; width: 100%; padding:12px 0;line-height:normal;text-align:center;vertical-align:middle;cursor:pointer;text-transform:uppercase;text-shadow:0 1px 0 rgba(0,0,0,0.3);-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px; border-bottom: 2px solid #f5f5f5}
+.flatbtn-red:hover{color:#fff;background-color:#519dde;}
+.flatbtn-red:active{-webkit-box-shadow:inset 0 1px 5px rgba(0, 0, 0, 0.1);-moz-box-shadow:inset 0 1px 5px rgba(0, 0, 0, 0.1);box-shadow:inset 0 1px 5px rgba(0, 0, 0, 0.1);}
+/** modal window styles **/
+#lean_overlay{position:fixed;z-index:9999;top:0px;left:0px;height:100%;width:100%;background:#000;display:none;}
+.modal{ width: 90%; margin: 2%; padding:5% 3%;background:#fff;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;-webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.5);-moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.5);box-shadow:0 1px 5px rgba(0, 0, 0, 0.5); text-align: center; color: #999}
+.modal h3{ color: #666; font-weight: 300; font-size: 18px; border:2px solid #eee; border-radius: 60px; background: #f5f5f5}
+.modal span{ line-height: 40px}
+.modal span a{ color: #369;}
+.modal ol{ width: 96%; padding: 0 2%; overflow: hidden; margin-bottom: 20px}
+.modal ol li{ float: left; width: 50%; text-align: center; line-height: 60px; font-size: 20px; border-bottom: 3px solid #ddd}
+.modal ol li.on{ background:#fff; color: #a00; border-bottom: 3px solid #a00}
+#loginform label{display:block; font-size:1.1em; font-weight:bold; color:#1a1821; margin-bottom:3px; float: left; width: 25%; padding: 6px 10px; text-align: right;}
+#loginform ul li{ position: relative;}
+#loginform button{ float: left; width: 28%; margin-left: 2%; padding: 8px 0; background: #eee; border:1px solid #ddd; color: #999}
+/* txtfield */
+.center{ width: 100%; text-align: center; overflow: hidden;}
+.txtfield{ float: left; display:block;width:60%;padding:6px 5px;margin-bottom:15px;font-family:'Helvetica Neue', Helvetica, Verdana, sans-serif;color:#7988a3;font-size:1.4em;text-shadow:1px 1px 0 rgba(255, 255, 255, 0.8);background-color:#fff;border:1px solid;border-color:#ddd;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;-webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 1px rgba(255, 255, 255, 0.4);-moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 1px rgba(255, 255, 255, 0.4);box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 1px rgba(255, 255, 255, 0.4);-webkit-transition:all 0.25s linear;-moz-transition:all 0.25s linear;transition:all 0.25s linear;}
+.txtfield:focus{outline:none;color:#525864;border-color:#f60;-webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 7px #f80;-moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 7px #f80;box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 7px #f80;}
+.w2{ width: 30%}
