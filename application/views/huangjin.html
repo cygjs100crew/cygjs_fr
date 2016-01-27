@@ -89,7 +89,7 @@
 <div  class="row-fluid">
 	<div class="user_info">
     	<ul>
-    		<li class="mj"><span>买价：</span><span><em><input type="button" name="capital" id="capital" value=""/></em></span></li>
+    		<li class="mj"><span>买价：</span><span><em><input type="button" name="capital" id="capital" value=""/><input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/></em></span></li>
     		<li class="yl"><span>今日盈利：</span><span><em>10M&nbsp&nbsp<a href="javascript:void(0);" id="ls">成交历史</a>
     		</em></span></li>
     	</ul>
@@ -230,7 +230,7 @@ $('#zhang').on('click', function(){
 	});
 	return false;
 	}
-    $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').val(),invest_type:1},function(data){
+    $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').val(),invest_type:1,symbol:$('#symbol').val()},function(data){
     	 // var obj = eval(data);
         // alert(data);
         var json=JSON.parse(data);
@@ -278,7 +278,7 @@ $('#die').on('click', function(){
 	});
 	return false;
 	}
-    $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').val(),invest_type:0},function(data){
+    $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').val(),invest_type:0,symbol:$('#symbol').val()},function(data){
     	 // var obj = eval(data);
         // alert(data);
         var json=JSON.parse(data);
@@ -336,9 +336,11 @@ $('#ls').on('click', function(){
 });
 $('#sinalink').on('click', function(){
            $("#dd").attr('src','/cygjs_fr/index.php/huangjin/huangjin_sinalink');
+           $('#symbol').val('hf_GC');
 });
 $('#jinyulink').on('click', function(){
            $("#dd").attr('src','/cygjs_fr/index.php/huangjin/huangjin_link');
+           $('#symbol').val('XAU');
 });
 
 $(function(){

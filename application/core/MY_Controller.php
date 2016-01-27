@@ -40,6 +40,9 @@ class MY_Controller extends CI_Controller {
 				    else if ($data[$i]['capital']<$list[0]['price']) {
 				        $shuying_result='输';
 				    }
+				    else{
+				    	$shuying_result='平';
+				    }
 				}
 				if (intval($data[$i]['invest_type'])==0) {                    // 判断跌
 				    if ($data[$i]['capital']<$list[0]['price']) {
@@ -47,6 +50,9 @@ class MY_Controller extends CI_Controller {
 				    }
 				    else if ($data[$i]['capital']>$list[0]['price']) {
 				        $shuying_result='输';
+				    }
+				    else{
+				    	$shuying_result='平';
 				    }
 				}
 				$num_result=$this->is_user_num($data[$i]['id'],$data[$i]['symbol'],$shuying_result); // 执行验证规则
@@ -91,10 +97,10 @@ class MY_Controller extends CI_Controller {
 	 * @return integer
 	 * @author ohyeah
 	 */
-	public function is_user_num($uid=0,$symbol='',$shuying_result=0){
+	public function is_user_num($uid=0,$symbol='',$shuying_result=''){
         $invdata = $this->db->get("investor_detail")->result_array();                            // 查询投资记录
         $numdata = $this->db->get_where('investor_user_num',array('uid'=>$uid))->result_array(); // 查询投资记录
-        if ($shuying_result>0) {                   //判断赢
+        if ($shuying_result=='赢') {                   //判断赢
         	$num=intval($numdata[0]['num'])+1;     //累计次数
 
         }else{                                     //中断连续，并重置次数

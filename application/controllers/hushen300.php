@@ -185,7 +185,7 @@ class hushen300 extends MY_Controller{
                 'status'       => 1,                            // 状态
                 'investor_uid' => $this->is_uid(),              // 用户ID
                 'current'      => 1,
-                'symbol'       => 'CFIFZ5'                      // 数据标
+                'symbol'       => $_POST['symbol'],             // 数据标
             );
         if($this->db->insert('investor_detail',$data)){         // 执行插入语句
         echo json_encode($data);                                // 返回属性信息

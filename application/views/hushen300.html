@@ -89,7 +89,7 @@
 <div  class="row-fluid">
 	<div class="user_info">
 		<ul>
-			<li class="mj"><span>买价：</span><span><em><input type="button" name="capital" id="capital" value=""/></em></span></li>
+			<li class="mj"><span>买价：</span><span><em><input type="button" name="capital" id="capital" value=""/><input type="button" name="symbol" id="symbol" value="CFIFZ5" style="display:none;"/></em></span></li>
 			<li class="yl"><span>今日盈利：</span><span><em>20M&nbsp&nbsp<a href="javascript:void(0);" id="ls">成交历史</a>
 			</em></span></li>
 		</ul>
@@ -160,7 +160,7 @@ $('#zhang').on('click', function(){
 	});
 	return false;
 	}
-	$.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:1},function(data){
+	$.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:1,symbol:$('#symbol').val()},function(data){
 	    var json=JSON.parse(data);
 	    layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
 	    icon: 1,
@@ -206,7 +206,7 @@ $('#die').on('click', function(){
 	});
 	return false;
 	}
-    $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:0},function(data){
+    $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:0,symbol:$('#symbol').val()},function(data){
         var json=JSON.parse(data);
         layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
 	    icon: 1,
@@ -255,9 +255,11 @@ $('#ls').on('click', function(){
 });
 $('#sinalink').on('click', function(){
            $("#dd").attr('src','/cygjs_fr/index.php/hushen300/hushen_sinalink');
+           $('#symbol').val('s_sz399300');
 });
 $('#jinyulink').on('click', function(){
            $("#dd").attr('src','/cygjs_fr/index.php/hushen300/hushen_link');
+           $('#symbol').val('CFIFZ5');
 });
 </script>
 
