@@ -182,9 +182,7 @@ class Huangjin extends MY_Controller{
     }
     /* 黄金走势线iframe显示页面（下单） @ohyeah */
     function huangjin_link(){
-        $mun=$this->db->where('symbol',"XAU")->from('recentquotation')->count_all_results();                    // 计算条目总和
-        $mun=intval($mun)-3000;
-        $list=$this->db->limit($mun,3000)->get_where('recentquotation',array('symbol'=>"XAU"))->result_array(); // 查询图表数据
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"XAU"))->result_array(); // 查询图表数据
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';
