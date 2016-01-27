@@ -35,24 +35,31 @@ class MY_Controller extends CI_Controller {
 				if (count($list)>0){                                                                                                      // 有数据则进入
 				if (intval($data[$i]['invest_type'])==1) {                                                                                // 判断涨
 				    if ($data[$i]['capital']>$list[0]['price']) {
-				        $a='赢';
+				        $shuying_result='赢';
 				    }
 				    else if ($data[$i]['capital']<$list[0]['price']) {
-				        $a='输';
+				        $shuying_result='输';
+				    }
+				    else{
+				    	$shuying_result='平';
 				    }
 				}
 				if (intval($data[$i]['invest_type'])==0) {                    // 判断跌
 				    if ($data[$i]['capital']<$list[0]['price']) {
-				        $a='赢';
+				        $shuying_result='赢';
 				    }
 				    else if ($data[$i]['capital']>$list[0]['price']) {
-				        $a='输';
+				        $shuying_result='输';
+				    }
+				    else{
+				    	$shuying_result='平';
 				    }
 				}
-				$condition['id'] =$data[$i]['id'];                            // 更新对象id
-				$map['result'] =$a;                                           // 结果赋值
-				$map['currented'] =$list[0]['price'];                         // 比较值
-				$this->db->where($condition)->update("investor_detail",$map); // 执行更新语句
+				$num_result=$this->is_user_num($data[$i]['id'],$data[$i]['symbol'],$shuying_result); // 执行验证规则
+				$condition['id'] =$data[$i]['id'];                                                   // 更新对象id
+				$map['result'] =$shuying_result;                                                     // 结果赋值
+				$map['currented'] =$list[0]['price'];                                                // 比较值
+				$this->db->where($condition)->update("investor_detail",$map);                        // 执行更新语句
             }
         }
     }
@@ -68,5 +75,60 @@ class MY_Controller extends CI_Controller {
 	    } else {
 	    return $user;             // false返回属性信息
 	    }
+	}
+	/**
+	 * 判断股市开市时间
+	 * @return integer 0-休市，1-开市
+	 * @author ohyeah
+	 */
+	public function is_opentime(){
+        $h = intval(date("Hi"));                                                                       // 获取当前时间值
+        if (($h < 1500 && $h > 930)||($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) { // 判断股市休市时间范围
+        return 1; 
+        } else {
+        return 0;                                                                                      // 返回属性信息
+        }
+	}
+	/**
+	 * 用户投资获利规则
+	 * @param string $uid     用户ID
+	 * @param string $symbol  投资类型标识码
+	 * @param string $shuying_result 投资结果
+	 * @return integer
+	 * @author ohyeah
+	 */
+	public function is_user_num($uid=0,$symbol='',$shuying_result=''){
+        $invdata = $this->db->get("investor_detail")->result_array();                            // 查询投资记录
+        $numdata = $this->db->get_where('investor_user_num',array('uid'=>$uid))->result_array(); // 查询投资记录
+        if ($shuying_result=='赢') {                   //判断赢
+        	$num=intval($numdata[0]['num'])+1;     //累计次数
+
+        }else{                                     //中断连续，并重置次数
+        	$num=0;
+        }
+		    if (count($numdata)>0) {                                 // 判断是否有会员数据
+		        if ($num>2) {                                        // 连续3次赢1M流量规则
+	        	$data = array(
+		                'customer_id' => $uid,                       // 会员ID
+		                'flow'        => 1,                          // 流量
+		                'play_time'   => date("Y-m-d H:i:s",time()), // 生成时间
+		        );
+		        $this->db->insert('play',$data);                     // 新增流量次数
+		        $num=0;                                              // 重置连续
+        	}
+			$condition['uid'] =$uid;                                           // 更新对象id
+			$updata['num'] =$num;                                              // 结果赋值
+			$updata['symbol'] =$symbol;
+			$updata['state'] =1;                                               // 比较值
+			$this->db->where($condition)->update("investor_user_num",$updata); // 执行更新语
+        }else{                                                //第一次新增数据
+        	$data = array(
+	                'uid'      => $uid,                       // 会员ID
+	                'num'      => $num,                       // 次数
+	                'symbol'   => $symbol,                    // 数据标识
+	                'state'    => 1,                          // 状态
+	        );
+	        $this->db->insert('investor_user_num',$data);     // 执行插入语句
+        }
 	}
 }

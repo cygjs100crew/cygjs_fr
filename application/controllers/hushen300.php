@@ -159,17 +159,18 @@ class hushen300 extends MY_Controller{
         );
         echo $this->phone->send($data);
     }
-    /* 数据添加 @ohyeah */
+    /* 新浪数据添加 @ohyeah */
     public function data_add(){
         $data = array(
-                'current' => $_POST['current'],
-                'time'    => time(),
+                'price' => $_POST['current'],//最新报价
+                'time'    =>date("Y-m-d H:i:s",time()),//时间
+                'symbol' =>'s_sz399300'//沪深300数据标识
             );
-            $h = intval(date("Hi"));                                                                       // 获取当前时间值
-            if (($h < 1500 && $h > 930)||($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) { // 判断股市休市时间范围
-            // $this->db->insert('data_source',$data);
+            $result =$this->is_opentime();                                          // 返回结果
+            if ($result>0) {                                                        // 判断执行
+            $this->db->insert('recentquotation',$data);
             } else {
-            echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！'));                        // 返回属性信息
+            echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！')); // 返回属性信息
             }
     }
     /* 会员投资（下单） @ohyeah */
@@ -184,7 +185,7 @@ class hushen300 extends MY_Controller{
                 'status'       => 1,                            // 状态
                 'investor_uid' => $this->is_uid(),              // 用户ID
                 'current'      => 1,
-                'symbol'       => 'CFIFZ5'                      // 数据标
+                'symbol'       => $_POST['symbol'],             // 数据标
             );
         if($this->db->insert('investor_detail',$data)){         // 执行插入语句
         echo json_encode($data);                                // 返回属性信息
@@ -203,9 +204,11 @@ class hushen300 extends MY_Controller{
     }
     /* 沪深300走势线iframe显示页面 @ohyeah */
     function hushen_link(){
-        $mun=$this->db->where('symbol',"CFIFZ5")->from('recentquotation')->count_all_results();                                          // 计算条目总和
-        $mun=intval($mun)-3000;
-        $list=$this->db->limit($mun,3000)->order_by("id","asc")->get_where('recentquotation',array('symbol'=>"CFIFZ5"))->result_array(); // 查询图表数据
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"CFIFZ5"))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+            echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+            exit();
+        }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';
@@ -214,6 +217,21 @@ class hushen300 extends MY_Controller{
         }
         $this->load->view('hushen_link.html',$result);                                                                                   // 加载模板
     }
+    /* [新浪]沪深300走势线iframe显示页面 @ohyeah */
+    function hushen_sinalink(){
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"s_sz399300"))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+            echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+            exit();
+        }
+        foreach($list as $k=>$v){
+            $Kdata[$k] =$v['price'];
+            $data_date[$k] ='"'.$v['time'].'"';
+        $result['data_date'] = implode(',', $data_date);                                                                                 // 拼接报价数据格式
+        $result['ipdata'] = implode(',', $Kdata);                                                                                        // 拼接时间数据格式
+        }
+        $this->load->view('hushen_sinalink.html',$result);                                                                                   // 加载模板
+    }
     /* 交易历史iframe显示页面 @ohyeah */
     function lishi_html_list(){
         $data['lishi'] = $this->db->limit(20)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5"))->result_array(); // 查询历史交易
@@ -221,7 +239,7 @@ class hushen300 extends MY_Controller{
         $this->load->view('lishi_html_list.html',$data);                                                                                      // 加载模板
     }
     function tt(){
-        $uid = $this->shuying();
+        $uid = $this->is_user_num(1,'CFIFZ5',1);
         echo $uid;
     }
 }

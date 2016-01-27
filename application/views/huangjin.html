@@ -76,7 +76,7 @@
 <div class="tab_nav">
 	<span class="line"></span>
 	<ul>
-	<li class="on"><a href="<?php echo site_url('huangjin/index')?>">黄金</a></li>
+	<li class="on"><a>黄金</a><a href="<?php echo site_url('huangjin/index')?>" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a></li>
 	<li><a href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
 </ul></div>
 <div class="focus_data">
@@ -84,11 +84,27 @@
     <iframe id="dd" name="dd" src="/cygjs_fr/index.php/huangjin/huangjin_link" width="100%" height="410"></iframe>
 
 </div>
+<<<<<<< HEAD
 
 <div class="button_ab">
 	<span class="d"><a href="#">跌</a></span>
 	<span class="z"><a href="#">涨</a></span>
 	<dl><dt>买入价</dt><dd>1121.7</dd></dl>
+=======
+<div  class="row-fluid">
+	<div class="user_info">
+    	<ul>
+    		<li class="mj"><span>买价：</span><span><em><input type="button" name="capital" id="capital" value=""/><input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/></em></span></li>
+    		<li class="yl"><span>今日盈利：</span><span><em>10M&nbsp&nbsp<a href="javascript:void(0);" id="ls">成交历史</a>
+    		</em></span></li>
+    	</ul>
+    </div>
+</div>
+
+<div class="button_ab">
+	<span class="d"><a href="javascript:void(0);" id="die" class="die">跌</a></span>
+	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">涨</a></span>
+>>>>>>> origin/master
 </div>
 
 <div class="user_info">
@@ -214,22 +230,98 @@ $('#sj').click(function(){
 })
 	// 涨事件
 $('#zhang').on('click', function(){
-    $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').val(),invest_type:1},function(data){
+	/*买入价不能为空*/
+	if($('#capital').val() == '') {
+	layer.alert('数据加载未完成', {
+    icon: 5,
+    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+	});
+	return false;
+	}
+    $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').val(),invest_type:1,symbol:$('#symbol').val()},function(data){
     	 // var obj = eval(data);
         // alert(data);
         var json=JSON.parse(data);
-        layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。');
-        // $("#lishi").html(json.capital);
+        layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
+	    icon: 1,
+	    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+		});
+        /*60秒倒计时开始*/
+		var intDiff = parseInt(59); //120秒倒计时总秒数量
+		function timer(intDiff) {
+			window.setInterval(function() {
+				var day = 0,
+					hour = 0,
+					minute = 0,
+					second = 0; //时间默认值
+
+				if (intDiff > -1) {
+					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+					if (minute <= 9) minute = '0' + minute;
+					if (second <= 9) second = '0' + second;
+					if (second == '00') {
+						$('.zhang').html('涨');
+						$('.zhang').attr('id','zhang');
+					}else{
+						$('.zhang').html('<s></s>' + second + ' ');
+						$('.zhang').attr('id','');
+					}
+				}
+				intDiff--;
+			}, 1000);
+		}
+		$(function() {
+			timer(intDiff);
+		});
+		/*60秒倒计时结束*/
     });
 });
 // 跌事件
 $('#die').on('click', function(){
-    $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').val(),invest_type:0},function(data){
+	/*买入价不能为空*/
+	if($('#capital').val() == '') {
+	layer.alert('数据加载未完成', {
+    icon: 5,
+    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+	});
+	return false;
+	}
+    $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').val(),invest_type:0,symbol:$('#symbol').val()},function(data){
     	 // var obj = eval(data);
         // alert(data);
         var json=JSON.parse(data);
-        layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。');
-        // $("#lishi").html(json.capital);
+        layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
+	    icon: 1,
+	    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+		});
+        /*60秒倒计时开始*/
+		var intDiff = parseInt(59); //120秒倒计时总秒数量
+		function timer(intDiff) {
+			window.setInterval(function() {
+				var day = 0,
+					hour = 0,
+					minute = 0,
+					second = 0; //时间默认值
+
+				if (intDiff > -1) {
+					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+					if (minute <= 9) minute = '0' + minute;
+					if (second <= 9) second = '0' + second;
+					if (second == '00') {
+						$('.die').html('跌');
+						$('.die').attr('id','zhang');
+					}else{
+						$('.die').html('<s></s>' + second + ' ');
+						$('.die').attr('id','');
+					}
+				}
+				intDiff--;
+			}, 1000);
+		}
+		$(function() {
+			timer(intDiff);
+		});
+		/*60秒倒计时结束*/
     });
 });
 $('#ls').on('click', function(){
@@ -249,6 +341,14 @@ $('#ls').on('click', function(){
         area: ['893px', '600px'],
         content: '/cygjs_fr/index.php/huangjin/huangjin_html_list'
     });
+});
+$('#sinalink').on('click', function(){
+           $("#dd").attr('src','/cygjs_fr/index.php/huangjin/huangjin_sinalink');
+           $('#symbol').val('hf_GC');
+});
+$('#jinyulink').on('click', function(){
+           $("#dd").attr('src','/cygjs_fr/index.php/huangjin/huangjin_link');
+           $('#symbol').val('XAU');
 });
 
 $(function(){
@@ -438,9 +538,9 @@ $(function(){
 	                $("#m-chart-realhq").html(html_src);
 	                $("#m-chart-img").html(html_src_img);
 
-	                // $.post('/cygjs_fr/index.php/hushen300/data_add',{open:hq[1],close:hq[2],current:hq[3],high:hq[4],low:hq[5],data_date:hq[30],data_time:hq[31]},function(data){
-	                //     // alert(data);
-	                // });
+	                $.post('/cygjs_fr/index.php/huangjin/data_add',{price:hq[3]},function(data){
+	                    // alert(data);
+	                });
 	        	} 
 	    });
 	},3000);

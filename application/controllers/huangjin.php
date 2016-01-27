@@ -168,6 +168,15 @@ class Huangjin extends MY_Controller{
 		);
 		echo $this->phone->send($data);
 	}
+	/* 新浪数据添加 @ohyeah */
+    public function data_add(){
+        $data = array(
+                'price' => $_POST['price'],//最新报价
+                'time'    =>date("Y-m-d H:i:s",time()),//时间
+                'symbol' =>'hf_GC',//黄金数据标识
+        );
+        $this->db->insert('recentquotation',$data);
+    }
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
         $data = array(
@@ -180,7 +189,7 @@ class Huangjin extends MY_Controller{
                 'status'       => 1,                        // 状态
                 'investor_uid' => $this->is_uid(),          // 用户ID 
                 'current'      => 1,
-                'symbol'       => 'XAU'                     // 数据标识
+                'symbol'       => $_POST['symbol'],                     // 数据标识
             );
         if($this->db->insert('investor_detail',$data)){     //执行插入语句
             echo json_encode($data);                        //返回属性信息
@@ -188,9 +197,11 @@ class Huangjin extends MY_Controller{
     }
     /* 黄金走势线iframe显示页面（下单） @ohyeah */
     function huangjin_link(){
-        $mun=$this->db->where('symbol',"XAU")->from('recentquotation')->count_all_results();                    // 计算条目总和
-        $mun=intval($mun)-3000;
-        $list=$this->db->limit($mun,3000)->get_where('recentquotation',array('symbol'=>"XAU"))->result_array(); // 查询图表数据
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"XAU"))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+        	echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+        	exit();
+        }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';
@@ -198,6 +209,21 @@ class Huangjin extends MY_Controller{
         $result['ipdata'] = implode(',', $Kdata);                                                               // 拼接时间数据格式
         }
         $this->load->view('huangjin_link.html',$result);                                                        // 加载模板
+    }
+    /* [新浪]黄金走势线iframe显示页面（下单） @ohyeah */
+    function huangjin_sinalink(){
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"hf_GC"))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+        	echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+        	exit();
+        }
+        foreach($list as $k=>$v){
+            $Kdata[$k] =$v['price'];
+            $data_date[$k] ='"'.$v['time'].'"';
+        $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
+        $result['ipdata'] = implode(',', $Kdata);                                                               // 拼接时间数据格式
+        }
+        $this->load->view('huangjin_sinalink.html',$result);                                                        // 加载模板
     }
     /* 交易历史iframe显示页面 @ohyeah */
     function huangjin_html_list(){
