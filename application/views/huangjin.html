@@ -84,27 +84,12 @@
     <iframe id="dd" name="dd" src="/cygjs_fr/index.php/huangjin/huangjin_link" width="100%" height="410"></iframe>
 
 </div>
-<<<<<<< HEAD
+
 
 <div class="button_ab">
 	<span class="d"><a href="#">跌</a></span>
 	<span class="z"><a href="#">涨</a></span>
 	<dl><dt>买入价</dt><dd>1121.7</dd></dl>
-=======
-<div  class="row-fluid">
-	<div class="user_info">
-    	<ul>
-    		<li class="mj"><span>买价：</span><span><em><input type="button" name="capital" id="capital" value=""/><input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/></em></span></li>
-    		<li class="yl"><span>今日盈利：</span><span><em>10M&nbsp&nbsp<a href="javascript:void(0);" id="ls">成交历史</a>
-    		</em></span></li>
-    	</ul>
-    </div>
-</div>
-
-<div class="button_ab">
-	<span class="d"><a href="javascript:void(0);" id="die" class="die">跌</a></span>
-	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">涨</a></span>
->>>>>>> origin/master
 </div>
 
 <div class="user_info">
@@ -113,121 +98,129 @@
 	<span class="tx"><a href="javascript:void(0);" id="qx">我要取现</a></span>
 </div>
 
-<div id="regmodal" class="modal" style="display:none;">
+<div id="regmodal" class="modal2" style="display:none;">
 	<h3>请注册</h3>
 	<div id="loginform">
 	<ul>
 		<li><label for="username">用户名:</label>
-		<input type="text" name="username" id="username" class="txtfield" tabindex="1" /></li>
+		<input type="text" name="username"  class="txtfield" tabindex="1" /></li>
 	
 		<li><label for="password">密码:</label>
-		<input type="password" name="password" id="password" class="txtfield" tabindex="2" /></li>
+		<input type="password" name="password"  class="txtfield" tabindex="2" /></li>
 
 		<li><label for="password">确认密码:</label>
-		<input type="password" name="password" id="password" class="txtfield" tabindex="3" /></li>
+		<input type="password" name="repassword"  class="txtfield" tabindex="3" /></li>
 
 		<li><label for="tel">手机号:</label>
-		<input type="text" name="tel" id="tel" class="txtfield" tabindex="4" /></li>
+		<input type="text" name="phone" id="phone1" class="txtfield" tabindex="4" /></li>
 
 		<li><label for="code">验证码:</label>
-		<input type="text" name="code" id="code" class="txtfield w2" tabindex="5" /><button>发送验证码</button></li>
+		<input type="text" name="checkCode"  class="txtfield w2" tabindex="5" /><input id="btnSendCode1" type="button" value="发送验证码" /></li>
 	</ul>
 		<div class="center"><input type="submit" name="loginbtn" id="loginbtn" class="flatbtn-red hidemodal" value="确定注册" tabindex="3"></div>
 	</div>
 </div>
 
-<div id="loginmodal" class="modal" style="display:none">
+<div id="loginmodal" class="modal2" style="display:none">
 	<h3>请登陆</h3>
-	<ol><li class="on">用户名登陆</li><li>手机登陆</li></ol>
+	<ol><li class="on" id="yh">用户名登陆</li><li id="sj">手机登陆</li></ol>
 	<div id="loginform">
-	<ul>
+	<div id="dialog">
+	<div id="userlogin"><ul>
 		<li><label for="username">用户名:</label>
-		<input type="text" name="username" id="username" class="txtfield" tabindex="1" /></li>
+		<input type="text" name="username"  class="txtfield" tabindex="1" /></li>
 	
 		<li><label for="password">密码:</label>
-		<input type="password" name="password" id="password" class="txtfield" tabindex="2" /></li>
-	</ul>
-		<div class="center">
+		<input type="password" name="password"  class="txtfield" tabindex="2" /></li>
+	</ul></div>
+	<div id="phonelogin" style="display:none;"><ul>
+		<li><label for="username">手机号:</label>
+		<input type="text" name="phone" id="phone2" class="txtfield" tabindex="1" /></li>
+	
+		<li><label for="code">验证码:</label>
+		<input type="text" name="checkCode"  class="txtfield w2" tabindex="5" /><input id="btnSendCode2" type="button" value="发送验证码" /></li>
+	</ul></div></div>
+	  <div class="center">
 		<a id="login_btn" class="flatbtn-red hidemodal">登陆</a>
 		<a id="register_btn" class="flatbtn-red hidemodal">注册</a>
 		</div>
-	</div>
+    </div>
 </div>
 
-<!-- 弹出登入窗 -->
- <!--  <div class="weui_dialog_confirm"  style="display:none;">
-    <div class="weui_mask"></div>
-    <div class="weui_dialog">
-        <img  style="margin-left:90%;"src="<?php echo base_url()?>public/img/gb.jpg" alt="关闭" />
-        <div class="weui_dialog_hd"><strong class="weui_dialog_title">请登入</strong></div>
-        <div calss="select" ><button style="width:50%;float:left;"class="weui_btn weui_btn_default" id="sj">手机号登入</button><button style="width:50%;"class="weui_btn weui_btn_default" id="yh">用户名登入</button></div>
-        <div class="weui_dialog_bd"  id="dialog">
-	           <div id="userlogin" style="margin:10px auto;"class="weui_cell_hd" >
-		           <div class="weui_cell_bd weui_cell_primary" >
-						<p class="weui_cell_bd" style=" padding:0 10px; ">用户名:</p>
-						<div class="weui_cell_bd" >
-					       <input  type="text" name="username" />
-				         </div>
-				    </div>
-				    <div class="weui_cell_bd weui_cell_primary" >
-						  <p class="weui_cell_bd" style=" padding:0 10px; " >密&nbsp&nbsp&nbsp&nbsp码:</p>
-						  <div class="weui_cell_bd" >
-						  <input  type="text" name="password"/></div>			 
-					 </div>			 
-	           </div>
-			   <div id="phLogin" style="margin:10px auto; display:none;"class="weui_cell_hd" >
-			      <div class="weui_cell_bd weui_cell_primary" >
-					<p class="weui_cell_bd weui_cell_primary">手机号:</p>
-					<div class="weui_cell_bd" style="border:1px solid #DEDEDE;line-height:2.5em;border-radius:5px;">
-				       <input type="text" name="phonelg" /></div>
-			       </div>
-				    <div class="weui_cell_bd weui_cell_primary" >
-						  <p class="weui_cell_bd weui_cell_primary" style=" padding:0 10px; " >验证码:</p>
-						  <div class="weui_cell_bd" >
-						  <input  type="text" name="codelg"/></div>			 
-					 </div>
-			 
-			  </div>
-        </div>
-        <div class="weui_dialog_ft">
-            <a href="#" class="weui_btn_dialog default" id="login_btn">登入</a>
-            <a href="<?php echo site_url('huangjin/index')?>" class="weui_btn_dialog primary" id="register_btn">注册</a>
-       </div>
-    </div>
-</div> -->
-
-	
 	
 </body>
 </html>
 <script>
+var InterValObj; //timer变量，控制时间  
+var count = 120; //间隔函数，1秒执行  
+var curCount;//当前剩余秒数  
+var code = ""; //验证码  
+var codeLength = 6;//验证码长度  
+$('#btnSendCode1').click(function() {  
+	curCount = count;  
+	var phone=$("#phone1").val();//手机号码  
+	if(phone != ""){  
+		//产生验证码  
+		for (var i = 0; i < codeLength; i++) {  
+			code += parseInt(Math.random() * 9).toString();  
+		}  
+		//设置button效果，开始计时  
+		$("#btnSendCode1").attr("disabled", "true");  
+		$("#btnSendCode1").val("请在" + curCount + "秒内输入验证码");  
+		InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次  
+	//向后台发送处理数据  
+		/*$.ajax({  
+			type: "POST", //用POST方式传输  
+			dataType: "text", //数据格式:JSON  
+			url: 'Login.ashx', //目标地址  
+			data: "phone=" + phone + "&code=" + code,  
+			error: function (XMLHttpRequest, textStatus, errorThrown) { },  
+			success: function (msg){ }  
+		}); */ 
+	}else{  
+		alert("手机号码不能为空！");  
+	} 
+		
+}) 
+//timer处理函数  
+function SetRemainTime() {  
+	if (curCount == 0) {                  
+		window.clearInterval(InterValObj);//停止计时器  
+		$("#btnSendCode1").removeAttr("disabled");//启用按钮  
+		$("#btnSendCode1").val("重新发送验证码");  
+		code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效      
+	}  
+	else {  
+		curCount--;  
+		$("#btnSendCode1").val("请在" + curCount + "秒内输入验证码");  
+	}  
+}  
 
 //弹出窗口
 
 $('#qx').click(function(){
-		$('#loginmodal').attr('style','display:block');
-	});
+	//$('#loginmodal').attr('style','display:block');
+	$('#loginmodal').show();
+});
 //弹出 用户登入框
 $('#yh').click(function(){
-  if($('.dialog').html($('#userlogin').hide())){
-	  $('.dialog').html($('#userlogin').show());  
-  }
-  if($('.dialog').html($('#phLogin').show())){
-	  $('.dialog').html($('#phLogin').show())
-  }
+	$('#yh').addClass('on');
+	$('#sj').removeClass('on');
+	$('#phonelogin').hide();
+	$('#userlogin').show();
+	
+    
   
 });
 //弹出手机登入框
 $('#sj').click(function(){
-	if($('.dialog').html($('#userlogin').show())){
-		$('.dialog').html($('#userlogin').hide());
-		$('.dialog').html($('#phLogin').show());
-	}else{
-		$('.dialog').html($('#phLogin').show());
-	}
-	
-	
+	$('#sj').addClass('on');
+	$('#yh').removeClass('on');
+	$('#userlogin').hide();
+	$('#phonelogin').show();
+		
 })
+
 	// 涨事件
 $('#zhang').on('click', function(){
 	/*买入价不能为空*/
@@ -362,13 +355,15 @@ $(function(){
 				$('#img_td').prepend(data);
 			}
 		});*/
-		$('#mask').show();
-		$('#register').show();	
+		//$('#mask').show();
+		$('#loginmodal').hide();
+		$('#regmodal').show();	
 	});
 	//点击发送时发送手机验证码
-	$('#btnSendCode').click(function(){
-		var phone=$('#phone').val();
+	$('#btnSendCode1').click(function(){
+		var phone=$('#phone1').val();
 		//这里应该检测一下是否是电话号码，我这里省略掉
+		
 		
 		$.ajax({
 			url:'<?php echo site_url("huangjin/send_sms")?>',
@@ -401,41 +396,9 @@ $(function(){
 		})
 	});
 
-	/*$('.qx').click(function(){
-		//console.log(123);
-	
-		popCenterWindow();
-		
-	});*/
-	//获取窗口/弹窗的高跟宽
-	function init(){
-		windowHeight=$(window).height();
-		windowWidth=$(window).width();
-		popHeight=$('#login').height();
-		popWidth=$('#login').width();
-	};
-	//关闭窗口
-	function closeWindow(){
-		$('.title img').click(function(){
-			$(this).parent().parent().hide('slow');
-			$('#mask').hide();
-			$('#login').hide();
-			
-		})
-	};
-	function popCenterWindow(){
-		init();
-		//计算弹出窗口的左上角Y的偏移量
-		var popY=(windowHeight-popHeight)/2;
-		var popX=(windowWidth-popWidth)/2;
-		//设定窗口的位置
-		$('#login').css('top',popY).css('left',popX).slideToggle('slow');
-		closeWindow();
-		
-	};
-	
+
 // ajax请求注册页面
-	$('#sure').click(function(){
+	$('#loginbtn').click(function(){
 		var code=$('#checkCode').val();
 		if(code==''){
 			alert('验证码不能为空');
@@ -445,7 +408,7 @@ $(function(){
 		var post_arr=['username','password','phone','checkCode'];
 		var post_obj={};
 		$.each(post_arr,function(index,item){
-			post_obj[item]=$('#register').find('[name="'+item+'"]').val();
+			post_obj[item]=$('#regmodal').find('[name="'+item+'"]').val();
 		});
 		$.ajax({
 			url:"<?php echo site_url('huangjin/register')?>",
