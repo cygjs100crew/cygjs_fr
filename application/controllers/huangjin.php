@@ -145,19 +145,19 @@ class Huangjin extends MY_Controller{
 		echo $this->phone->send($data);
 	}
 	/* 新浪数据添加 @ohyeah */
-    public function data_add(){
-        $data = array(
-                'price' => $_POST['price'],//最新报价
-                'time'    =>date("Y-m-d H:i:s",time()),//时间
-                'symbol' =>'hf_GC',//黄金数据标识
-        );
-        $this->db->insert('recentquotation',$data);
-    }
+    // public function data_add(){
+    //     $data = array(
+    //             'price' => $_POST['price'],//最新报价
+    //             'time'    =>date("Y-m-d H:i:s",time()),//时间
+    //             'symbol' =>'hf_GC',//黄金数据标识
+    //     );
+    //     $this->db->insert('recentquotation',$data);
+    // }
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
         $data = array(
                 'start_time'   => time(),                   // 开始时间
-                'and_time'     => strtotime("+60 seconds"), // 结束时间
+                'and_time'     => strtotime("+50 seconds"), // 结束时间
                 'capital'      => $_POST['capital'],        // 买入价
                 'duration'     => 60,                       // 间隔时间
                 'add_ip'       => $_SERVER["REMOTE_ADDR"],  // 用户IP
@@ -206,5 +206,21 @@ class Huangjin extends MY_Controller{
         $data['lishi'] = $this->db->limit(20)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array(); // 查询历史交易
         $result=$this->shuying();                                                                                                          // 验证结果
         $this->load->view('huangjin_html_list.html',$data);                                                                                // 加载模板
+    }
+    function huangjin_js_list(){
+        $result=$this->shuying(); 
+        $id=$this->is_uid();
+        $data = $this->db->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$id))->result_array(); // 查询历史交易
+
+        
+        if ($data[0]['result']=='赢') {
+            echo json_encode(array('success'=>true,'info'=>'赢')); 
+        }else if($data[0]['result']=='输'){
+            echo json_encode(array('success'=>true,'info'=>'输'));
+        }else if($data[0]['result']=='平'){
+            echo json_encode(array('success'=>true,'info'=>'平'));
+        }else{
+            echo json_encode(array('success'=>false,'info'=>'未开奖'));
+        }                                                                 
     }
 }

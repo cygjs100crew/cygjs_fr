@@ -160,19 +160,19 @@ class hushen300 extends MY_Controller{
         echo $this->phone->send($data);
     }
     /* 新浪数据添加 @ohyeah */
-    public function data_add(){
-        $data = array(
-                'price' => $_POST['current'],//最新报价
-                'time'    =>date("Y-m-d H:i:s",time()),//时间
-                'symbol' =>'s_sz399300'//沪深300数据标识
-            );
-            $result =$this->is_opentime();                                          // 返回结果
-            if ($result>0) {                                                        // 判断执行
-            $this->db->insert('recentquotation',$data);
-            } else {
-            echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！')); // 返回属性信息
-            }
-    }
+    // public function data_add(){
+    //     $data = array(
+    //             'price' => $_POST['price'],//最新报价
+    //             'time'    =>date("Y-m-d H:i:s",time()),//时间
+    //             'symbol' =>'s_sz399300'//沪深300数据标识
+    //         );
+    //         $result =$this->is_opentime();                                          // 返回结果
+    //         if ($result>0) {                                                        // 判断执行
+    //         $this->db->insert('recentquotation',$data);
+    //         } else {
+    //         echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！')); // 返回属性信息
+    //         }
+    // }
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
         $data = array(

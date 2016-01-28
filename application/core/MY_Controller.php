@@ -55,7 +55,7 @@ class MY_Controller extends CI_Controller {
 				    	$shuying_result='平';
 				    }
 				}
-				$num_result=$this->is_user_num($data[$i]['id'],$data[$i]['symbol'],$shuying_result); // 执行验证规则
+				$num_result=$this->is_user_num($data[$i]['investor_uid'],$data[$i]['symbol'],$shuying_result); // 执行验证规则
 				$condition['id'] =$data[$i]['id'];                                                   // 更新对象id
 				$map['result'] =$shuying_result;                                                     // 结果赋值
 				$map['currented'] =$list[0]['price'];                                                // 比较值
@@ -69,7 +69,7 @@ class MY_Controller extends CI_Controller {
 	 * @author ohyeah
 	 */
 	public function is_uid(){
-	    $user = get_cookie('id'); // 获取cookie值
+	    $user = get_cookie('customerId'); // 获取cookie值
 	    if (empty($user)) {       // 判断是否为空
 	    return 0;                 // true返回空0
 	    } else {
