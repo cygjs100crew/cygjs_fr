@@ -231,4 +231,19 @@ class Huangjin extends MY_Controller{
         $result=$this->shuying();                                                                                                          // 验证结果
         $this->load->view('huangjin_html_list.html',$data);                                                                                // 加载模板
     }
+    function huangjin_js_list(){
+        $id=$this->is_uid();
+        $data = $this->db->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$id))->result_array(); // 查询历史交易
+
+        
+        if ($data[0]['result']=='赢') {
+            echo json_encode(array('success'=>true,'info'=>'赢')); 
+        }else if($data[0]['result']=='输'){
+            echo json_encode(array('success'=>true,'info'=>'输'));
+        }else if($data[0]['result']=='平'){
+            echo json_encode(array('success'=>true,'info'=>'平'));
+        }else{
+            echo json_encode(array('success'=>false,'info'=>'未开奖'));
+        }                                                                 
+    }
 }
