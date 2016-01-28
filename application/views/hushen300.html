@@ -14,7 +14,7 @@
  <script type="text/javascript" src="public/js/register.js"></script>
  <script type="text/javascript" src="public/layer/layer.js"></script><!-- Layer弹窗组件引入 -->
  <script type="text/javascript" src="public/layer/extend/layer.ext.js"></script><!-- Layer弹窗组件引入 -->
- <script type="text/javascript" src="public/js/oh_hushen300.js"></script><!-- @author ohyeah -->
+ 
 <style>
 #mask{
 
@@ -62,24 +62,22 @@
 			
 			display:none;
 			z-index:99;
-			
+
 }
 </style>
 </head>
 <body>
 <div class="header">
 <ul>
-	 <li><span style="color:#fff;">用户</span><span><?php echo $username;?></span></li>
+	<li><span style="color:#fff;">用户</span><span><?php echo $username;?></span></li>
 	<li><span style="color:#fff;">已获流量</span><span id="total_flow"></span></li>
-	
  </ul>
 </div>
 <div class="tab_nav">
 	<span class="line"></span>
 	<ul>
 	<li ><a href="<?php echo site_url('huangjin/index')?>">黄金</a></li>
-	<li class="on"><a href="<?php echo site_url('hushen300/index')?>">沪深300</a><a href="javascript:void(0);" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a></li>
-	
+	<li class="on"><a href="<?php echo site_url('hushen300/index')?>">沪深300</a><a href="javascript:void(0);" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a></li>	
 </ul></div>
 
 <div class="focus_data">
@@ -148,6 +146,7 @@
    <span class="rw" ><a href="#">赚流量/机会</a></span>
 </div>
 </body>
+<script type="text/javascript" src="public/js/oh-hushen300.js"></script><!-- @author ohyeah -->
 </html>
 <script>
 //弹出窗口

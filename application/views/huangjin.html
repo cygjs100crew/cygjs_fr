@@ -11,10 +11,9 @@
  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script><!-- JQ由Baidu加速DNS提供 -->
  <script type="text/javascript" src="public/js/code.js"></script>
  <script type="text/javascript" src="public/js/register.js"></script>
- <script src="http://echarts.baidu.com/dist/echarts.min.js"></script><!-- ECharts图表组件引入 -->
  <script type="text/javascript" src="public/layer/layer.js"></script><!-- Layer弹窗组件引入 -->
  <script type="text/javascript" src="public/layer/extend/layer.ext.js"></script><!-- Layer弹窗组件引入 -->
- <script type="text/javascript" src="public/js/oh_huangjin.js"></script><!-- @author ohyeah -->
+ 
 <style>
 #mask{
 
@@ -79,15 +78,15 @@
 	<li class="on"><a href="<?php echo site_url('huangjin/index')?>">黄金</a><a href="javascript:void(0);" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a></li>
 	<li><a href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
 </ul></div>
+
 <div class="focus_data">
     <!-- 为新浪准备一个具备大小（宽高）的Dom -->
     <iframe id="dd" name="dd" src="/cygjs_fr/index.php/huangjin/huangjin_link" width="100%" height="410"></iframe>
-
 </div>
 <div class="button_ab">
-	<span class="d"><a href="#">跌</a></span>
-	<span class="z"><a href="#">涨</a></span>
-	<dl><dt>买入价</dt><dd>1121.7</dd></dl>
+    <span class="d"><a href="javascript:void(0);" id="die" class="die">跌</a></span>
+	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">涨</a></span>
+	<dl><dt>买入价</dt><dd><input type="button" name="capital" id="capital" value=""/><input type="button" name="symbol" id="symbol" value="CFIFZ5" style="display:none;"/></dd></dl>
 </div>
 
 <div class="user_info">
@@ -126,7 +125,6 @@
 	<ul>
 		<li><label for="username">用户名:</label>
 		<input type="text" name="username" id="username" class="txtfield" tabindex="1" /></li>
-	
 		<li><label for="password">密码:</label>
 		<input type="password" name="password" id="password" class="txtfield" tabindex="2" /></li>
 	</ul>
@@ -178,10 +176,8 @@
        </div>
     </div>
 </div> -->
-
-	
-	
 </body>
+<script type="text/javascript" src="public/js/oh-huangjin.js"></script><!-- @author ohyeah -->
 </html>
 <script>
 
