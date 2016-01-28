@@ -162,7 +162,7 @@ class hushen300 extends MY_Controller{
     /* 新浪数据添加 @ohyeah */
     public function data_add(){
         $data = array(
-                'price' => $_POST['current'],//最新报价
+                'price' => $_POST['price'],//最新报价
                 'time'    =>date("Y-m-d H:i:s",time()),//时间
                 'symbol' =>'s_sz399300'//沪深300数据标识
             );
