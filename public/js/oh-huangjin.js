@@ -227,9 +227,9 @@ setInterval(function(){
 	                $("#m-chart-img").html(html_src_img);
 
 
-	                $.post('/cygjs_fr/index.php/huangjin/data_add',{price:hq[3]},function(data){
-	                    // alert(data);
-	                });
+	                // $.post('/cygjs_fr/index.php/huangjin/data_add',{price:hq[3]},function(data){
+	                //     // alert(data);
+	                // });
 	        	} 
 	    });
 	},3000);

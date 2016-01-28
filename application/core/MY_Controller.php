@@ -69,7 +69,7 @@ class MY_Controller extends CI_Controller {
 	 * @author ohyeah
 	 */
 	public function is_uid(){
-	    $user = get_cookie('id'); // 获取cookie值
+	    $user = get_cookie('customerId'); // 获取cookie值
 	    if (empty($user)) {       // 判断是否为空
 	    return 0;                 // true返回空0
 	    } else {

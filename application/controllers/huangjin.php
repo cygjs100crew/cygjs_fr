@@ -169,14 +169,14 @@ class Huangjin extends MY_Controller{
 		echo $this->phone->send($data);
 	}
 	/* 新浪数据添加 @ohyeah */
-    public function data_add(){
-        $data = array(
-                'price' => $_POST['price'],//最新报价
-                'time'    =>date("Y-m-d H:i:s",time()),//时间
-                'symbol' =>'hf_GC',//黄金数据标识
-        );
-        $this->db->insert('recentquotation',$data);
-    }
+    // public function data_add(){
+    //     $data = array(
+    //             'price' => $_POST['price'],//最新报价
+    //             'time'    =>date("Y-m-d H:i:s",time()),//时间
+    //             'symbol' =>'hf_GC',//黄金数据标识
+    //     );
+    //     $this->db->insert('recentquotation',$data);
+    // }
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
         $data = array(
@@ -232,6 +232,7 @@ class Huangjin extends MY_Controller{
         $this->load->view('huangjin_html_list.html',$data);                                                                                // 加载模板
     }
     function huangjin_js_list(){
+        $result=$this->shuying(); 
         $id=$this->is_uid();
         $data = $this->db->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$id))->result_array(); // 查询历史交易
 

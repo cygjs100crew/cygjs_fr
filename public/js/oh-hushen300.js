@@ -135,11 +135,11 @@ setInterval(function(){
                 var html_src = '实时行情: '+rt_hq+"|量: "+hq[4]+"手 | 额: "+hq[5]+"万元";
                 $("#m-chart-realhq").html(html_src);
                 $('#capital').val(hq[1]);
-                $.post('/cygjs_fr/index.php/hushen300/data_add',{price:hq[1]},function(data){
-                    // console.log(data.data_date);
-                    var json=JSON.parse(data);
-                    $("#sxin").html(json.info);
-                });
+                // $.post('/cygjs_fr/index.php/hushen300/data_add',{price:hq[1]},function(data){
+                //     // console.log(data.data_date);
+                //     var json=JSON.parse(data);
+                //     $("#sxin").html(json.info);
+                // });
             } 
         });
 },5000);
