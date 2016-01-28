@@ -55,7 +55,7 @@ class MY_Controller extends CI_Controller {
 				    	$shuying_result='平';
 				    }
 				}
-				$num_result=$this->is_user_num($data[$i]['id'],$data[$i]['symbol'],$shuying_result); // 执行验证规则
+				$num_result=$this->is_user_num($data[$i]['investor_uid'],$data[$i]['symbol'],$shuying_result); // 执行验证规则
 				$condition['id'] =$data[$i]['id'];                                                   // 更新对象id
 				$map['result'] =$shuying_result;                                                     // 结果赋值
 				$map['currented'] =$list[0]['price'];                                                // 比较值
