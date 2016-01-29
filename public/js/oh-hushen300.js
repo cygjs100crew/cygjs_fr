@@ -8,6 +8,7 @@ $('#zhang').on('click', function(){
 	});
 	return false;
 	}
+	var index = layer.load();
 	$.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:1,symbol:$('#symbol').val()},function(data){
 	    var json=JSON.parse(data);
 	    layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
@@ -28,6 +29,38 @@ $('#zhang').on('click', function(){
 					if (minute <= 9) minute = '0' + minute;
 					if (second <= 9) second = '0' + second;
 					if (second == '00') {
+						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',function(data){
+							layer.close(index); 
+							var json=JSON.parse(data);
+							if (json.info=='赢') {
+								layer.open({
+							    type: 1,
+							    title: false,
+							    area: ['340px', '280px'],
+							    skin: 'layui-layer-demo', //样式类名
+							    closeBtn: 0, //不显示关闭按钮
+							    scrollbar: false,
+							    shift: 2,
+							    shadeClose: true, //开启遮罩关闭
+							    content: '<div class="span12"><h3 class="text-center">恭喜'+json.info+'您在一次创盈二元期权获得1M奖励</h3><p class="text-center">奖品已经存放入您的账户，可进入个人中心-我的奖品查看详情</p><img class="gold_not_gold" src="public/oh_static/img/shore_jinibi_d.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+							    });
+							};
+							if (json.info=='输') {
+								layer.alert('很遗憾，没中。', {
+								    icon: 5,
+								    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+								});
+							};
+							if (json.info=='平') {
+								layer.alert('不涨也不跌，再接再厉。');
+							};
+							if (json.info=='未开奖') {
+								layer.alert('获奖信息去哪里？去历史交易看看。', {
+								    icon: 0,
+								    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+								});
+							};
+						});
 						$('.zhang').html('涨');
 						$('.zhang').attr('id','zhang');
 					}else{
@@ -54,6 +87,7 @@ $('#die').on('click', function(){
 	});
 	return false;
 	}
+	var index = layer.load();
     $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:0,symbol:$('#symbol').val()},function(data){
         var json=JSON.parse(data);
         layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
@@ -74,6 +108,38 @@ $('#die').on('click', function(){
 					if (minute <= 9) minute = '0' + minute;
 					if (second <= 9) second = '0' + second;
 					if (second == '00') {
+						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',function(data){
+							layer.close(index); 
+							var json=JSON.parse(data);
+							if (json.info=='赢') {
+								layer.open({
+							    type: 1,
+							    title: false,
+							    area: ['340px', '280px'],
+							    skin: 'layui-layer-demo', //样式类名
+							    closeBtn: 0, //不显示关闭按钮
+							    scrollbar: false,
+							    shift: 2,
+							    shadeClose: true, //开启遮罩关闭
+							    content: '<div class="span12"><h3 class="text-center">恭喜'+json.info+'您在一次创盈二元期权获得1M奖励</h3><p class="text-center">奖品已经存放入您的账户，可进入个人中心-我的奖品查看详情</p><img class="gold_not_gold" src="public/oh_static/img/shore_jinibi_d.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+							    });
+							};
+							if (json.info=='输') {
+								layer.alert('很遗憾，没中。', {
+								    icon: 5,
+								    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+								});
+							};
+							if (json.info=='平') {
+								layer.alert('不涨也不跌，再接再厉。');
+							};
+							if (json.info=='未开奖') {
+								layer.alert('获奖信息去哪里？去历史交易看看。', {
+								    icon: 0,
+								    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+								});
+							};
+						});
 						$('.die').html('跌');
 						$('.die').attr('id','zhang');
 					}else{
