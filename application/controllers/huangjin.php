@@ -13,31 +13,7 @@ class Huangjin extends MY_Controller{
         $data['username']=$username;
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username      
     }
-    //这里设置游客有多少流量，此时用户可能没有注册;玩了游戏的游客才会被记录到游客表中
-  /*  function setFlow(){
-        $this->load->database();
-        //存入cookie中
-
-        $yk_id=get_cookie('sessionid');//获取游客id
-        set_cookie('flow',$flow,0);
-
-        $count=$this->db->where('sessionid',$yk_id)->from('user_session')->count_all_results();//插入之前先查查游客表该游客是否被记录了
-
-        $session_data=array(
-            'sessionid'=>$yk_id   
-        );
-        if($count>0){//游客已经存入表中，只是更新
-            unset($session_data['sessionid']);
-            $this->db->where('sessionid',$yk_id)->update('user_session',$session_data);
-        }else{
-            $this->db->insert('user_session',$session_data);
-        }
-//         if(get_cookie('username')){//如果用户已经注册，则还要存入用户表
-//             $this->db->where('username',$username)->update('user_info',array('flow'=>'100M'));
-//         }
-        echo 'success';
-    }*/
-  
+ 
     
     //用户注册的地方，假设用户表中有这几个字段，用户名，密码，确认密码，手机号,验证码
     function register(){
@@ -163,7 +139,7 @@ class Huangjin extends MY_Controller{
 	public function test_sms(){
 		$this->load->model('phone_model','phone');
 		$data = array(
-		    'phone' => '15817375365',
+		    'phone' => '15074716900',
 		    'MessageContent' => '您本次验证码为12345678如需退订回复TD。',
 		);
 		echo $this->phone->send($data);
