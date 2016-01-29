@@ -178,36 +178,61 @@ $('#jinyulink').on('click', function(){
            $('#symbol').val('CFIFZ5');
 });
 
-setInterval(function(){  
-    $.ajax({
-        url: "http://hq.sinajs.cn/?list=s_sz399300",
-        method: 'GET',
-        dataType: "script",
-        scriptCharset: "gb2312",
-        cache: true,
-        success: function(data, textStatus){
-             var hq = hq_str_s_sz399300.split(",");
-            var title,rt_hq = '';
-            if(Number(hq[2])>Number(0)){
-                title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-                rt_hq = '<span style="color:Red;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
-            }else if(Number(hq[2])<Number(0)){
-                title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-                rt_hq = '<span style="color:Lime;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
-            }else{
-                title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-               rt_hq = '<span style="color:Black;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
-            }
-            document.title = title;
-            
-                var html_src = '实时行情: '+rt_hq+"|量: "+hq[4]+"手 | 额: "+hq[5]+"万元";
-                $("#m-chart-realhq").html(html_src);
-                $('#capital').val(hq[1]);
-                // $.post('/cygjs_fr/index.php/hushen300/data_add',{price:hq[1]},function(data){
-                //     // console.log(data.data_date);
-                //     var json=JSON.parse(data);
-                //     $("#sxin").html(json.info);
-                // });
-            } 
-        });
-},5000);
+// setInterval(function(){  
+//     $.ajax({
+//         url: "http://hq.sinajs.cn/?list=s_sz399300",
+//         method: 'GET',
+//         dataType: "script",
+//         scriptCharset: "gb2312",
+//         cache: true,
+//         success: function(data, textStatus){
+//              var hq = hq_str_s_sz399300.split(",");
+//             var title,rt_hq = '';
+//             if(Number(hq[2])>Number(0)){
+//                 title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+//                 rt_hq = '<span style="color:Red;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
+//             }else if(Number(hq[2])<Number(0)){
+//                 title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+//                 rt_hq = '<span style="color:Lime;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
+//             }else{
+//                 title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+//                rt_hq = '<span style="color:Black;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
+//             }
+//             document.title = title;
+//             	if (Number($('#capital').val())<Number(hq[1])) {
+// 	                	$(".button_ab dl").css("border","4px solid Red");
+// 	                }
+// 	                if (Number($('#capital').val())>Number(hq[1])) {
+// 	                	$(".button_ab dl").css("border","4px solid Lime");
+// 	                };
+// 	                if (Number($('#capital').val())==Number(hq[1])) {
+// 	                	$(".button_ab dl").css("border","4px solid Black");
+// 	                };
+//                 var html_src = '实时行情: '+rt_hq+"|量: "+hq[4]+"手 | 额: "+hq[5]+"万元";
+//                 $("#m-chart-realhq").html(html_src);
+//                 $('#capital').val(hq[1]);
+//                 // $.post('/cygjs_fr/index.php/hushen300/data_add',{price:hq[1]},function(data){
+//                 //     // console.log(data.data_date);
+//                 //     var json=JSON.parse(data);
+//                 //     $("#sxin").html(json.info);
+//                 // });
+//             } 
+//         });
+// },5000);
+
+setInterval(function(){
+    $.post('/cygjs_fr/index.php/hushen300/price',{symbol:'CFIFZ5'},function(data){
+    // alert(data);
+    var json=JSON.parse(data);
+        if (Number($('#capital').val())<Number(json.price)) {
+	    	$(".button_ab dl").css("border","4px solid Red");
+	    }
+	    if (Number($('#capital').val())>Number(json.price)) {
+	    	$(".button_ab dl").css("border","4px solid Lime");
+	    };
+	    if (Number($('#capital').val())==Number(json.price)) {
+	    	$(".button_ab dl").css("border","4px solid Black");
+	    };
+    $('#capital').val(json.price);
+    });
+},3000);

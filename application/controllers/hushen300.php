@@ -12,6 +12,8 @@ class hushen300 extends MY_Controller{
         $this->load->database();		
         $username=get_cookie('username')?get_cookie('username'):'';
         $data['username']=$username;
+        $data['num']=$this->ying_num();
+        $data['uid']=$this->is_uid().'号会员';
         $this->load->view('hushen300.html',$data);//前端在某个地方输出$username      
     }
     //这里设置游客有多少流量，此时用户可能没有注册;玩了游戏的游客才会被记录到游客表中
@@ -238,8 +240,29 @@ class hushen300 extends MY_Controller{
         $result=$this->shuying();                                                                                                             // 验证结果
         $this->load->view('lishi_html_list.html',$data);                                                                                      // 加载模板
     }
+    function huangjin_js_list(){
+        $result=$this->shuying(); 
+        $id=$this->is_uid();
+        $data = $this->db->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5",'investor_uid'=>$id))->result_array(); // 查询历史交易
+
+        
+        if ($data[0]['result']=='赢') {
+            echo json_encode(array('success'=>true,'info'=>'赢')); 
+        }else if($data[0]['result']=='输'){
+            echo json_encode(array('success'=>true,'info'=>'输'));
+        }else if($data[0]['result']=='平'){
+            echo json_encode(array('success'=>true,'info'=>'平'));
+        }else{
+            echo json_encode(array('success'=>false,'info'=>'未开奖'));
+        }                                                                 
+    }
     function tt(){
-        $uid = $this->is_user_num(1,'CFIFZ5',1);
+        $uid = $this->new_price("XAU");
         echo $uid;
+    }
+    function price(){
+        $symbol=$_POST['symbol'];
+        $data['price'] = $this->new_price($symbol);
+        echo json_encode($data); 
     }
 }

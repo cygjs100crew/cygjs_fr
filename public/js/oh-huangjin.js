@@ -191,47 +191,65 @@ $('#jinyulink').on('click', function(){
 
 
 
-setInterval(function(){  
-		$.ajax({
-	            // url: "http://hq.sinajs.cn/?_="+new Date().getTime()+"&list=sh603518",
-	            url: "http://hq.sinajs.cn/?list=hf_GC",
-	            method: 'GET',
-	            dataType: "script",
-	            scriptCharset: "gb2312",
-	            cache: true,
-	            success: function(data, textStatus){
-	            	var hq = hq_str_hf_GC.split(",");
-	            	var title,rt_hq = '';
-	            	if(Number(hq[0])>Number(7)){
-	            		title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-	            		rt_hq = '<span style="color:Red;">'+hq[0]+'&nbsp+'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
-	            	}else if(Number(hq[0])<Number(7)){
-	            		title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-	            		rt_hq = '<span style="color:Lime;">'+hq[0]+'&nbsp-'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
-	            	}else{
-	            		title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-	            		rt_hq = '<span style="color:Black;">'+hq[0]+'&nbsp'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
-	            	}
-	            	document.title = title;
-	                var html_src = '实时行情: '+rt_hq+"|最高: "+hq[3]+" | 最低: "+hq[2]+"|昨收: "+hq[7]+"| 北京时间: "+hq[6]+"";
-	                var html_src_img = '<img src="http://image.sinajs.cn/newchart/v5/futures/global/min/GC.gif?'+new Date().getTime()+'">';
-	                if (Number($('#capital').val())<Number(hq[3])) {
-	                	$(".button_ab dl").css("border","4px solid Red");
-	                }
-	                if (Number($('#capital').val())>Number(hq[3])) {
-	                	$(".button_ab dl").css("border","4px solid Lime");
-	                };
-	                if (Number($('#capital').val())==Number(hq[3])) {
-	                	$(".button_ab dl").css("border","4px solid Black");
-	                };
-	                $('#capital').val(hq[3]);
-	                $("#m-chart-realhq").html(html_src);
-	                $("#m-chart-img").html(html_src_img);
+// setInterval(function(){  
+// 		$.ajax({
+// 	            // url: "http://hq.sinajs.cn/?_="+new Date().getTime()+"&list=sh603518",
+// 	            url: "http://hq.sinajs.cn/?list=hf_GC",
+// 	            method: 'GET',
+// 	            dataType: "script",
+// 	            scriptCharset: "gb2312",
+// 	            cache: true,
+// 	            success: function(data, textStatus){
+// 	            	var hq = hq_str_hf_GC.split(",");
+// 	            	var title,rt_hq = '';
+// 	            	if(Number(hq[0])>Number(7)){
+// 	            		title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+// 	            		rt_hq = '<span style="color:Red;">'+hq[0]+'&nbsp+'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
+// 	            	}else if(Number(hq[0])<Number(7)){
+// 	            		title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+// 	            		rt_hq = '<span style="color:Lime;">'+hq[0]+'&nbsp-'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
+// 	            	}else{
+// 	            		title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+// 	            		rt_hq = '<span style="color:Black;">'+hq[0]+'&nbsp'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
+// 	            	}
+// 	            	document.title = title;
+// 	                var html_src = '实时行情: '+rt_hq+"|最高: "+hq[3]+" | 最低: "+hq[2]+"|昨收: "+hq[7]+"| 北京时间: "+hq[6]+"";
+// 	                var html_src_img = '<img src="http://image.sinajs.cn/newchart/v5/futures/global/min/GC.gif?'+new Date().getTime()+'">';
+// 	                if (Number($('#capital').val())<Number(hq[3])) {
+// 	                	$(".button_ab dl").css("border","4px solid Red");
+// 	                }
+// 	                if (Number($('#capital').val())>Number(hq[3])) {
+// 	                	$(".button_ab dl").css("border","4px solid Lime");
+// 	                };
+// 	                if (Number($('#capital').val())==Number(hq[3])) {
+// 	                	$(".button_ab dl").css("border","4px solid Black");
+// 	                };
+// 	                $('#capital').val(hq[3]);
+// 	                $("#m-chart-realhq").html(html_src);
+// 	                $("#m-chart-img").html(html_src_img);
 
 
-	                // $.post('/cygjs_fr/index.php/huangjin/data_add',{price:hq[3]},function(data){
-	                //     // alert(data);
-	                // });
-	        	} 
-	    });
-	},3000);
+// 	                // $.post('/cygjs_fr/index.php/huangjin/data_add',{price:hq[3]},function(data){
+// 	                //     // alert(data);
+// 	                // });
+// 	        	} 
+// 	    });
+// 	},3000);
+
+setInterval(function(){
+    $.post('/cygjs_fr/index.php/huangjin/price',{symbol:'CFIFZ5'},function(data){
+    // alert(data);
+    var json=JSON.parse(data);  
+    	if (Number($('#capital').val())<Number(json.price)) {
+	    	$(".button_ab dl").css("border","4px solid Red");
+	    }
+	    if (Number($('#capital').val())>Number(json.price)) {
+	    	$(".button_ab dl").css("border","4px solid Lime");
+	    };
+	    if (Number($('#capital').val())==Number(json.price)) {
+	    	$(".button_ab dl").css("border","4px solid Black");
+	    };
+    $('#capital').val(json.price);
+
+    });
+},3000);

@@ -34,22 +34,22 @@ class MY_Controller extends CI_Controller {
 				$list=$this->db->get_where('recentquotation',array('time >'=>date("Y-m-d H:i:s",$data[$i]['and_time']),'symbol'=>$data[$i]['symbol']))->result_array(); // 匹配离开奖时间最近一条结果
 				if (count($list)>0){                                                                                                      // 有数据则进入
 				if (intval($data[$i]['invest_type'])==1) {                                                                                // 判断涨
-				    if ($data[$i]['capital']<$list[0]['price']) {
-				        $shuying_result='赢';
-				    }
-				    else if ($data[$i]['capital']>$list[0]['price']) {
+				    if ($data[$i]['capital']>$list[0]['price']) {
 				        $shuying_result='输';
+				    }
+				    else if ($data[$i]['capital']<$list[0]['price']) {
+				        $shuying_result='赢';
 				    }
 				    else{
 				    	$shuying_result='平';
 				    }
 				}
 				if (intval($data[$i]['invest_type'])==0) {                    // 判断跌
-				    if ($data[$i]['capital']>$list[0]['price']) {
-				        $shuying_result='赢';
-				    }
-				    else if ($data[$i]['capital']<$list[0]['price']) {
+				    if ($data[$i]['capital']<$list[0]['price']) {
 				        $shuying_result='输';
+				    }
+				    else if ($data[$i]['capital']>$list[0]['price']) {
+				        $shuying_result='赢';
 				    }
 				    else{
 				    	$shuying_result='平';
@@ -99,7 +99,7 @@ class MY_Controller extends CI_Controller {
 	 */
 	public function is_user_num($uid=0,$symbol='',$shuying_result=''){
         $invdata = $this->db->get("investor_detail")->result_array();                            // 查询投资记录
-        $numdata = $this->db->get_where('investor_user_num',array('uid'=>$uid))->result_array(); // 查询投资记录
+        $numdata = $this->db->get_where('investor_user_num',array('uid'=>$uid))->result_array(); // 查询连赢记录
         if ($shuying_result=='赢') {                   //判断赢
         	$num=intval($numdata[0]['num'])+1;     //累计次数
 
@@ -131,4 +131,23 @@ class MY_Controller extends CI_Controller {
 	        $this->db->insert('investor_user_num',$data);     // 执行插入语句
         }
 	}
+	/**
+	 * 查询用户连赢次数
+	 * @return integer
+	 * @author ohyeah
+	 */
+	public function ying_num(){
+        $uid=$this->is_uid();
+        $result = $this->db->get_where('investor_user_num',array('uid'=>$uid))->result_array(); // 查询连赢记录
+        return $result[0]['num'];
+    }
+    /**
+	 * 查询最新报价
+	 * @return integer
+	 * @author ohyeah
+	 */
+	public function new_price($symbol=''){
+        $result = $this->db->limit(1)->order_by("id","desc")->get_where('recentquotation',array('symbol'=>$symbol))->result_array(); // 查询最近一条报价记录
+        return $result[0]['price'];
+    }
 }

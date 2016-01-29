@@ -11,6 +11,8 @@ class Huangjin extends MY_Controller{
         $this->load->database();		
         $username=get_cookie('username')?get_cookie('username'):'';
         $data['username']=$username;
+        $data['num']=$this->ying_num();
+        $data['uid']=$this->is_uid().'号会员';
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username      
     }
  
@@ -222,5 +224,10 @@ class Huangjin extends MY_Controller{
         }else{
             echo json_encode(array('success'=>false,'info'=>'未开奖'));
         }                                                                 
+    }
+    function price(){
+        $symbol=$_POST['symbol'];
+        $data['price'] = $this->new_price($symbol);
+        echo json_encode($data); 
     }
 }
