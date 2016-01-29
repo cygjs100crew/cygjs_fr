@@ -10,6 +10,7 @@ $('#zhang').on('click', function(){
 	}
 	var index = layer.load();
 	$.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:1,symbol:$('#symbol').val()},function(data){
+	    $('#capital1').val($('#capital').val());
 	    var json=JSON.parse(data);
 	    layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
 	    icon: 1,
@@ -89,6 +90,7 @@ $('#die').on('click', function(){
 	}
 	var index = layer.load();
     $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:0,symbol:$('#symbol').val()},function(data){
+        $('#capital1').val($('#capital').val());
         var json=JSON.parse(data);
         layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
 	    icon: 1,

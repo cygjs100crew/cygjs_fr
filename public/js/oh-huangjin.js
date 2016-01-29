@@ -13,6 +13,7 @@ $('#zhang').on('click', function(){
     $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').val(),invest_type:1,symbol:$('#symbol').val()},function(data){
     	 // var obj = eval(data);
         // alert(data);
+        $('#capital1').val($('#capital').val());
         var json=JSON.parse(data);
         layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
 	    icon: 1,
@@ -94,6 +95,7 @@ $('#die').on('click', function(){
     $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').val(),invest_type:0,symbol:$('#symbol').val()},function(data){
     	 // var obj = eval(data);
         // alert(data);
+        $('#capital1').val($('#capital').val());
         var json=JSON.parse(data);
         layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
 	    icon: 1,

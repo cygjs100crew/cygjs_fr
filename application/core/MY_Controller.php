@@ -34,10 +34,10 @@ class MY_Controller extends CI_Controller {
 				$list=$this->db->get_where('recentquotation',array('time >'=>date("Y-m-d H:i:s",$data[$i]['and_time']),'symbol'=>$data[$i]['symbol']))->result_array(); // 匹配离开奖时间最近一条结果
 				if (count($list)>0){                                                                                                      // 有数据则进入
 				if (intval($data[$i]['invest_type'])==1) {                                                                                // 判断涨
-				    if ($data[$i]['capital']>$list[0]['price']) {
+				    if ($data[$i]['capital']<$list[0]['price']) {
 				        $shuying_result='赢';
 				    }
-				    else if ($data[$i]['capital']<$list[0]['price']) {
+				    else if ($data[$i]['capital']>$list[0]['price']) {
 				        $shuying_result='输';
 				    }
 				    else{
@@ -45,10 +45,10 @@ class MY_Controller extends CI_Controller {
 				    }
 				}
 				if (intval($data[$i]['invest_type'])==0) {                    // 判断跌
-				    if ($data[$i]['capital']<$list[0]['price']) {
+				    if ($data[$i]['capital']>$list[0]['price']) {
 				        $shuying_result='赢';
 				    }
-				    else if ($data[$i]['capital']>$list[0]['price']) {
+				    else if ($data[$i]['capital']<$list[0]['price']) {
 				        $shuying_result='输';
 				    }
 				    else{
