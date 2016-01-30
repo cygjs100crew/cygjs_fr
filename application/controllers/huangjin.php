@@ -228,6 +228,7 @@ class Huangjin extends MY_Controller{
     function price(){
         $symbol=$_POST['symbol'];
         $data['price'] = $this->new_price($symbol);
+        $data['num']=$this->ying_num();
         echo json_encode($data); 
     }
 }

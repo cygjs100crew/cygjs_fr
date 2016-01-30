@@ -237,7 +237,7 @@ $('#jinyulink').on('click', function(){
 // 	},3000);
 
 setInterval(function(){
-    $.post('/cygjs_fr/index.php/huangjin/price',{symbol:'CFIFZ5'},function(data){
+    $.post('/cygjs_fr/index.php/huangjin/price',{symbol:'XAU'},function(data){
     // alert(data);
     var json=JSON.parse(data);  
     	if (Number($('#capital').val())<Number(json.price)) {
@@ -250,6 +250,13 @@ setInterval(function(){
 	    	$(".button_ab dl").css("border","4px solid Black");
 	    };
     $('#capital').val(json.price);
-
+    $('#lianying').html(json.num);
     });
-},3000);
+},5000);
+
+// $('.tx').on('click', function(){
+// 	layer.alert('流量取现请联系客服确认取现时间。', {
+//     icon: 6,
+//     skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+// 	});
+// });
