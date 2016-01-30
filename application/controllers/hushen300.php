@@ -208,8 +208,8 @@ class hushen300 extends MY_Controller{
     function hushen_link(){
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"CFIFZ5"))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
-            echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
-            exit();
+            echo "╮(╯﹏╰)╭暂时没有数据！";
+            exit();     //没有数据则提示
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
@@ -224,7 +224,6 @@ class hushen300 extends MY_Controller{
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"s_sz399300"))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
             echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
-            exit();
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
@@ -261,8 +260,11 @@ class hushen300 extends MY_Controller{
         echo $uid;
     }
     function price(){
+        $result=$this->shuying();
         $symbol=$_POST['symbol'];
-        $data['price'] = $this->new_price($symbol);
+        $result = $this->db->limit(1)->order_by("id","desc")->get_where('recentquotation',array('symbol'=>$symbol))->result_array(); // 查询最近一条报价记录
+        $data['price'] = $result[0]['price'];
+        $data['time'] = $result[0]['time'];
         $data['num']=$this->ying_num();
         echo json_encode($data); 
     }

@@ -63,6 +63,49 @@ class MY_Controller extends CI_Controller {
             }
         }
     }
+     /**
+	 * 验证投资结果(历史数据)
+	 * @param string $uid     用户ID
+	 * @param string $symbol  投资类型标识码
+	 * @param string $capital 投资金额
+	 * @return integer 0-输，大于0-赢
+	 * @author ohyeah
+	 */
+    public function shuying_ed($uid=0,$symbol='',$capital=0){
+				$data=$this->db->get_where('investor_detail',array('result'=>""))->result_array();                                        // 读取未开奖的条目
+				for ($i=0; $i < count($data); $i++) {                                                                                     // 逐条遍历
+				$list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date("H:i:s",$data[$i]['and_time']),'symbol'=>$data[$i]['symbol']))->result_array(); // 匹配离开奖时间最近一条结果
+				if (count($list)>0){                                                                                                      // 有数据则进入
+				if (intval($data[$i]['invest_type'])==1) {                                                                                // 判断涨
+				    if ($data[$i]['capital']>$list[0]['price']) {
+				        $shuying_result='输';
+				    }
+				    else if ($data[$i]['capital']<$list[0]['price']) {
+				        $shuying_result='赢';
+				    }
+				    else{
+				    	$shuying_result='平';
+				    }
+				}
+				if (intval($data[$i]['invest_type'])==0) {                    // 判断跌
+				    if ($data[$i]['capital']<$list[0]['price']) {
+				        $shuying_result='输';
+				    }
+				    else if ($data[$i]['capital']>$list[0]['price']) {
+				        $shuying_result='赢';
+				    }
+				    else{
+				    	$shuying_result='平';
+				    }
+				}
+				$num_result=$this->is_user_num($data[$i]['investor_uid'],$data[$i]['symbol'],$shuying_result); // 执行验证规则
+				$condition['id'] =$data[$i]['id'];                                                   // 更新对象id
+				$map['result'] =$shuying_result;                                                     // 结果赋值
+				$map['currented'] =$list[0]['price'];                                                // 比较值
+				$this->db->where($condition)->update("investor_detail",$map);                        // 执行更新语句
+            }
+        }
+    }
     /**
 	 * 获取用户ID
 	 * @return integer 0-失败，属性信息
@@ -100,13 +143,18 @@ class MY_Controller extends CI_Controller {
 	public function is_user_num($uid=0,$symbol='',$shuying_result=''){
         $invdata = $this->db->get("investor_detail")->result_array();                            // 查询投资记录
         $numdata = $this->db->get_where('investor_user_num',array('uid'=>$uid))->result_array(); // 查询连赢记录
+        if (count($numdata)<1) {  
+        	$numdata[0]['num']=0;
+        }
         if ($shuying_result=='赢') {                   //判断赢
         	$num=intval($numdata[0]['num'])+1;     //累计次数
 
         }else{                                     //中断连续，并重置次数
         	$num=0;
         }
-		    if (count($numdata)>0) {                                 // 判断是否有会员数据
+		
+
+		if (count($numdata)>0) {                                 // 判断是否有会员数据
 		        if ($num>2) {                                        // 连续3次赢1M流量规则
 	        	$data = array(
 		                'customer_id' => $uid,                       // 会员ID
@@ -139,7 +187,7 @@ class MY_Controller extends CI_Controller {
 	public function ying_num(){
         $uid=$this->is_uid();
         $result = $this->db->get_where('investor_user_num',array('uid'=>$uid))->result_array(); // 查询连赢记录
-        return $result[0]['num'];
+        return count($result)>1?$result[0]['price']:0;
     }
     /**
 	 * 查询最新报价

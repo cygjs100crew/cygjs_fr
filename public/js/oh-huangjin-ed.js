@@ -237,7 +237,7 @@ $('#jinyulink').on('click', function(){
 // 	},3000);
 
 setInterval(function(){
-    $.post('/cygjs_fr/index.php/huangjin/price',{symbol:'XAU'},function(data){
+    $.post('/cygjs_fr/index.php/huangjin_ed/price',{symbol:'XAU'},function(data){
     // alert(data);
     var json=JSON.parse(data);  
     	if (Number($('#capital').val())<Number(json.price)) {
@@ -249,15 +249,8 @@ setInterval(function(){
 	    if (Number($('#capital').val())==Number(json.price)) {
 	    	$(".button_ab dl").css("border","4px solid Black");
 	    };
-
     $('#capital').val(json.price);
     $('#lianying').html(json.num);
-    	if ($('#timeed').val()==json.time) {
-	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
-	    	$('#capital').val('');
-	    	$('#capital1').val('');
-	    };
-    $('#timeed').val(json.time);
     });
 },5000);
 

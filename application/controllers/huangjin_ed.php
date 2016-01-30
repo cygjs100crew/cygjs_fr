@@ -1,6 +1,6 @@
 <?php
 //error_reporting(0);
-class Huangjin extends MY_Controller{
+class Huangjin_ed extends MY_Controller{
     public function __construct(){
         parent::__construct();                
     }
@@ -13,7 +13,7 @@ class Huangjin extends MY_Controller{
         $data['username']=$username;
         $data['num']=$this->ying_num();
         $data['uid']=$this->is_uid().'号会员';
-        $this->load->view('huangjin.html',$data);//前端在某个地方输出$username      
+        $this->load->view('huangjin_ed.html',$data);//前端在某个地方输出$username      
     }
  
     
@@ -174,10 +174,11 @@ class Huangjin extends MY_Controller{
         }
     }
     /* 黄金走势线iframe显示页面（下单） @ohyeah */
-    function huangjin_link(){
-        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"XAU"))->result_array(); // 查询图表数据
+    function huangjin_link_ed(){
+        $list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-1 hours')),'time <'=>'2016-01-25 '.date('H:i:s'),'symbol'=>"XAU"))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
         	echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+        	exit();
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
@@ -185,14 +186,14 @@ class Huangjin extends MY_Controller{
         $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
         $result['ipdata'] = implode(',', $Kdata);                                                               // 拼接时间数据格式
         }
-        $this->load->view('huangjin_link.html',$result);                                                        // 加载模板
+        $this->load->view('huangjin_link_ed.html',$result);                                                        // 加载模板
     }
     /* [新浪]黄金走势线iframe显示页面（下单） @ohyeah */
     function huangjin_sinalink(){
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"hf_GC"))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
-        	echo "╮(╯﹏╰)╭暂时没有数据！"; 
-            exit();    //没有数据则提示
+        	echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+        	exit();
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
@@ -205,13 +206,13 @@ class Huangjin extends MY_Controller{
     /* 交易历史iframe显示页面 @ohyeah */
     function huangjin_html_list(){
         $data['lishi'] = $this->db->limit(20)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array(); // 查询历史交易
-        $result=$this->shuying();                                                                                                          // 验证结果
+        $result=$this->shuying_ed();                                                                                                          // 验证结果
         $this->load->view('huangjin_html_list.html',$data);                                                                                // 加载模板
     }
     function huangjin_js_list(){
-        $result=$this->shuying(); 
-        $id=$this->is_uid();
-        $data = $this->db->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$id))->result_array(); // 查询历史交易
+        $result=$this->shuying_ed(); 
+        $uid=$this->is_uid();
+        $data = $this->db->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$uid))->result_array(); // 查询历史交易
 
         
         if ($data[0]['result']=='赢') {
@@ -225,9 +226,9 @@ class Huangjin extends MY_Controller{
         }                                                                 
     }
     function price(){
-        $result=$this->shuying();
+        $result=$this->shuying_ed(); 
         $symbol=$_POST['symbol'];
-        $result = $this->db->limit(1)->order_by("id","desc")->get_where('recentquotation',array('symbol'=>$symbol))->result_array(); // 查询最近一条报价记录
+        $result = $this->db->limit(1)->order_by("id","desc")->get_where('recentquotation',array('time <'=>'2016-01-25 '.date('H:i:s'),'symbol'=>$symbol))->result_array(); // 查询最近一条报价记录
         $data['price'] = $result[0]['price'];
         $data['time'] = $result[0]['time'];
         $data['num']=$this->ying_num();

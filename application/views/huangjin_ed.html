@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>沪深300</title>
+<title>黄金[历史]</title>
  <base href="<?php echo base_url()?>">
 <link rel="stylesheet" type="text/css" href="http://layoutit.justjavac.com/css/bootstrap-combined.min.css"><!-- Bootstra框架Combined引入 -->
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
@@ -70,27 +70,27 @@
 <div class="tab_nav">
 	<span class="line"></span>
 	<ul>
-	<li ><a href="<?php echo site_url('huangjin/index')?>">黄金</a></li>
-	<li class="on"><a href="<?php echo site_url('hushen300/index')?>">沪深300</a><!-- <a href="javascript:void(0);" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a> --></li>
+	<li class="on"><a href="javascript:void(0);">某天黄金趋势图</a><!-- <a href="javascript:void(0);" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a> --></li>
+	<!-- <li><a href="<?php echo site_url('hushen300/index')?>">沪深300</a></li> -->
 </ul></div>
 
 <div class="focus_data">
     <!-- 为新浪准备一个具备大小（宽高）的Dom -->
-    <iframe id="dd" name="dd" src="/cygjs_fr/index.php/huangjin/huangjin_link" width="100%" height="410"></iframe>
+    <iframe id="dd" name="dd" src="/cygjs_fr/index.php/huangjin_ed/huangjin_link_ed" width="100%" height="410"></iframe>
 </div>
 <div class="button_ab">
     <span class="d"><a href="javascript:void(0);" id="die" class="die">跌</a></span>
 	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">涨</a></span>
-	<dl><dt id='tip'>最新报价</dt><dd>
-	<input type="button" name="capital" id="capital" value=""/>
+	<dl><dt>最新报价</dt><dd><input type="button" name="capital" id="capital" value=""/>
 	<dt>PK</dt>
 	<input type="button" name="capital1" id="capital1" value=""/>
-	<input type="button" name="symbol" id="symbol" value="CFIFZ5" style="display:none;"/>
-	<input type="button" name="timeed" id="timeed" value="" style="display:none;"/></dd></dl>
+	<input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/></dd></dl>
 </div>
+
 <div class="user_info">
 	<dl><dt><img src="http://img.hb.aicdn.com/f19f02cdd588b515902f764ebf72ff40e871a9fe29cb-B0vzSa_fw658" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
-	<ul><li><span>可用流量&nbsp&nbsp&nbsp&nbsp连赢x<em id='lianying'>0</em>(满3次送1M)</span><p><em>300</em>M</p></li></ul>
+	<ul><li><span>可用流量&nbsp&nbsp&nbsp&nbsp连赢x<em id='lianying'>0</em>(满3次送1M)</span><p><em>300</em>M</p></li>
+	</ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">我要取现</a></span>
 </div>
 
@@ -140,34 +140,103 @@
 		<a id="register_btn" class="flatbtn-red hidemodal">注册</a>
 		</div>
     </div>
-
 </div>
 </body>
-<script type="text/javascript" src="public/js/oh-hushen300.js"></script><!-- @author ohyeah -->
+<script type="text/javascript" src="public/js/oh-huangjin-ed.js"></script><!-- @author ohyeah -->
 </html>
 <script>
+var InterValObj; //timer变量，控制时间  
+var count = 120; //间隔函数，1秒执行  
+var curCount;//当前剩余秒数  
+var code = ""; //验证码  
+var codeLength = 6;//验证码长度  
+$('#btnSendCode1').click(function() {  
+	curCount = count;  
+	var phone=$("#phone1").val();//手机号码  
+	if(phone != ""){  
+		//产生验证码  
+		for (var i = 0; i < codeLength; i++) {  
+			code += parseInt(Math.random() * 9).toString();  
+		}  
+		//设置button效果，开始计时  
+		$("#btnSendCode1").attr("disabled", "true");  
+		$("#btnSendCode1").val("请在" + curCount + "秒内输入验证码");  
+		InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次  
+	//向后台发送处理数据  
+		/*$.ajax({  
+			type: "POST", //用POST方式传输  
+			dataType: "text", //数据格式:JSON  
+			url: 'Login.ashx', //目标地址  
+			data: "phone=" + phone + "&code=" + code,  
+			error: function (XMLHttpRequest, textStatus, errorThrown) { },  
+			success: function (msg){ }  
+		}); */ 
+	}else{  
+		alert("手机号码不能为空！");  
+	} 
+		
+}) 
+//timer处理函数  
+function SetRemainTime() {  
+	if (curCount == 0) {                  
+		window.clearInterval(InterValObj);//停止计时器  
+		$("#btnSendCode1").removeAttr("disabled");//启用按钮  
+		$("#btnSendCode1").val("重新发送验证码");  
+		code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效      
+	}  
+	else {  
+		curCount--;  
+		$("#btnSendCode1").val("请在" + curCount + "秒内输入验证码");  
+	}  
+}  
+
 //弹出窗口
+
+$('#qx').click(function(){
+	//$('#loginmodal').attr('style','display:block');
+	$('#loginmodal').show();
+});
+//弹出 用户登入框
+$('#yh').click(function(){
+	$('#yh').addClass('on');
+	$('#sj').removeClass('on');
+	$('#phonelogin').hide();
+	$('#userlogin').show();
+	
+    
+  
+});
+//弹出手机登入框
+$('#sj').click(function(){
+	$('#sj').addClass('on');
+	$('#yh').removeClass('on');
+	$('#userlogin').hide();
+	$('#phonelogin').show();
+		
+})
 $(function(){
 	//弹出注册框的时候，同时向后台请求验证码图片
 	$('#register_btn').on('click',function(){
 		/*$.ajax({
-			url:'<?php echo site_url("hushen300/img")?>',
+			url:'<?php echo site_url("huangjin/img")?>',
 			dataType:'html',
 			async:false,
 			success:function(data){
 				$('#img_td').prepend(data);
 			}
 		});*/
-		$('#mask').show();
-		$('#register').show();	
+		//$('#mask').show();
+		$('#loginmodal').hide();
+		$('#regmodal').show();	
 	});
 	//点击发送时发送手机验证码
-	$('#btnSendCode').click(function(){
-		var phone=$('#phone').val();
+	$('#btnSendCode1').click(function(){
+		var phone=$('#phone1').val();
 		//这里应该检测一下是否是电话号码，我这里省略掉
 		
+		
 		$.ajax({
-			url:'<?php echo site_url("hushen300/send_sms")?>',
+			url:'<?php echo site_url("huangjin/send_sms")?>',
 			data:{phone:phone},
 			type:'post',
 			success:function(data){
@@ -187,7 +256,7 @@ $(function(){
 		var post_data={};
 		post_data[field]=value;
 		$.ajax({
-			url:'<?php echo site_url("hushen300/check")?>',
+			url:'<?php echo site_url("huangjin/check")?>',
 		    dataType:"json",
 			type:'post',
 			data:post_data,
@@ -197,40 +266,9 @@ $(function(){
 		})
 	});
 
-	$('.qx').click(function(){
-		//console.log(123);
-		popCenterWindow();
-		
-	});
-	//获取窗口/弹窗的高跟宽
-	function init(){
-		windowHeight=$(window).height();
-		windowWidth=$(window).width();
-		popHeight=$('#login').height();
-		popWidth=$('#login').width();
-	};
-	//关闭窗口
-	function closeWindow(){
-		$('.title img').click(function(){
-			$(this).parent().parent().hide('slow');
-			$('#mask').hide();
-			$('#login').hide();
-			
-		})
-	};
-	function popCenterWindow(){
-		init();
-		//计算弹出窗口的左上角Y的偏移量
-		var popY=(windowHeight-popHeight)/2;
-		var popX=(windowWidth-popWidth)/2;
-		//设定窗口的位置
-		$('#login').css('top',popY).css('left',popX).slideToggle('slow');
-		closeWindow();
-		
-	};
-	
+
 // ajax请求注册页面
-	$('#sure').click(function(){
+	$('#loginbtn').click(function(){
 		var code=$('#checkCode').val();
 		if(code==''){
 			alert('验证码不能为空');
@@ -240,25 +278,22 @@ $(function(){
 		var post_arr=['username','password','phone','checkCode'];
 		var post_obj={};
 		$.each(post_arr,function(index,item){
-			post_obj[item]=$('#register').find('[name="'+item+'"]').val();
+			post_obj[item]=$('#regmodal').find('[name="'+item+'"]').val();
 		});
 		$.ajax({
-			url:"<?php echo site_url('hushen300/register')?>",
+			url:"<?php echo site_url('huangjin/register')?>",
 			dataType:"json",
 			type:"post",
 			data:post_obj,
 			success:function(data){
-		    	// alert(data.info);
-		    	if(data && data.success){
-		    		alert(data.info);
-		    		location.href="<?php echo site_url('huangjin/index')?>";
-		    	}else{
-		    		alert(data.info);
-		    		window.history.back();
-		    		
-		    	}
-		    	
-		       }
+				if(data && data.success){
+					alert('注册成功');
+				  location.href="<?php echo site_url('huangjin/index')?>";
+				}else{ 
+					alert('注册失败');
+				  window.history.back();
+				}
+			}
 		})
 	
 	});
@@ -272,7 +307,7 @@ $(function(){
 			post_obj[item]=$('#login').find('[name="'+item+'"]').val();
 		});
 	   $.ajax({
-		   url:"<?php echo site_url('hushen300/login_name')?>",
+		   url:"<?php echo site_url('huangjin/login_name')?>",
 	       dataType:"json",
 	       type:"post",
 	       //data:{username:username,password:password},
@@ -291,12 +326,15 @@ $(function(){
 	       }
 	   })	
 	});
+	
 	function get_current_flow(){
-		$.get('<?php echo site_url('hushen300/stat_total_flow')?>',function(data){
+		$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
 			$('#total_flow').html(data);
 		})
 	}
 	get_current_flow();
+	
+	
 	
 })
 </script>

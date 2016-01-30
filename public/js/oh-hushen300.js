@@ -235,6 +235,12 @@ setInterval(function(){
 	    };
     $('#capital').val(json.price);
     $('#lianying').html(json.num);
+    	if ($('#timeed').val()==json.time) {
+	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
+	    	$('#capital').val('');
+	    	$('#capital1').val('');
+	    };
+    $('#timeed').val(json.time);
     });
 },5000);
 

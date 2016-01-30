@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>黄金</title>
+<title>黄金[实时]</title>
  <base href="<?php echo base_url()?>">
 <link rel="stylesheet" type="text/css" href="http://layoutit.justjavac.com/css/bootstrap-combined.min.css"><!-- Bootstra框架Combined引入 -->
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
@@ -81,10 +81,11 @@
 <div class="button_ab">
     <span class="d"><a href="javascript:void(0);" id="die" class="die">跌</a></span>
 	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">涨</a></span>
-	<dl><dt>最新报价</dt><dd><input type="button" name="capital" id="capital" value=""/>
+	<dl><dt id='tip'>最新报价</dt><dd><input type="button" name="capital" id="capital" value=""/>
 	<dt>PK</dt>
 	<input type="button" name="capital1" id="capital1" value=""/>
-	<input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/></dd></dl>
+	<input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/>
+	<input type="button" name="timeed" id="timeed" value="" style="display:none;"/></dd></dl>
 </div>
 
 <div class="user_info">
