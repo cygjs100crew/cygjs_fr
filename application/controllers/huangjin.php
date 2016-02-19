@@ -178,6 +178,7 @@ class Huangjin extends MY_Controller{
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"XAU"))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
         	echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+        	exit();
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];

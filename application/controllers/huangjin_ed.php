@@ -188,6 +188,21 @@ class Huangjin_ed extends MY_Controller{
         }
         $this->load->view('huangjin_link_ed.html',$result);                                                        // 加载模板
     }
+        /* 黄金走势线iframe显示页面（下单） @ohyeah */
+    function data_ed(){
+        $list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-1 hours')),'time <'=>'2016-01-25 '.date('H:i:s'),'symbol'=>"XAU"))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+            echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+            exit();
+        }
+        foreach($list as $k=>$v){
+            $Kdata[$k] =$v['price'];
+            $data_date[$k] ='"'.$v['time'].'"';
+        $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
+        $result['ipdata'] = implode(',', $Kdata);                                                               // 拼接时间数据格式
+        }
+        echo json_encode($result);                                                         // 加载模板
+    }
     /* [新浪]黄金走势线iframe显示页面（下单） @ohyeah */
     function huangjin_sinalink(){
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"hf_GC"))->result_array(); // 查询图表数据
@@ -233,5 +248,25 @@ class Huangjin_ed extends MY_Controller{
         $data['time'] = $result[0]['time'];
         $data['num']=$this->ying_num();
         echo json_encode($data); 
+    }
+    function e(){ 
+        $this->load->view('e.html');  
+    }
+    function e_data(){
+        $list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-15 minutes')),'time <'=>'2016-01-25 '.date('H:i:s'),'symbol'=>"XAU"))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+            echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+            exit();
+        }
+        foreach($list as $k=>$v){
+            $Kdata[$k] =$v['price'];
+            $data_date[$k] =$v['time'];
+        // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
+        // $result['ipdata'] = implode(',', $Kdata);       
+        $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
+        $result['ipdata'] = $Kdata;                                                              // 拼接时间数据格式
+        }
+        // $result = $_POST['symbol'];
+        echo json_encode($result);    
     }
 }

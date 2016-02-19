@@ -252,7 +252,7 @@ setInterval(function(){
     $('#capital').val(json.price);
     $('#lianying').html(json.num);
     });
-},5000);
+},3000);
 
 // $('.tx').on('click', function(){
 // 	layer.alert('流量取现请联系客服确认取现时间。', {
