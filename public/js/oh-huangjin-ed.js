@@ -236,24 +236,6 @@ $('#jinyulink').on('click', function(){
 // 	    });
 // 	},3000);
 
-setInterval(function(){
-    $.post('/cygjs_fr/index.php/huangjin_ed/price',{symbol:'XAU'},function(data){
-    // alert(data);
-    var json=JSON.parse(data);  
-    	if (Number($('#capital').val())<Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Red");
-	    }
-	    if (Number($('#capital').val())>Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Lime");
-	    };
-	    if (Number($('#capital').val())==Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Black");
-	    };
-    $('#capital').val(json.price);
-    $('#lianying').html(json.num);
-    });
-},3000);
-
 // $('.tx').on('click', function(){
 // 	layer.alert('流量取现请联系客服确认取现时间。', {
 //     icon: 6,

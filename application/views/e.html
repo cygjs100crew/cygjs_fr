@@ -109,10 +109,25 @@ option = {
 myChart.showLoading();
 app.timeTicket = setInterval(function () {
 $.post('/cygjs_fr/index.php/huangjin_ed/e_data',{symbol:'XAU'},function(data){
+
     myChart.hideLoading();
     var json=JSON.parse(data);
     var date = json.data_date;
     var data = json.ipdata;
+
+    $('#capital').val(json.price);
+    alert($('#capital').val());
+    if (Number($('#capital').val())<Number(json.price)) {
+            $(".button_ab dl").css("border","4px solid Red");
+        }
+        if (Number($('#capital').val())>Number(json.price)) {
+            $(".button_ab dl").css("border","4px solid Lime");
+        };
+        if (Number($('#capital').val())==Number(json.price)) {
+            $(".button_ab dl").css("border","4px solid Black");
+        };
+    $('#capital').val(json.price);
+    $('#lianying').html(json.num);
         addData(true);
         myChart.setOption({
             xAxis: {

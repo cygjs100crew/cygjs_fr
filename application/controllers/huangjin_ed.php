@@ -13,6 +13,8 @@ class Huangjin_ed extends MY_Controller{
         $data['username']=$username;
         $data['num']=$this->ying_num();
         $data['uid']=$this->is_uid().'号会员';
+        $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
+        $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
         $this->load->view('huangjin_ed.html',$data);//前端在某个地方输出$username      
     }
  
@@ -253,7 +255,8 @@ class Huangjin_ed extends MY_Controller{
         $this->load->view('e.html');  
     }
     function e_data(){
-        $list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-15 minutes')),'time <'=>'2016-01-25 '.date('H:i:s'),'symbol'=>"XAU"))->result_array(); // 查询图表数据
+        $symbol=$_POST['symbol'];
+        $list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s'),'symbol'=>$symbol))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
             echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
             exit();
@@ -264,8 +267,10 @@ class Huangjin_ed extends MY_Controller{
         // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
         // $result['ipdata'] = implode(',', $Kdata);       
         $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
-        $result['ipdata'] = $Kdata;                                                              // 拼接时间数据格式
+        $result['ipdata'] = $Kdata; 
+        $result['price'] = $v['price'];                                                           // 拼接时间数据格式
         }
+
         // $result = $_POST['symbol'];
         echo json_encode($result);    
     }

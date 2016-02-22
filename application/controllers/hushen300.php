@@ -14,6 +14,8 @@ class hushen300 extends MY_Controller{
         $data['username']=$username;
         $data['num']=$this->ying_num();
         $data['uid']=$this->is_uid().'号会员';
+        $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
+        $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
         $this->load->view('hushen300.html',$data);//前端在某个地方输出$username      
     }
     //这里设置游客有多少流量，此时用户可能没有注册;玩了游戏的游客才会被记录到游客表中
@@ -267,5 +269,24 @@ class hushen300 extends MY_Controller{
         $data['time'] = $result[0]['time'];
         $data['num']=$this->ying_num();
         echo json_encode($data); 
+    }
+    function e_data(){
+        $symbol=$_POST['symbol'];
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+            echo "╮(╯﹏╰)╭暂时没有数据！";
+            exit();     //没有数据则提示
+        }
+        foreach($list as $k=>$v){
+            $Kdata[$k] =$v['price'];
+            $data_date[$k] =$v['time'];
+        // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
+        // $result['ipdata'] = implode(',', $Kdata);       
+        $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
+        $result['ipdata'] = $Kdata;
+        $result['price'] = $v['price'];                                                              // 拼接时间数据格式
+        }
+        // $result = $_POST['symbol'];
+        echo json_encode($result);    
     }
 }

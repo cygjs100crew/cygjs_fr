@@ -220,29 +220,29 @@ $('#jinyulink').on('click', function(){
 //         });
 // },5000);
 
-setInterval(function(){
-    $.post('/cygjs_fr/index.php/hushen300/price',{symbol:'CFIFZ5'},function(data){
-    // alert(data);
-    var json=JSON.parse(data);
-        if (Number($('#capital').val())<Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Red");
-	    }
-	    if (Number($('#capital').val())>Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Lime");
-	    };
-	    if (Number($('#capital').val())==Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Black");
-	    };
-    $('#capital').val(json.price);
-    $('#lianying').html(json.num);
-    	if ($('#timeed').val()==json.time) {
-	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
-	    	$('#capital').val('');
-	    	$('#capital1').val('');
-	    };
-    $('#timeed').val(json.time);
-    });
-},5000);
+// setInterval(function(){
+//     $.post('/cygjs_fr/index.php/hushen300/price',{symbol:'CFIFZ5'},function(data){
+//     // alert(data);
+//     var json=JSON.parse(data);
+//         if (Number($('#capital').val())<Number(json.price)) {
+// 	    	$(".button_ab dl").css("border","4px solid Red");
+// 	    }
+// 	    if (Number($('#capital').val())>Number(json.price)) {
+// 	    	$(".button_ab dl").css("border","4px solid Lime");
+// 	    };
+// 	    if (Number($('#capital').val())==Number(json.price)) {
+// 	    	$(".button_ab dl").css("border","4px solid Black");
+// 	    };
+//     $('#capital').val(json.price);
+//     $('#lianying').html(json.num);
+//     	if ($('#timeed').val()==json.time) {
+// 	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
+// 	    	$('#capital').val('');
+// 	    	$('#capital1').val('');
+// 	    };
+//     $('#timeed').val(json.time);
+//     });
+// },5000);
 
 // $('.tx').on('click', function(){
 // 	layer.alert('流量取现请联系客服确认取现时间。', {
