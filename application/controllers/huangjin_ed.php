@@ -268,10 +268,24 @@ class Huangjin_ed extends MY_Controller{
         // $result['ipdata'] = implode(',', $Kdata);       
         $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
         $result['ipdata'] = $Kdata; 
-        $result['price'] = $v['price'];                                                           // 拼接时间数据格式
+        $result['price'] = $v['price'];
+        $result['num']=$this->ying_num();                                                           // 拼接时间数据格式
         }
 
         // $result = $_POST['symbol'];
         echo json_encode($result);    
+    }
+    function tt(){
+        $data['num']=$this->is_user_num(1201,'213','赢');
+        var_dump($data['num']);
+    }
+    function t1(){
+            $condition['uid'] =888;                                           // 更新对象id
+            $updata['uid'] =888; 
+            $updata['num'] =1;                                              // 结果赋值
+            $updata['symbol'] ='123';
+            $updata['state'] =1;     
+                                                    // 比较值
+            $this->db->where($condition)->update("investor_user_num",$updata); // 执行更新语
     }
 }

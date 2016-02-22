@@ -256,4 +256,7 @@ class Huangjin extends MY_Controller{
         // $result = $_POST['symbol'];
         echo json_encode($result);    
     }
+    function tt(){
+
+    }
 }
