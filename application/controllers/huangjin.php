@@ -97,6 +97,9 @@ class Huangjin extends MY_Controller{
 	}
 	
 	public  function login_phone(){
+	    if(get_cookie('username')){//如果登陆了，就不用再登陆了
+	        die('你已经登陆！');
+	    }
        $data=$this->input->post();
        $sms_code=$this->session->userdata('sms_code');
        $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
@@ -151,7 +154,7 @@ class Huangjin extends MY_Controller{
 	public function test_sms(){
 		$this->load->model('phone_model','phone');
 		$data = array(
-		    'phone' => '15074716900',
+		    'phone' => '150****900',
 		    'MessageContent' => '您本次验证码为12345678如需退订回复TD。',
 		);
 		echo $this->phone->send($data);
