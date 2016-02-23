@@ -17,47 +17,28 @@
 
 <style>
 #mask{
-
             margin: 0 auto;
-
             width: 100%;
-
             height: 100%;
-
             z-index: 200;
-
             background-color: grey;
-
             position: fixed;
-
             left: 0;
-
             top: 0;
-
             opacity: 100;
-
             moz-opacity:100;
-
             filter:alpha(opacity=100);
 			
 			display:none;
 			z-index:0;
 }
-
 #register{
-
             position:absolute;
-
             top:50%;
-
             left:50%;
-
             width:300px;
-
             height:300px;
-
             margin: -150px 0 0 -150px;
-
             vertical-align: middle;
 			
 			display:none;
@@ -76,10 +57,9 @@
 
 <div class="focus_data">
     <!-- 为新浪准备一个具备大小（宽高）的Dom -->
-    <div id="container" style="width: 100%; height:410px;"></div>
+    <div id="container" style="width: 100%; height:270px;"></div>
 <script type="text/javascript" src="<?php echo base_url()?>public/js/echarts-all-3.0.0.js"></script>
 <script type="text/javascript">
-
 var dom = document.getElementById("container");
 var myChart = echarts.init(dom);
 var app = {};
@@ -87,10 +67,8 @@ option = null;
 var base = +new Date(2014, 9, 3);
 var oneDay = 24 * 3600 * 1000;
 var date = [];
-
 var data = [Math.random() * 150];
 var now = new Date(base);
-
 function addData(shift) {
     now = [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-');
     date.push(now);
@@ -101,11 +79,9 @@ function addData(shift) {
     }
     now = new Date(Date.parse(now) + 24 * 3600 * 1000);
 }
-
 for (var i = 1; i < 100; i++) {
     addData();
 }
-
 option = {
     backgroundColor: '#f5f5f5',
     animation:false,
@@ -118,30 +94,27 @@ option = {
                 return params[0].name + '<br />' + params[0].value;
             }
         },
-    toolbox: {
-                show : true,
-                feature : {
-                    dataZoom: {},
-                    dataView: {readOnly: false},
-                    magicType: {type: ['line', 'bar']},
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
+    grid: {
+        top:0,
+        bottom:-15,
+        containLabel: true,
+    },
     xAxis: {
         type: 'category',
         boundaryGap: false,
     },
     yAxis : [
                 {
-                    type : 'value',
+                   
                     scale: true,
-                    splitNumber: 5,
+                    splitNumber: 3,
                     boundaryGap: [0.001, 0.001],
-                    type: 'value',
-                    axisLabel : {
-                        formatter: '{value}'
-                    }
+		            position:'right',
+		            axisLine: {
+				                lineStyle: {
+				                    color: '#dc143c'
+				                }
+				            }
                 }
     ],
     series : [
@@ -194,7 +167,7 @@ $.post('/cygjs_fr/index.php/hushen300/e_data',{symbol:'CFIFZ5'},function(data){
 	    };
     $('#capital').val(json.price);
     $('#lianying').html(json.num);
-    	if ($('#timeed').val()==json.time) {
+    	if (json.st==0) {
 	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
 	    };
     $('#timeed').val(json.time);
@@ -338,7 +311,6 @@ $(function(){
 			}
 		})
 	});
-
 	$('.qx').click(function(){
 		//console.log(123);
 		popCenterWindow();

@@ -273,9 +273,12 @@ class hushen300 extends MY_Controller{
     function e_data(){
         $symbol=$_POST['symbol'];
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+
+
         if (count($list)<1) {                   
-            echo "╮(╯﹏╰)╭暂时没有数据！";
-            exit();     //没有数据则提示
+            $result['st'] =0; //没有数据则提示
+            echo json_encode($result);
+            exit();
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
@@ -286,6 +289,7 @@ class hushen300 extends MY_Controller{
         $result['ipdata'] = $Kdata;
         $result['price'] = $v['price'];                                                              // 拼接时间数据格式
         }
+        $result['st'] =1;
         // $result = $_POST['symbol'];
         echo json_encode($result);    
     }

@@ -257,8 +257,9 @@ class Huangjin_ed extends MY_Controller{
     function e_data(){
         $symbol=$_POST['symbol'];
         $list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s'),'symbol'=>$symbol))->result_array(); // 查询图表数据
-        if (count($list)<1) {                   
-            echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+        if (count($list)<1) {                       
+            $result['st'] =0; //没有数据则提示
+            echo json_encode($result);
             exit();
         }
         foreach($list as $k=>$v){
@@ -273,6 +274,7 @@ class Huangjin_ed extends MY_Controller{
         }
 
         // $result = $_POST['symbol'];
+        $result['st'] =1;
         echo json_encode($result);    
     }
     function tt(){

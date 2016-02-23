@@ -76,7 +76,7 @@
 
 <div class="focus_data">
     <!-- 为新浪准备一个具备大小（宽高）的Dom -->
-    <div id="container" style="width: 100%; height:410px;"></div>
+    <div id="container" style="width: 100%; height:270px;"></div>
 <script type="text/javascript" src="<?php echo base_url()?>public/js/echarts-all-3.0.0.js"></script>
 <script type="text/javascript">
 
@@ -107,7 +107,6 @@ for (var i = 1; i < 100; i++) {
 }
 
 option = {
-    backgroundColor: '#f5f5f5',
     animation:false,
     tooltip: {
             trigger: 'axis',
@@ -118,30 +117,27 @@ option = {
                 return params[0].name + '<br />' + params[0].value;
             }
         },
-    toolbox: {
-                show : true,
-                feature : {
-                    dataZoom: {},
-                    dataView: {readOnly: false},
-                    magicType: {type: ['line', 'bar']},
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
+    grid: {
+        top:0,
+        bottom:-15,
+        containLabel: true,
+    },
     xAxis: {
         type: 'category',
         boundaryGap: false,
     },
     yAxis : [
                 {
-                    type : 'value',
+                   
                     scale: true,
-                    splitNumber: 5,
+                    splitNumber: 3,
                     boundaryGap: [0.001, 0.001],
-                    type: 'value',
-                    axisLabel : {
-                        formatter: '{value}'
-                    }
+		            position:'right',
+		            axisLine: {
+				                lineStyle: {
+				                    color: '#dc143c'
+				                }
+				            }
                 }
     ],
     series : [
@@ -161,12 +157,6 @@ option = {
                         emphasis: {
                             color: 'blue'
                         }
-                    },
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '最大值'},
-                            {type : 'min', name: '最小值'}
-                        ]
                     },
                     markLine : {
                         data : [
@@ -195,16 +185,14 @@ $.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'XAU'},function(data){
 	    };
     $('#capital').val(json.price);
     $('#lianying').html(json.num);
-    	if ($('#timeed').val()==json.time) {
+    	if (json.st==0) {
 	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
 	    };
     $('#timeed').val(json.time);
         addData(true);
         myChart.setOption({
             xAxis: {
-                data: date.map(function (str) {
-                        return str.replace('2016-01-25', '\n')
-                    })
+                data:[]
             },
             series: [{
                 name:'成交',
@@ -236,7 +224,7 @@ if (option && typeof option === "object") {
 </div>
 
 <div class="user_info">
-	<dl><dt><img src="<?php echo base_url()?>public/img/daheng.png" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
+	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
 	<ul><li><span>可用流量&nbsp&nbsp连赢x<em id='lianying'><?php echo $num;?></em></span><p><em><?php echo $flow;?></em>M</p></li>
 	</ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">我要取现</a></span>

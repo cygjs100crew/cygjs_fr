@@ -43,7 +43,7 @@ $('#zhang').on('click', function(){
 							    scrollbar: false,
 							    shift: 2,
 							    shadeClose: true, //开启遮罩关闭
-							    content: '<div class="span12"><h3 class="text-center">恭喜'+json.info+'您在一次创盈二元期权获得1M奖励</h3><p class="text-center">奖品已经存放入您的账户，可进入个人中心-我的奖品查看详情</p><img class="gold_not_gold" src="public/oh_static/img/shore_jinibi_d.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+							    content: '<div class="span12"><h3 class="text-center">恭喜'+json.info+'您在一次金裕二元期权获得连赢+1</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/oh_static/img/shore_jinibi_d.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
 							    });
 							};
 							if (json.info=='输') {
@@ -123,7 +123,7 @@ $('#die').on('click', function(){
 							    scrollbar: false,
 							    shift: 2,
 							    shadeClose: true, //开启遮罩关闭
-							    content: '<div class="span12"><h3 class="text-center">恭喜'+json.info+'您在一次创盈二元期权获得1M奖励</h3><p class="text-center">奖品已经存放入您的账户，可进入个人中心-我的奖品查看详情</p><img class="gold_not_gold" src="public/oh_static/img/shore_jinibi_d.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+							    content: '<div class="span12"><h3 class="text-center">恭喜'+json.info+'您在一次金裕二元期权获得连赢+1</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/oh_static/img/shore_jinibi_d.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
 							    });
 							};
 							if (json.info=='输') {

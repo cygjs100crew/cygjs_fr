@@ -98,7 +98,7 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 .tab_nav li a{ display: block; border:2px solid #413f47;}
 .tab_nav li.on a{ background: #413f47}
 
-.focus_data{ padding: 0; width: 120%; margin-left: -10% }
+.focus_data{ padding: 0; width: 100%;}
 
 .button_ab{ padding: 3%; height: 240px; position: relative; z-index: 9; overflow: hidden;}
 .button_ab span{ float: left; width: 40%; margin: 50px 5%}

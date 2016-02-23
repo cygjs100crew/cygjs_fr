@@ -149,6 +149,9 @@ class MY_Controller extends CI_Controller {
 			 
         if (count($numdata)<1) {  
         	$num=0;
+        	if ($shuying_result=='赢') {
+        		$num=1;
+        	}
         }elseif ($shuying_result=='赢') {                   //判断赢
         	$num=intval($numdata[0]['num'])+1;     //累计次数
 
