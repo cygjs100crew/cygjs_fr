@@ -57,7 +57,7 @@ $(function(){
 });
 	
 wx.config({
-    debug: true,
+    //debug: true,
     appId: '<?php echo $signPackage["appId"];?>',
     timestamp: <?php echo $signPackage["timestamp"];?>,
     nonceStr: '<?php echo $signPackage["nonceStr"];?>',
@@ -87,7 +87,7 @@ wx.ready(function () {
 				dataType:'json',
 				success:function(data){
 					if(data.success){
-						alert('恭喜你，分享成功!您又获得10M流量');
+						alert('恭喜你，分享成功!您又获得1M流量');
 					}else{
 						alert('分享成功，每天仅限分享三次，你今天分享获取流量的权限已经没有了！请明天继续分享。');
 					}

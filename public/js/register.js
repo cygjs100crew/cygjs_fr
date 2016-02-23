@@ -1,26 +1,22 @@
 // JavaScript Document
 $(document).ready(function(){
 	
-	$("#btnSendCode").click(function(){
-		var phone = $.trim($("#phone").val());
+	$("#btnSendCode1").click(function(){
+		var phone = $.trim($("#phone1").val());
 		//var img = $.trim($("#img").val());
-		var username =$.trim($("#username").val());
+		var username =$.trim($("#username1").val());
 		var checkCode=$.trim($('#checkCode').val());
 		
-    	if(phone == ''){
-			alert('手机号码不能为空');
-			$("#phone").focus();
-			return false;
-    	}
+		
 		if(username==''){
 			alert('用户名不能为空');
-			$("#username").focus();
+			$("#username1").focus();
 			return false;
 		}
     	var partten =/^\d{10,13}$/;
       	if (!partten.test(phone)) {
         	alert('手机号码格式不正确');
-        	$("#phone").focus();
+        	$("#phone1").focus();
         	return;
       	}
       	/*if(img == ''){
@@ -31,6 +27,24 @@ $(document).ready(function(){
       
     	
 	});
+	$("#btnSendCode2").click(function(){
+		var phone = $.trim($("#phone2").val());
+		var checkCode=$.trim($('#checkCode2').val());
+		
+		if(phone==''){
+			alert('手机号不能为空');
+			$("#phone2").focus();
+			return false;
+		}
+    	var partten =/^\d{10,13}$/;
+      	if (!partten.test(phone)) {
+        	alert('手机号码格式不正确');
+        	$("#phone2").focus();
+        	return;
+      	}
+    	
+	});
+	
 	
 	$('#phone').click(function(){
 		var pass1=$('#password').val();
@@ -39,4 +53,5 @@ $(document).ready(function(){
 	    	  alert('两次输入的密码不一致');
 	      }
 	});
+	
 })  

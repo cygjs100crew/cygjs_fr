@@ -2,7 +2,12 @@
 //error_reporting(0);
 class Huangjin extends MY_Controller{
     public function __construct(){
-        parent::__construct();                
+        parent::__construct();
+        $wx_param=array(
+			'appId'=>'wxed2d1da1f9023761',
+			'appSecret'=>'452f7ea20e7d0ecadd38acef8664ceec'
+		);
+		$this->load->library('jssdk',$wx_param);//微信传参               
     }
     
     
@@ -16,6 +21,8 @@ class Huangjin extends MY_Controller{
         $data['uid']=$this->is_uid().'号会员';
         $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
+        $signPackage = $this->jssdk->GetSignPackage();//微信分享
+        $data['signPackage']= $signPackage;
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username      
     }
  
@@ -47,7 +54,7 @@ class Huangjin extends MY_Controller{
 		$data=$this->input->post();
 		
 		if(isset($data['username'])){
-			$ret=$this->db->get_where('customer',array('username'=>$data['username']))->result_array();
+			$ret=$this->db->get_where('customer',array('name'=>$data['username']))->result_array();
 			$field='用户名';
 		}elseif(isset($data['phone'])){
 			$ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
@@ -94,15 +101,15 @@ class Huangjin extends MY_Controller{
        $sms_code=$this->session->userdata('sms_code');
        $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
        $username=$ret[0]['name'];
-       if($sms_code !=$data['code']){
+       if($sms_code !=$data['checkCode']){
            echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
            return;
        }
-	   if(count($ret)>0){
+	   if(count($ret)>0 && $data['checkCode']!=''){
 		   set_cookie('username',$username,0);//存入cookie
 		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
 	   }else{
-		   echo json_encode(array('success'=>false,'info'=>'手机号或者密码不对'));
+		   echo json_encode(array('success'=>false,'info'=>'手机号或者验证码不对'));
 	   }   
 	}
    
@@ -239,12 +246,9 @@ class Huangjin extends MY_Controller{
     }
     function e_data(){
         $symbol=$_POST['symbol'];
-        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
-        // $list=$this->$list->limit(50,100)->result_array();
-        $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
-            $result['st'] =0; //没有数据则提示
-            echo json_encode($result);
+            echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
             exit();
         }
         foreach($list as $k=>$v){
@@ -256,8 +260,6 @@ class Huangjin extends MY_Controller{
         $result['ipdata'] = $Kdata;
         $result['price'] = $v['price'];                                                              // 拼接时间数据格式
         }
-        $result['st'] =1;
-        $result['st1'] =count($list);
         // $result = $_POST['symbol'];
         echo json_encode($result);    
     }

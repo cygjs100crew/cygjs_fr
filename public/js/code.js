@@ -5,8 +5,8 @@ $(window).load(function(){
 	var curCount;//当前剩余秒数  
 	var code = ""; //验证码  
 	var codeLength = 6;//验证码长度  
-	/*$('#btnSendCode1').click(function() {  
-		alert(123);
+	$('#btnSendCode1').click(function() {  
+		
 		curCount = count;  
 		var phone=$("#phone1").val();//手机号码  
 		if(phone != ""){  
@@ -17,7 +17,7 @@ $(window).load(function(){
 			//设置button效果，开始计时  
 			$("#btnSendCode1").attr("disabled", "true");  
 			$("#btnSendCode1").val("请在" + curCount + "秒内输入验证码");  
-			InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次  
+			InterValObj = window.setInterval(SetRemainTime1, 1000); //启动计时器，1秒执行一次  
 		//向后台发送处理数据  
 			/*$.ajax({  
 				type: "POST", //用POST方式传输  
@@ -27,13 +27,13 @@ $(window).load(function(){
 				error: function (XMLHttpRequest, textStatus, errorThrown) { },  
 				success: function (msg){ }  
 			}); */ 
-		/*}else{  
+		}else{  
 			alert("手机号码不能为空！");  
 		} 
 			
-	}) */
+	}) 
 	//timer处理函数  
-	function SetRemainTime() {  
+	function SetRemainTime1() {  
 		if (curCount == 0) {                  
 			window.clearInterval(InterValObj);//停止计时器  
 			$("#btnSendCode1").removeAttr("disabled");//启用按钮  
@@ -47,7 +47,7 @@ $(window).load(function(){
 	}  
 	  
 	
-	 /* $('#btnSendCode2').click(function() {  
+	  $('#btnSendCode2').click(function() {  
 			curCount = count;  
 			var phone=$("#phone2").val();//手机号码  
 			if(phone != ""){  
@@ -69,12 +69,12 @@ $(window).load(function(){
 					success: function (msg){ }  
 				}); */ 
 			}else{  
-				alert("手机号码不能为空！");  
+				//alert("手机号码不能为空！");  
 			} 
 				
 		}) 
 		//timer处理函数  
-	/*	function SetRemainTime() {  
+		function SetRemainTime() {  
 			if (curCount == 0) {                  
 				window.clearInterval(InterValObj);//停止计时器  
 				$("#btnSendCode2").removeAttr("disabled");//启用按钮  
@@ -85,6 +85,6 @@ $(window).load(function(){
 				curCount--;  
 				$("#btnSendCode2").val("请在" + curCount + "秒内输入验证码");  
 			}  
-		}  */
+		}  
 	  
 })

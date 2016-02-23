@@ -76,7 +76,7 @@
 
 <div class="focus_data">
     <!-- 为新浪准备一个具备大小（宽高）的Dom -->
-    <div id="container" style="width: 100%; height:270px;"></div>
+    <div id="container" style="width: 100%; height:410px;"></div>
 <script type="text/javascript" src="<?php echo base_url()?>public/js/echarts-all-3.0.0.js"></script>
 <script type="text/javascript">
 
@@ -107,6 +107,7 @@ for (var i = 1; i < 100; i++) {
 }
 
 option = {
+    backgroundColor: '#f5f5f5',
     animation:false,
     tooltip: {
             trigger: 'axis',
@@ -117,27 +118,30 @@ option = {
                 return params[0].name + '<br />' + params[0].value;
             }
         },
-    grid: {
-        top:0,
-        bottom:-15,
-        containLabel: true,
-    },
+    toolbox: {
+                show : true,
+                feature : {
+                    dataZoom: {},
+                    dataView: {readOnly: false},
+                    magicType: {type: ['line', 'bar']},
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
     xAxis: {
         type: 'category',
         boundaryGap: false,
     },
     yAxis : [
                 {
-                   
+                    type : 'value',
                     scale: true,
-                    splitNumber: 3,
+                    splitNumber: 5,
                     boundaryGap: [0.001, 0.001],
-		            position:'right',
-		            axisLine: {
-				                lineStyle: {
-				                    color: '#dc143c'
-				                }
-				            }
+                    type: 'value',
+                    axisLabel : {
+                        formatter: '{value}'
+                    }
                 }
     ],
     series : [
@@ -157,6 +161,12 @@ option = {
                         emphasis: {
                             color: 'blue'
                         }
+                    },
+                    markPoint : {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
                     },
                     markLine : {
                         data : [
@@ -185,14 +195,16 @@ $.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'XAU'},function(data){
 	    };
     $('#capital').val(json.price);
     $('#lianying').html(json.num);
-    	if (json.st==0) {
+    	if ($('#timeed').val()==json.time) {
 	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
 	    };
     $('#timeed').val(json.time);
         addData(true);
         myChart.setOption({
             xAxis: {
-                data:[]
+                data: date.map(function (str) {
+                        return str.replace('2016-01-25', '\n')
+                    })
             },
             series: [{
                 name:'成交',
@@ -224,18 +236,19 @@ if (option && typeof option === "object") {
 </div>
 
 <div class="user_info">
-	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
-	<ul><li><span>可用流量&nbsp&nbsp连赢x<em id='lianying'><?php echo $num;?></em></span><p><em><?php echo $flow;?></em>M</p></li>
+	<dl><dt><img src="<?php echo base_url()?>public/img/daheng.png" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
+	<ul><li><span>可用流量&nbsp&nbsp连赢x<em id='lianying'><?php echo $num;?></em ></span><p><em id="total_flow"></em>M</p></li>
 	</ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">我要取现</a></span>
 </div>
 
 <div id="regmodal" class="modal2" style="display:none;">
+<div class="gb">X</div>
 	<h3>请注册</h3>
 	<div id="loginform">
 	<ul>
 		<li><label for="username">用户名:</label>
-		<input type="text" name="username"  class="txtfield" tabindex="1" /></li>
+		<input type="text" name="username" id=username1  class="txtfield" tabindex="1" /></li>
 	
 		<li><label for="password">密码:</label>
 		<input type="password" name="password"  class="txtfield" tabindex="2" /></li>
@@ -247,13 +260,14 @@ if (option && typeof option === "object") {
 		<input type="text" name="phone" id="phone1" class="txtfield" tabindex="4" /></li>
 
 		<li><label for="code">验证码:</label>
-		<input type="text" name="checkCode"  class="txtfield w2" tabindex="5" /><input id="btnSendCode1" type="button" value="发送验证码" /></li>
+		<input type="text" name="checkCode" id="checkCode" class="txtfield w2" tabindex="5" /><input id="btnSendCode1" type="button" value="发送验证码" /></li>
 	</ul>
 		<div class="center"><input type="submit" name="loginbtn" id="loginbtn" class="flatbtn-red hidemodal" value="确定注册" tabindex="3"></div>
 	</div>
 </div>
 
 <div id="loginmodal" class="modal2" style="display:none">
+<div class="gb">X</div>
 	<h3>请登陆</h3>
 	<ol><li class="on" id="yh">用户名登陆</li><li id="sj">手机登陆</li></ol>
 	<div id="loginform">
@@ -282,50 +296,6 @@ if (option && typeof option === "object") {
 <script type="text/javascript" src="public/js/oh-huangjin.js"></script><!-- @author ohyeah -->
 </html>
 <script>
-var InterValObj; //timer变量，控制时间  
-var count = 120; //间隔函数，1秒执行  
-var curCount;//当前剩余秒数  
-var code = ""; //验证码  
-var codeLength = 6;//验证码长度  
-$('#btnSendCode1').click(function() {  
-	curCount = count;  
-	var phone=$("#phone1").val();//手机号码  
-	if(phone != ""){  
-		//产生验证码  
-		for (var i = 0; i < codeLength; i++) {  
-			code += parseInt(Math.random() * 9).toString();  
-		}  
-		//设置button效果，开始计时  
-		$("#btnSendCode1").attr("disabled", "true");  
-		$("#btnSendCode1").val("请在" + curCount + "秒内输入验证码");  
-		InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次  
-	//向后台发送处理数据  
-		/*$.ajax({  
-			type: "POST", //用POST方式传输  
-			dataType: "text", //数据格式:JSON  
-			url: 'Login.ashx', //目标地址  
-			data: "phone=" + phone + "&code=" + code,  
-			error: function (XMLHttpRequest, textStatus, errorThrown) { },  
-			success: function (msg){ }  
-		}); */ 
-	}else{  
-		alert("手机号码不能为空！");  
-	} 
-		
-}) 
-//timer处理函数  
-function SetRemainTime() {  
-	if (curCount == 0) {                  
-		window.clearInterval(InterValObj);//停止计时器  
-		$("#btnSendCode1").removeAttr("disabled");//启用按钮  
-		$("#btnSendCode1").val("重新发送验证码");  
-		code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效      
-	}  
-	else {  
-		curCount--;  
-		$("#btnSendCode1").val("请在" + curCount + "秒内输入验证码");  
-	}  
-}  
 
 //弹出窗口
 
@@ -351,6 +321,12 @@ $('#sj').click(function(){
 	$('#phonelogin').show();
 		
 })
+//关闭对话框
+$('.gb').click(function(){
+	
+	$(this).parent().hide('slow');
+	
+});
 $(function(){
 	//弹出注册框的时候，同时向后台请求验证码图片
 	$('#register_btn').on('click',function(){
@@ -383,7 +359,7 @@ $(function(){
 	});
 	
 	//检测用户名或者号码是否重复
-	$('#username,#phone').on('blur',function(){
+	$('#username1,#phone1').on('blur',function(){
 		var field=$(this).attr('name');//字段名称
 		var value=$(this).val();//字段值
 		if(!value){
@@ -424,27 +400,37 @@ $(function(){
 			data:post_obj,
 			success:function(data){
 				if(data && data.success){
-					alert('注册成功');
+					alert(data.info);
 				  location.href="<?php echo site_url('huangjin/index')?>";
 				}else{ 
-					alert('注册失败');
-				  window.history.back();
+					alert(data.info);
+				 window.history.back();
 				}
 			}
 		})
 	
 	});
 	//ajax请求登录页面
+	
 	$('#login_btn').click(function(){
-		var post_arr=['username','password'];
-		/*var username=$('.username').val();
-		var password=$('.password').val();*/
+		//这里判断一下是哪种登陆方式
+		var post_arr,post_url,$ele;
+		if($('#yh').hasClass('on')){//用户名登陆
+			post_arr=['username','password'];
+			post_url="<?php echo site_url('huangjin/login_name')?>";
+			$ele=$('#userlogin');
+		}else{//手机登陆
+			post_arr=['phone','checkCode'];
+			post_url="<?php echo site_url('huangjin/login_phone')?>";
+			$ele=$('#phonelogin');
+		}
+		
 		var post_obj={};
 		$.each(post_arr,function(index,item){
-			post_obj[item]=$('#login').find('[name="'+item+'"]').val();
+			post_obj[item]=$ele.find('[name="'+item+'"]').val();
 		});
 	   $.ajax({
-		   url:"<?php echo site_url('huangjin/login_name')?>",
+		   url:post_url,
 	       dataType:"json",
 	       type:"post",
 	       //data:{username:username,password:password},
@@ -456,14 +442,14 @@ $(function(){
 	    		location.href="<?php echo site_url('huangjin/index')?>";
 	    	}else{
 	    		alert(data.info);
-	    		window.history.back();
-	    		
+	    		//window.history.back();	
 	    	}
 	    	
 	       }
 	   })	
 	});
 	
+
 	function get_current_flow(){
 		$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
 			$('#total_flow').html(data);
@@ -474,4 +460,49 @@ $(function(){
 	
 	
 })
+
+wx.config({
+    //debug: true,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+	  'onMenuShareAppMessage',
+    ]
+});
+wx.error(function(res){
+	alert(res);
+	alert('尊敬的用户，您还没关注我们的微信公众号，关注后每天有三次分享获取流量的机会哟！');
+})
+wx.ready(function () {
+	wx.onMenuShareAppMessage({
+		title: '测试', // 分享标题
+		desc: '测试分享', // 分享描述
+		link: 'http://test-wx.cygjs100.com/cygjs_fr/index.php/index/index', // 分享链接
+		imgUrl: '', // 分享图标
+		type: '', // 分享类型,music、video或link，不填默认为link
+		dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+		success: function () { 
+			// 用户确认分享后执行的回调函数
+			$.ajax({
+				url:'<?php echo site_url("")?>',
+				type:'post',
+				dataType:'json',
+				success:function(data){
+					if(data.success){
+						alert('恭喜你，分享成功!您又获得1M流量');
+					}else{
+						alert('分享成功，每天仅限分享三次，你今天分享获取流量的权限已经没有了！请明天继续分享。');
+					}
+				}				
+			});
+		},
+		cancel: function () { 
+			// 用户取消分享后执行的回调函数
+			alert('确认取消吗？');
+		}
+	});
+});
 </script>
