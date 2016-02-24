@@ -84,7 +84,7 @@ for (var i = 1; i < 100; i++) {
 }
 option = {
     // backgroundColor: '#f5f5f5',
-    animation:false,
+  
     tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -98,16 +98,18 @@ option = {
         top:0,
         bottom:-15,
         containLabel: true,
+
     },
     xAxis: {
         type: 'category',
         boundaryGap: false,
+        splitLine: {show: false},
     },
     yAxis : [
                 {
                    
                     scale: true,
-                    splitNumber: 3,
+                    splitLine: {show: false},
                     boundaryGap: [0.001, 0.001],
 		            position:'right',
 		            axisLine: {
@@ -127,18 +129,13 @@ option = {
                         normal: {
                             color: 'red',
                             lineStyle: {        // 系列级个性化折线样式
-                                width: 2,
+                                width: 1,
                                 type: 'solid'
                             }
                         },
                         emphasis: {
-                            color: 'blue'
+                            color: 'white'
                         }
-                    },
-                    markLine : {
-                        data : [
-                            {type : 'average', name: '平均值'}
-                        ]
                     }
                 }
             ]
