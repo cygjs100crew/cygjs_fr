@@ -440,17 +440,17 @@ $(function(){
 	});
 	
 
-	function get_current_flow(){
-		$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
-			$('#total_flow').html(data);
-		})
-	}
-	get_current_flow();
+	
 	
 	
 	
 })
-
+function get_current_flow(){
+	$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
+		$('#total_flow').html(data);
+	})
+}
+get_current_flow();
 wx.config({
     //debug: true,
     appId: '<?php echo $signPackage["appId"];?>',
@@ -483,6 +483,7 @@ wx.ready(function () {
 				success:function(data){
 					if(data.success){
 						alert(data.info);
+						get_current_flow();
 					}else{
 						alert('分享成功，每天仅限分享三次，你今天分享获取流量的权限已经没有了！请明天继续分享。');
 					}
