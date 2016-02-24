@@ -3,7 +3,11 @@
 class Huangjin extends MY_Controller{
     public function __construct(){
         parent::__construct();
-               
+        $wx_param=array(
+			'appId'=>'wxed2d1da1f9023761',
+			'appSecret'=>'452f7ea20e7d0ecadd38acef8664ceec'
+		);
+		$this->load->library('jssdk',$wx_param);//微信传参               
     }
     
     
@@ -17,13 +21,8 @@ class Huangjin extends MY_Controller{
         $data['uid']=$this->is_uid().'号会员';
         $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
-        $wx_param=array(
-			'appId'=>'wxed2d1da1f9023761',
-			'appSecret'=>'452f7ea20e7d0ecadd38acef8664ceec'
-		 );
-		$this->load->library('jssdk',$wx_param);//微信传参  
-		$signPackage = $this->jssdk->GetSignPackage();
-		$data['signPackage']= $signPackage;
+        $signPackage = $this->jssdk->GetSignPackage();//微信分享
+        $data['signPackage']= $signPackage;
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username      
     }
  
@@ -42,10 +41,11 @@ class Huangjin extends MY_Controller{
 			echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
 			return;
 		}
-        $ret=$this->db->insert('customer',$userinfo);
-        $ret=$this->db->get_where('customer',array('name'=>$data['username']))->result_array();
-        $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
-		if($ret && $ret<0){
+        //$ret=$this->db->insert('customer',$userinfo);
+        //此处应该利用原有的id
+        $id=get_cookie('customerId');
+		$ret=$this->db->where('id',$id)->update('customer',$userinfo);
+		if($ret){
 			echo json_encode(array('success'=>true,'info'=>'注册成功'));
 			set_cookie('username',$data['username'],0);
 		}else{
@@ -100,9 +100,6 @@ class Huangjin extends MY_Controller{
 	}
 	
 	public  function login_phone(){
-	    if(get_cookie('username')){//如果登陆了，就不用再登陆了
-	        die('你已经登陆！');
-	    }
        $data=$this->input->post();
        $sms_code=$this->session->userdata('sms_code');
        $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
@@ -123,7 +120,8 @@ class Huangjin extends MY_Controller{
 	public function send_sms(){
 		$this->load->model('phone_model','phone');
 		$phone=$this->input->post('phone');
-		
+		//$phone='15074716900';
+		//$MessageContent='手机测试';
 		//生成验证码
 		$code = rand(1000,9999);
 		$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
@@ -266,11 +264,10 @@ class Huangjin extends MY_Controller{
         // $result['ipdata'] = implode(',', $Kdata);       
         $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
         $result['ipdata'] = $Kdata;
-        $result['price'] = $v['price'];                                                            // 拼接时间数据格式
+        $result['price'] = $v['price'];                                                              // 拼接时间数据格式
         }
         // $result = $_POST['symbol'];
         $result['st'] =1;
-        $result['num']=$this->ying_num();
         echo json_encode($result);    
     }
     function tt(){
