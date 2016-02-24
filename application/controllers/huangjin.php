@@ -264,8 +264,7 @@ class Huangjin extends MY_Controller{
         // $result['ipdata'] = implode(',', $Kdata);       
         $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
         $result['ipdata'] = $Kdata;
-        $result['price'] = $v['price'];
-        $result['price'] = $v['price'];                                                               // 拼接时间数据格式
+        $result['price'] = $v['price'];                                                            // 拼接时间数据格式
         }
         // $result = $_POST['symbol'];
         $result['st'] =1;
