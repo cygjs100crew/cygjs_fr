@@ -290,6 +290,7 @@ class hushen300 extends MY_Controller{
         $result['price'] = $v['price'];                                                              // 拼接时间数据格式
         }
         $result['st'] =1;
+        $result['num']=$this->ying_num();
         // $result = $_POST['symbol'];
         echo json_encode($result);    
     }
