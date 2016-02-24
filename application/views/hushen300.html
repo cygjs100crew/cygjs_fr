@@ -156,7 +156,7 @@ $.post('/cygjs_fr/index.php/hushen300/e_data',{symbol:'CFIFZ5'},function(data){
     $('#capital').val(json.price);
     $('#lianying').html(json.num);
     	if (json.st==0) {
-	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
+	    	$('#tip').html('股市开市再来吧！</br>');
 	    };
     $('#timeed').val(json.time);
         addData(true);
@@ -182,8 +182,8 @@ if (option && typeof option === "object") {
     </script>
 </div>
 <div class="button_ab">
-    <span class="d"><a href="javascript:void(0);" id="die" class="die">跌</a></span>
-	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">涨</a></span>
+    <span class="d"><a href="javascript:void(0);" id="die" class="die">猜跌</a></span>
+	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">猜涨</a></span>
 	<dl><dt id='tip'>最新报价</dt><dd>
 	<input type="button" name="capital" id="capital" value=""/>
 	<dt>PK</dt>
