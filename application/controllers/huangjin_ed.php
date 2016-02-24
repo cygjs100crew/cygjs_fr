@@ -270,11 +270,12 @@ class Huangjin_ed extends MY_Controller{
         $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
         $result['ipdata'] = $Kdata; 
         $result['price'] = $v['price'];
-        $result['num']=$this->ying_num();                                                           // 拼接时间数据格式
+                                                                   // 拼接时间数据格式
         }
 
         // $result = $_POST['symbol'];
         $result['st'] =1;
+        $result['num']=$this->ying_num();
         echo json_encode($result);    
     }
     function tt(){
