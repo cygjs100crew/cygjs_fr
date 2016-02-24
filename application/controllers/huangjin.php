@@ -41,6 +41,12 @@ class Huangjin extends MY_Controller{
 			echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
 			return;
 		}
+		//防止重复注册
+		$check_arr=array(
+			'username'=>$data['username'],
+			'phone'=>$data['phone']
+		);
+		$this->_check($check_arr);
         //$ret=$this->db->insert('customer',$userinfo);
         //此处应该利用原有的id
         $id=get_cookie('customerId');
@@ -53,25 +59,32 @@ class Huangjin extends MY_Controller{
 		}
     }
     // 检验用户名和手机号是否重复注册
-	public function check(){
-		$data=$this->input->post();
+	private function _check($data=array()){		
 		
 		if(isset($data['username'])){
 			$ret=$this->db->get_where('customer',array('name'=>$data['username']))->result_array();
-			$field='用户名';
-		}elseif(isset($data['phone'])){
+		}
+		if(isset($data['phone'])){
 			$ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
-			$field='手机号';
 		}
 		
 		if(count($ret)>0){
+			return false;
+		}
+		return true;
+		
+		
+	}
+	
+	public function check(){
+		$data=$this->input->post();
+		$ret=$this->_check($data);
+		if($ret){
 			echo json_encode(array('success'=>false,'info'=>$field.'已注册，请重新输入'));
 			return;
 		}else{
 			echo json_encode(array('success'=>true,'info'=>$field.'正常'));
 		}
-		
-		
 	}
     // 登入
    public  function login_name(){
