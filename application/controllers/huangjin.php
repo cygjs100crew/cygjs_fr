@@ -46,7 +46,12 @@ class Huangjin extends MY_Controller{
 			'username'=>$data['username'],
 			'phone'=>$data['phone']
 		);
-		$this->_check($check_arr);
+		
+		$ret=$this->_check($check_arr);
+		if(!$ret){
+			echo json_encode(array('success'=>false,'info'=>'重复注册'));
+			return;
+		}
         //$ret=$this->db->insert('customer',$userinfo);
         //此处应该利用原有的id
         $id=get_cookie('customerId');
@@ -79,11 +84,11 @@ class Huangjin extends MY_Controller{
 	public function check(){
 		$data=$this->input->post();
 		$ret=$this->_check($data);
-		if($ret){
-			echo json_encode(array('success'=>false,'info'=>$field.'已注册，请重新输入'));
+		if(!$ret){
+			echo json_encode(array('success'=>false,'info'=>'已注册，请重新输入'));
 			return;
 		}else{
-			echo json_encode(array('success'=>true,'info'=>$field.'正常'));
+			echo json_encode(array('success'=>true,'info'=>'正常'));
 		}
 	}
     // 登入
@@ -262,9 +267,9 @@ class Huangjin extends MY_Controller{
     }
     function e_data(){
         $symbol=$_POST['symbol'];
-        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         // $list=$this->$list->limit(50,100)->result_array();
-        // $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
             $result['st'] =0; //没有数据则提示
             echo json_encode($result);
