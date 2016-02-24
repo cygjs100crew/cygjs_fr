@@ -12,6 +12,7 @@
  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script><!-- JQ由Baidu加速DNS提供 -->
  <script type="text/javascript" src="public/js/code.js"></script>
  <script type="text/javascript" src="public/js/register.js"></script>
+ <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
  <script type="text/javascript" src="public/layer/layer.js"></script><!-- Layer弹窗组件引入 -->
  <script type="text/javascript" src="public/layer/extend/layer.ext.js"></script><!-- Layer弹窗组件引入 -->
 <style>
@@ -487,12 +488,12 @@ wx.ready(function () {
 		success: function () { 
 			// 用户确认分享后执行的回调函数
 			$.ajax({
-				url:'<?php echo site_url("")?>',
+				url:'<?php echo site_url("index/share")?>',
 				type:'post',
 				dataType:'json',
 				success:function(data){
 					if(data.success){
-						alert('恭喜你，分享成功!您又获得1M流量');
+						alert(data.info);
 					}else{
 						alert('分享成功，每天仅限分享三次，你今天分享获取流量的权限已经没有了！请明天继续分享。');
 					}

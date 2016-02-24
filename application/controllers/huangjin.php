@@ -3,11 +3,7 @@
 class Huangjin extends MY_Controller{
     public function __construct(){
         parent::__construct();
-        $wx_param=array(
-			'appId'=>'wxed2d1da1f9023761',
-			'appSecret'=>'452f7ea20e7d0ecadd38acef8664ceec'
-		);
-		$this->load->library('jssdk',$wx_param);//微信传参               
+               
     }
     
     
@@ -21,8 +17,13 @@ class Huangjin extends MY_Controller{
         $data['uid']=$this->is_uid().'号会员';
         $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
-        $signPackage = $this->jssdk->GetSignPackage();//微信分享
-        $data['signPackage']= $signPackage;
+        $wx_param=array(
+			'appId'=>'wxed2d1da1f9023761',
+			'appSecret'=>'452f7ea20e7d0ecadd38acef8664ceec'
+		 );
+		$this->load->library('jssdk',$wx_param);//微信传参  
+		$signPackage = $this->jssdk->GetSignPackage();
+		$data['signPackage']= $signPackage;
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username      
     }
  
@@ -42,7 +43,9 @@ class Huangjin extends MY_Controller{
 			return;
 		}
         $ret=$this->db->insert('customer',$userinfo);
-		if($ret){
+        $ret=$this->db->get_where('customer',array('name'=>$data['username']))->result_array();
+        $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
+		if($ret && $ret<0){
 			echo json_encode(array('success'=>true,'info'=>'注册成功'));
 			set_cookie('username',$data['username'],0);
 		}else{
@@ -120,8 +123,7 @@ class Huangjin extends MY_Controller{
 	public function send_sms(){
 		$this->load->model('phone_model','phone');
 		$phone=$this->input->post('phone');
-		//$phone='15074716900';
-		//$MessageContent='手机测试';
+		
 		//生成验证码
 		$code = rand(1000,9999);
 		$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
@@ -154,7 +156,7 @@ class Huangjin extends MY_Controller{
 	public function test_sms(){
 		$this->load->model('phone_model','phone');
 		$data = array(
-		    'phone' => '150****900',
+		    'phone' => '15074716900',
 		    'MessageContent' => '您本次验证码为12345678如需退订回复TD。',
 		);
 		echo $this->phone->send($data);
