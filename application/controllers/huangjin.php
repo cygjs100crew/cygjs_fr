@@ -267,9 +267,9 @@ class Huangjin extends MY_Controller{
     }
     function e_data(){
         $symbol=$_POST['symbol'];
-        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         // $list=$this->$list->limit(50,100)->result_array();
-        $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        // $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
             $result['st'] =0; //没有数据则提示
             echo json_encode($result);
@@ -277,10 +277,10 @@ class Huangjin extends MY_Controller{
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
-            $data_date[$k] =$v['time'];
+            // $data_date[$k] =$v['time'];
         // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
         // $result['ipdata'] = implode(',', $Kdata);       
-        $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
+        // $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
         $result['ipdata'] = $Kdata;
         $result['price'] = $v['price'];                                                              // 拼接时间数据格式
         }
