@@ -136,7 +136,7 @@ class Huangjin extends MY_Controller{
    
 	//调用短信接口
 	public function send_sms(){
-		$this->load->model('phone_model','phone');
+		//$this->load->model('phone_model','phone');
 		$phone=$this->input->post('phone');
 		//$phone='15074716900';
 		//$MessageContent='手机测试';
@@ -145,15 +145,21 @@ class Huangjin extends MY_Controller{
 		$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
 		//短信内容
 		//$date=date('Y年m月d日',time());
-		$MessageContent ='您本次验证码为'.$code.'，如需退订回复TD。';
-		$data = array(
+		//$MessageContent ='您本次验证码为'.$code.'，如需退订回复TD。';
+		$MessageContent='尊敬的客户，您的验证码是'.$code.'，请妥善保管，3分钟内有效【金裕黄金】';
+		/*$data = array(
 		    'phone' => $phone,
 		    'MessageContent' => $MessageContent
-		);
+		);*/
 		//var_dump($data);
-		$ret=$this->phone->send($data);
+		//$ret=$this->phone->send($data);
+		//$ret=$this->phone->Get($url);
+		$url="http://120.24.167.205/msg/HttpSendSM?account=gzjygjs&pswd=GZjygjs05&mobile=".$phone."&msg=".$MessageContent."&needstatus=true&product=";
+		$ret=file_get_contents($url);
+		var_dump($ret);
+		die;
 		//echo $ret;
- 		if(preg_match('/^result=0.*/i',$ret)){
+ 		if(preg_match('/,0$/i',$ret)){
  			echo json_encode(array('success'=>true,'info'=>'发送成功'));
  			return;
  		}else{
