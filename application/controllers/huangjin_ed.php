@@ -264,10 +264,10 @@ class Huangjin_ed extends MY_Controller{
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
-            // $data_date[$k] =$v['time'];
+            $data_date[$k] =$v['time'];
         // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
         // $result['ipdata'] = implode(',', $Kdata);       
-        // $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
+        $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
         $result['ipdata'] = $Kdata; 
         $result['price'] = $v['price'];
                                                                    // 拼接时间数据格式

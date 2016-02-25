@@ -57,7 +57,7 @@ $(function(){
 });
 	
 wx.config({
-    //debug: true,
+   // debug: true,
     appId: '<?php echo $signPackage["appId"];?>',
     timestamp: <?php echo $signPackage["timestamp"];?>,
     nonceStr: '<?php echo $signPackage["nonceStr"];?>',
@@ -80,13 +80,16 @@ wx.ready(function () {
 		type: '', // 分享类型,music、video或link，不填默认为link
 		dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 		success: function () { 
-			//alert(123);
+		//alert(123);
 			// 用户确认分享后执行的回调函数
 			$.ajax({
 				url:'<?php echo site_url("index/share")?>',
 				type:'post',
 				dataType:'json',
 				success:function(data){
+				 
+				// alert(123);
+
 					if(data.success){
 						alert(data.info);
 					}else{

@@ -68,7 +68,6 @@
 </head>
 <body>
 <div class="tab_nav">
-	<span class="line"></span>
 	<ul>
 	<li class="on"><a href="<?php echo site_url('huangjin/index')?>">黄金</a><!-- <a href="javascript:void(0);" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a> --></li>
 	<li><a href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
@@ -128,8 +127,8 @@ option = {
     },
     yAxis : [
                 {
-                   
                     scale: true,
+                    axisLabel: {show: false},
                     splitLine: {show: false},
                     boundaryGap: [0.001, 0.001],
 		            position:'right',
@@ -221,7 +220,7 @@ if (option && typeof option === "object") {
 </div>
 
 <div class="user_info">
-	<dl><dt><img src="<?php echo base_url()?>public/img/daheng.png" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
+	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
 	<ul><li><span>可用流量</span><p><em id="total_flow"></em>M</p></li>
 	</ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">我要取现</a></span>

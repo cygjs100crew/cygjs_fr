@@ -1836,6 +1836,6 @@ a {
 	display: none;
 }
 
-.span12{
-	width: 300px;
-}
+.span12{width: 300px; padding:20px; margin:auto}
+.span12 h3{ color:#a00; font-size:20px; line-height:28px}
+.span12 img.gold_not_gold{ width:100px}
