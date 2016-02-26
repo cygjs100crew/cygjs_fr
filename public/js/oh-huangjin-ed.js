@@ -42,7 +42,7 @@ $('#zhang').on('click', function(){
 					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 					if (minute <= 9) minute = '0' + minute;
 					if (second <= 9) second = '0' + second;
-					if (second < 60 && second >57) {
+					if (second < 60 && second >59) {
 						layer.closeAll('page');
 						layer.open({
 						    type: 1,
@@ -53,11 +53,9 @@ $('#zhang').on('click', function(){
 						    content:'<img src="public/img/challenge.png" />'
 						    });
 					}
-					if (second < 57 && second >12) {
+					if (second < 59 && second >12) {
 						layer.closeAll('page');
-						if (Number($('#capital').val())>Number($('#capital1').val())) {
-					    	$(".d").css("width","25%");
-					    	$(".z").css("width","75%");
+						if (Number($('#capital').val())<Number($('#capital1').val())) {
 					    	layer.open({
 						    type: 1,
 						    title: false,
@@ -67,9 +65,7 @@ $('#zhang').on('click', function(){
 						    content:'<img src="public/img/y2.png" />'
 						    });
 					    }
-					    if (Number($('#capital').val())<Number($('#capital1').val())) {
-					    	$(".z").css("width","25%");
-					    	$(".d").css("width","75%");
+					    if (Number($('#capital').val())>Number($('#capital1').val())) {
 					    	layer.open({
 						    type: 1,
 						    title: false,
@@ -80,8 +76,6 @@ $('#zhang').on('click', function(){
 						    });
 					    };
 					    if (Number($('#capital').val())==Number($('#capital1').val())) {challenge_hou.png
-					    	$(".z").css("width","25%");
-					    	$(".d").css("width","75%");
 					    	layer.open({
 						    type: 1,
 						    title: false,
@@ -115,9 +109,10 @@ $('#zhang').on('click', function(){
 						    });
 				    }
 					if (second == '00') {
+						layer.closeAll('page');
+						var index = layer.load();
 						$.post('/cygjs_fr/index.php/huangjin_ed/huangjin_js_list',function(data){
-							 
-							layer.closeAll('page');
+							layer.close(index);  
 							var json=JSON.parse(data);
 							if (json.info=='赢') {
 								if (json.num==1) {
@@ -235,7 +230,7 @@ $('#die').on('click', function(){
 					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 					if (minute <= 9) minute = '0' + minute;
 					if (second <= 9) second = '0' + second;
-					if (second < 60 && second >57) {
+					if (second < 60 && second >59) {
 						layer.closeAll('page');
 						layer.open({
 						    type: 1,
@@ -246,11 +241,9 @@ $('#die').on('click', function(){
 						    content:'<img src="public/img/challenge.png" />'
 						    });
 					}
-					if (second < 57 && second >12) {
+					if (second < 59 && second >12) {
 						layer.closeAll('page');
 						if (Number($('#capital').val())>Number($('#capital1').val())) {
-					    	$(".d").css("width","25%");
-					    	$(".z").css("width","75%");
 					    	layer.open({
 						    type: 1,
 						    title: false,
@@ -261,8 +254,6 @@ $('#die').on('click', function(){
 						    });
 					    }
 					    if (Number($('#capital').val())<Number($('#capital1').val())) {
-					    	$(".z").css("width","25%");
-					    	$(".d").css("width","75%");
 					    	layer.open({
 						    type: 1,
 						    title: false,
@@ -273,8 +264,6 @@ $('#die').on('click', function(){
 						    });
 					    };
 					    if (Number($('#capital').val())==Number($('#capital1').val())) {challenge_hou.png
-					    	$(".z").css("width","25%");
-					    	$(".d").css("width","75%");
 					    	layer.open({
 						    type: 1,
 						    title: false,
@@ -308,8 +297,10 @@ $('#die').on('click', function(){
 						    });
 				    }
 					if (second == '00') {
+						layer.closeAll('page');
+						var index = layer.load();
 						$.post('/cygjs_fr/index.php/huangjin_ed/huangjin_js_list',function(data){
-							layer.closeAll('page');
+							layer.close(index); 
 							var json=JSON.parse(data);
 							if (json.info=='赢') {
 								if (json.num==1) {

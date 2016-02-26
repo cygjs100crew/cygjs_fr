@@ -10,14 +10,25 @@ $('#zhang').on('click', function(){
 	}
 	var index = layer.load();
 	$.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:1,symbol:$('#symbol').val()},function(data){
-	    $('#capital1').val($('#capital').val());
-	    var json=JSON.parse(data);
-	    layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
-	    icon: 1,
-	    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
-		});
-	    /*60秒倒计时开始*/
-		var intDiff = parseInt(59); //120秒倒计时总秒数量
+    	layer.close(index);
+    	 // var obj = eval(data);
+        // alert(data);
+        $('#capital1').val($('#capital').val());
+        var json=JSON.parse(data);
+  //       layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
+	 //    icon: 1,
+	 //    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+		// });
+		layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/bisai_text.png" />'
+						    });
+        /*60秒倒计时开始*/
+		var intDiff = parseInt(60); //120秒倒计时总秒数量
 		function timer(intDiff) {
 			window.setInterval(function() {
 				var day = 0,
@@ -26,28 +37,126 @@ $('#zhang').on('click', function(){
 					second = 0; //时间默认值
 
 				if (intDiff > -1) {
+						
 					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 					if (minute <= 9) minute = '0' + minute;
 					if (second <= 9) second = '0' + second;
+					if (second < 60 && second >59) {
+						layer.closeAll('page');
+						layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/challenge.png" />'
+						    });
+					}
+					if (second < 59 && second >12) {
+						layer.closeAll('page');
+						if (Number($('#capital').val())<Number($('#capital1').val())) {
+					    	layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/y2.png" />'
+						    });
+					    }
+					    if (Number($('#capital').val())>Number($('#capital1').val())) {
+					    	layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/y1.png" />'
+						    });
+					    };
+					    if (Number($('#capital').val())==Number($('#capital1').val())) {challenge_hou.png
+					    	layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/y5.png" />'
+						    });
+					    };
+					}
+					if (second < 12 && second >10) {
+						layer.closeAll('page');
+						layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/challenge.png" />'
+						    });
+					}
+					if (second < 10 && second >0) {
+						layer.closeAll('page');
+						layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/jishi_'+second+'.png" />'
+						    });
+				    }
 					if (second == '00') {
-						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',function(data){
+						layer.closeAll('page');
+						var index = layer.load();
+						$.post('/cygjs_fr/index.php/hushen300/huangjin_js_list',function(data){
 							layer.close(index); 
 							var json=JSON.parse(data);
 							if (json.info=='赢') {
-								layer.open({
-							    type: 1,
-							    title: false,
-							    area: ['340px', '280px'],
-							    skin: 'layui-layer-demo', //样式类名
-							    closeBtn: 0, //不显示关闭按钮
-							    scrollbar: false,
-							    shift: 2,
-							    shadeClose: true, //开启遮罩关闭
-							    content: '<div class="span12"><h3 class="text-center">恭喜'+json.info+'您在一次金裕二元期权获得连赢+1</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/oh_static/img/shore_jinibi_d.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
-							    });
+								if (json.num==1) {
+									layer.open({
+								    type: 1,
+								    title: false,
+								    area: ['340px', '280px'],
+								    skin: 'layui-layer-demo', //样式类名
+								    closeBtn: 0, //不显示关闭按钮
+								    scrollbar: false,
+								    shift: 2,
+								    shadeClose: true, //开启遮罩关闭
+								    content: '<div class="span12"><h3 class="text-center">恭喜您，猜对了，继续加油哦！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    });
+								}
+								if (json.num==2) {
+									layer.open({
+								    type: 1,
+								    title: false,
+								    area: ['340px', '280px'],
+								    skin: 'layui-layer-demo', //样式类名
+								    closeBtn: 0, //不显示关闭按钮
+								    scrollbar: false,
+								    shift: 2,
+								    shadeClose: true, //开启遮罩关闭
+								    content: '<div class="span12"><h3 class="text-center">恭喜你，梅开二度，离流量大包仅一步之遥了！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    });
+								}
+								if (json.num==3) {
+									layer.open({
+								    type: 1,
+								    title: false,
+								    area: ['340px', '280px'],
+								    skin: 'layui-layer-demo', //样式类名
+								    closeBtn: 0, //不显示关闭按钮
+								    scrollbar: false,
+								    shift: 2,
+								    shadeClose: true, //开启遮罩关闭
+								    content: '<div class="span12"><h3 class="text-center">恭喜你，连中三元，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    });
+								}
+								
 							};
 							if (json.info=='输') {
-								layer.alert('很遗憾，没中。', {
+								layer.alert('很遗憾，您没猜对了，谢谢参与！继续努力吧！', {
 								    icon: 5,
 								    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
 								});
@@ -62,7 +171,7 @@ $('#zhang').on('click', function(){
 								});
 							};
 						});
-						$('.zhang').html('涨');
+						$('.zhang').html('猜涨');
 						$('.zhang').attr('id','zhang');
 					}else{
 						$('.zhang').html('<s></s>' + second + ' ');
@@ -73,6 +182,7 @@ $('#zhang').on('click', function(){
 			}, 1000);
 		}
 		$(function() {
+
 			timer(intDiff);
 		});
 		/*60秒倒计时结束*/
@@ -90,44 +200,151 @@ $('#die').on('click', function(){
 	}
 	var index = layer.load();
     $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:0,symbol:$('#symbol').val()},function(data){
+    	layer.close(index); 
+    	 // var obj = eval(data);
+        // alert(data);
         $('#capital1').val($('#capital').val());
         var json=JSON.parse(data);
-        layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
-	    icon: 1,
-	    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
-		});
+  //       layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
+	 //    icon: 1,
+	 //    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+		// });
+		layer.open({
+				    type: 1,
+				    title: false,
+				    closeBtn: 0,
+				    skin: 'layui-layer-nobg', //没有背景色
+				    // shadeClose: true,
+				    content:'<img src="public/img/bisai_text.png" />'
+				    });
         /*60秒倒计时开始*/
-		var intDiff = parseInt(59); //120秒倒计时总秒数量
+		var intDiff = parseInt(60); //120秒倒计时总秒数量
 		function timer(intDiff) {
 			window.setInterval(function() {
 				var day = 0,
 					hour = 0,
 					minute = 0,
 					second = 0; //时间默认值
-
 				if (intDiff > -1) {
 					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 					if (minute <= 9) minute = '0' + minute;
 					if (second <= 9) second = '0' + second;
+					if (second < 60 && second >59) {
+						layer.closeAll('page');
+						layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/challenge.png" />'
+						    });
+					}
+					if (second < 59 && second >12) {
+						layer.closeAll('page');
+						if (Number($('#capital').val())>Number($('#capital1').val())) {
+					    	layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/y2.png" />'
+						    });
+					    }
+					    if (Number($('#capital').val())<Number($('#capital1').val())) {
+					    	layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/y1.png" />'
+						    });
+					    };
+					    if (Number($('#capital').val())==Number($('#capital1').val())) {challenge_hou.png
+					    	layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/y5.png" />'
+						    });
+					    };
+					}
+					if (second < 12 && second >10) {
+						layer.closeAll('page');
+						layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/challenge.png" />'
+						    });
+					}
+					if (second < 10 && second >0) {
+						layer.closeAll('page');
+						layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/jishi_'+second+'.png" />'
+						    });
+				    }
 					if (second == '00') {
-						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',function(data){
+						layer.closeAll('page');
+						var index = layer.load();
+						$.post('/cygjs_fr/index.php/hushen300/huangjin_js_list',function(data){
 							layer.close(index); 
 							var json=JSON.parse(data);
 							if (json.info=='赢') {
-								layer.open({
-							    type: 1,
-							    title: false,
-							    area: ['340px', '280px'],
-							    skin: 'layui-layer-demo', //样式类名
-							    closeBtn: 0, //不显示关闭按钮
-							    scrollbar: false,
-							    shift: 2,
-							    shadeClose: true, //开启遮罩关闭
-							    content: '<div class="span12"><h3 class="text-center">恭喜'+json.info+'您在一次金裕二元期权获得连赢+1</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/oh_static/img/shore_jinibi_d.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
-							    });
+								if (json.num==1) {
+									layer.open({
+								    type: 1,
+								    title: false,
+								    area: ['340px', '280px'],
+								    skin: 'layui-layer-demo', //样式类名
+								    closeBtn: 0, //不显示关闭按钮
+								    scrollbar: false,
+								    shift: 2,
+								    shadeClose: true, //开启遮罩关闭
+								    content: '<div class="span12"><h3 class="text-center">恭喜您，猜对了，继续加油哦！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    });
+								}
+								if (json.num==2) {
+									layer.open({
+								    type: 1,
+								    title: false,
+								    area: ['340px', '280px'],
+								    skin: 'layui-layer-demo', //样式类名
+								    closeBtn: 0, //不显示关闭按钮
+								    scrollbar: false,
+								    shift: 2,
+								    shadeClose: true, //开启遮罩关闭
+								    content: '<div class="span12"><h3 class="text-center">恭喜你，梅开二度，离流量大包仅一步之遥了！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    });
+								}
+								if (json.num==3) {
+									layer.open({
+								    type: 1,
+								    title: false,
+								    area: ['340px', '280px'],
+								    skin: 'layui-layer-demo', //样式类名
+								    closeBtn: 0, //不显示关闭按钮
+								    scrollbar: false,
+								    shift: 2,
+								    shadeClose: true, //开启遮罩关闭
+								    content: '<div class="span12"><h3 class="text-center">恭喜你，连中三元，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    });
+								}
+								
 							};
 							if (json.info=='输') {
-								layer.alert('很遗憾，没中。', {
+								layer.alert('很遗憾，您没猜对了，谢谢参与！继续努力吧！', {
 								    icon: 5,
 								    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
 								});
@@ -142,7 +359,7 @@ $('#die').on('click', function(){
 								});
 							};
 						});
-						$('.die').html('跌');
+						$('.die').html('猜跌');
 						$('.die').attr('id','zhang');
 					}else{
 						$('.die').html('<s></s>' + second + ' ');
