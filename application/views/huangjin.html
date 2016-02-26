@@ -220,14 +220,8 @@ if (option && typeof option === "object") {
 </div>
 
 <div class="user_info">
-<<<<<<< HEAD
-	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
-	<ul><li><span>可用流量</span><p><em id="total_flow"></em>M</p></li>
-	</ul>
-=======
 	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd id="user"><?php echo $username;?><?php echo $uid;?></dd></dl>
-	<ul><li><span>可用流量&nbsp&nbsp连赢x<em id='lianying'><?php echo $num;?></em ></span><p><em id="total_flow"></em>M</p></li></ul>
->>>>>>> 5c567db0560a5b5775b8fa28b804c3a0b056e70b
+	<ul><li><span>可用流量</span><p><em id="total_flow"></em>M</p></li></ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">我要取现</a></span>
 </div>
 
@@ -281,26 +275,13 @@ if (option && typeof option === "object") {
     </div>
 </div>
 
-<<<<<<< HEAD
-=======
-<!-- 兑换流量页面 -->
-<div id="flow"  class="modal2" style="display:none">
-<div class="gb">X</div>
-     <h3>请兑换</h3>
-    <div id="loginform" class="duih_form">
-        <ul>
-          <li><label for="username">总流量:</label><span><em id="total_flow"></script></em> M</span></li>
-          <li><label for="password">兑换流量:</label><span class="sp"><input class="duih_input" type="text" name="cashflow"   /> M</span></li>
-		  <li><label for="password">剩余流量:</label><span><em></em> M</span></li>
-        </ul>
-        <div class="center"><a id="tj" class="flatbtn-red hidemodal">提交</a></div>
-    </div>
-</div>
->>>>>>> 5c567db0560a5b5775b8fa28b804c3a0b056e70b
+
 </body>
 <script type="text/javascript" src="public/js/oh-huangjin.js"></script><!-- @author ohyeah -->
 </html>
 <script>
+
+
 
 //弹出窗口
 var username='<?php echo $username?>';
@@ -309,7 +290,19 @@ $('#qx').click(function(){
 
 	if(username!='')   //取现判断有没有用户登录
 		{
-			$('#flow').show(); //弹出兑现框
+			$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
+				if(data<30){
+					alert('流量累计满30M可以兑换，请继续分享或者猜涨跌来赚取流量吧！');
+				}else{
+					$.get('<?php echo site_url('huangjin/cash_flow')?>',function(data){
+						if(data.success){
+							alert('恭喜你，兑换成功，请注意查收！');
+						}else{
+							alert('抱歉，没有兑换成功，请再次操作或者致电本公司！');
+						}
+					});
+				}
+			})
 					
 		}else{ 
 			$('#loginmodal').show();
@@ -437,17 +430,7 @@ $(function(){
 		})
 	
 	});
-<<<<<<< HEAD
-=======
-//注册后兑换流量
-/*$('#loginbtn,#login_btn').click(function(){
-	$('#flow').show();
-})
-//登录后兑换流量
-/*$('#login_btn').click(function(){
-	
-})*/
->>>>>>> 5c567db0560a5b5775b8fa28b804c3a0b056e70b
+
 	//ajax请求登录页面
 	
 	$('#login_btn').click(function(){
@@ -496,9 +479,13 @@ $(function(){
 function get_current_flow(){
 	$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
 		$('#total_flow').html(data);
+		$('.total_flow').html(data);
 	})
 }
 get_current_flow();
+
+
+
 wx.config({
     //debug: true,
     appId: '<?php echo $signPackage["appId"];?>',
@@ -507,18 +494,21 @@ wx.config({
     signature: '<?php echo $signPackage["signature"];?>',
     jsApiList: [
       // 所有要调用的 API 都要加到这个列表中
-	  'onMenuShareAppMessage',
+	  'onMenuShareAppMessage',//分享给朋友
+	  'onMenuShareTimeline',//分享到朋友圈
+	  'onMenuShareQQ',//分享到QQ
+	  'onMenuShareWeibo',//分享到腾讯微博
+	  'onMenuShareQZone'//分享到QQ空间
     ]
 });
 wx.error(function(res){
-	alert(res);
 	alert('尊敬的用户，您还没关注我们的微信公众号，关注后每天有三次分享获取流量的机会哟！');
 })
 wx.ready(function () {
-	wx.onMenuShareAppMessage({
+	var config_obj={
 		title: '测试', // 分享标题
 		desc: '测试分享', // 分享描述
-		link: 'http://test-wx.cygjs100.com/cygjs_fr/index.php/index/index', // 分享链接
+		link: 'http://www.jyqq9999.com/cygjs_fr/index.php/index/index', // 分享链接
 		imgUrl: '', // 分享图标
 		type: '', // 分享类型,music、video或link，不填默认为link
 		dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -542,6 +532,11 @@ wx.ready(function () {
 			// 用户取消分享后执行的回调函数
 			alert('确认取消吗？');
 		}
-	});
+	};
+	wx.onMenuShareAppMessage(config_obj);
+	wx.onMenuShareTimeline(config_obj);
+	wx.onMenuShareQQ(config_obj);
+	wx.onMenuShareWeibo(config_obj);
+	wx.onMenuShareQZone(config_obj);
 });
 </script>

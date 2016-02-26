@@ -142,6 +142,33 @@ class Huangjin extends MY_Controller{
 		   echo json_encode(array('success'=>false,'info'=>'手机号或者验证码不对'));
 	   }   
 	}
+	
+	//兑现流量
+    function cash_flow(){
+		$customerId=get_cookie('customerId');
+		$total_flow=$this->_stat_total_flow();
+		if($total_flow<30){
+			echo json_encode(array('success'=>false,'info'=>'流量满30M才能兑换！'));
+			return;	
+		}
+		$row=$this->db->select('phone')->where('id',$customerId)->get('customer')->row_array();
+		if(!$row['phone']){
+			echo json_encode(array('success'=>false,'info'=>'对不起，你没有注册电话号码！'));
+			return;
+		}
+		//此处调用流量公司提供的接口
+		$ret=file_get_contents('http://*********?phone='.$row['phone'].'&flow='.$total_flow);
+		if($ret){
+			//注意，此处最为关键，兑换成功后，要把share和play表里的该用户的所有流量都置0
+			$this->where('customer_id',$customerId)->update('share',array('flow'=>0));
+			$this->where('customer_id',$customerId)->update('play',array('flow'=>0));
+			echo json_encode(array('success'=>true,'info'=>'兑换成功！'));
+			return;
+		}else{
+			echo json_encode(array('success'=>false,'info'=>'兑换是吧！'));
+			return;
+		}
+    }
    
 	//调用短信接口
 	public function send_sms(){
@@ -175,13 +202,17 @@ class Huangjin extends MY_Controller{
  			echo json_encode(array('success'=>false,'info'=>$ret));
  		}*/
 	}
+	
 	//统计总流量
-	public function stat_total_flow(){
+	private function _stat_total_flow(){
 		$customerId=get_cookie('customerId');
 		$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
 		$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
-		echo $share_flow+$game_flow;
-		
+		return $share_flow+$game_flow;
+	}
+	//统计总流量
+	public function stat_total_flow(){	
+		echo $this->_stat_total_flow();
 	}
 	//测试短信接口用
 	public function test_sms(){
@@ -261,16 +292,15 @@ class Huangjin extends MY_Controller{
         $data = $this->db->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$id))->result_array(); // 查询历史交易
 
         
-        $num=$this->ying_num();
         if ($data[0]['result']=='赢') {
-            echo json_encode(array('success'=>true,'info'=>'赢','num'=>$num)); 
+            echo json_encode(array('success'=>true,'info'=>'赢')); 
         }else if($data[0]['result']=='输'){
-            echo json_encode(array('success'=>true,'info'=>'输','num'=>$num));
+            echo json_encode(array('success'=>true,'info'=>'输'));
         }else if($data[0]['result']=='平'){
-            echo json_encode(array('success'=>true,'info'=>'平','num'=>$num));
+            echo json_encode(array('success'=>true,'info'=>'平'));
         }else{
             echo json_encode(array('success'=>false,'info'=>'未开奖'));
-        }                                                                
+        }                                                                 
     }
     function price(){
         $result=$this->shuying();
@@ -304,7 +334,5 @@ class Huangjin extends MY_Controller{
         $result['st'] =1;
         echo json_encode($result);    
     }
-    function tt(){
-
-    }
+	
 }
