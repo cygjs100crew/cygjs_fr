@@ -220,9 +220,14 @@ if (option && typeof option === "object") {
 </div>
 
 <div class="user_info">
+<<<<<<< HEAD
 	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
 	<ul><li><span>可用流量</span><p><em id="total_flow"></em>M</p></li>
 	</ul>
+=======
+	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd id="user"><?php echo $username;?><?php echo $uid;?></dd></dl>
+	<ul><li><span>可用流量&nbsp&nbsp连赢x<em id='lianying'><?php echo $num;?></em ></span><p><em id="total_flow"></em>M</p></li></ul>
+>>>>>>> 5c567db0560a5b5775b8fa28b804c3a0b056e70b
 	<span class="tx"><a href="javascript:void(0);" id="qx">我要取现</a></span>
 </div>
 
@@ -276,16 +281,40 @@ if (option && typeof option === "object") {
     </div>
 </div>
 
+<<<<<<< HEAD
+=======
+<!-- 兑换流量页面 -->
+<div id="flow"  class="modal2" style="display:none">
+<div class="gb">X</div>
+     <h3>请兑换</h3>
+    <div id="loginform" class="duih_form">
+        <ul>
+          <li><label for="username">总流量:</label><span><em id="total_flow"></script></em> M</span></li>
+          <li><label for="password">兑换流量:</label><span class="sp"><input class="duih_input" type="text" name="cashflow"   /> M</span></li>
+		  <li><label for="password">剩余流量:</label><span><em></em> M</span></li>
+        </ul>
+        <div class="center"><a id="tj" class="flatbtn-red hidemodal">提交</a></div>
+    </div>
+</div>
+>>>>>>> 5c567db0560a5b5775b8fa28b804c3a0b056e70b
 </body>
 <script type="text/javascript" src="public/js/oh-huangjin.js"></script><!-- @author ohyeah -->
 </html>
 <script>
 
 //弹出窗口
-
+var username='<?php echo $username?>';
 $('#qx').click(function(){
 	//$('#loginmodal').attr('style','display:block');
-	$('#loginmodal').show();
+
+	if(username!='')   //取现判断有没有用户登录
+		{
+			$('#flow').show(); //弹出兑现框
+					
+		}else{ 
+			$('#loginmodal').show();
+		}
+	
 });
 //弹出 用户登入框
 $('#yh').click(function(){
@@ -326,18 +355,29 @@ $(function(){
 		$('#loginmodal').hide();
 		$('#regmodal').show();	
 	});
-	//点击发送时发送手机验证码
+	//点击发送时发送手机注册验证码
 	$('#btnSendCode1').click(function(){
 		var phone=$('#phone1').val();
-		//这里应该检测一下是否是电话号码，我这里省略掉
-		
 		
 		$.ajax({
 			url:'<?php echo site_url("huangjin/send_sms")?>',
 			data:{phone:phone},
 			type:'post',
 			success:function(data){
-				alert(data.info);
+				//alert(data.info);
+			}
+		});
+	});
+	//点击发送登入验证码
+	$('#btnSendCode2').click(function(){
+		var phone=$('#phone2').val();
+		
+		$.ajax({
+			url:'<?php echo site_url("huangjin/send_sms")?>',
+			data:{phone:phone},
+			type:'post',
+			success:function(data){
+				//alert(data.info);
 			}
 		});
 	});
@@ -358,7 +398,10 @@ $(function(){
 			type:'post',
 			data:post_data,
 			success:function(data){
-				alert(data.info);
+				if(data && data.success){
+					//alert(data.info);
+				}else{alert(data.info);}
+				
 			}
 		})
 	});
@@ -385,7 +428,7 @@ $(function(){
 			success:function(data){
 				if(data && data.success){
 					alert(data.info);
-				  location.href="<?php echo site_url('huangjin/index')?>";
+				  //location.href="<?php echo site_url('huangjin/index')?>";
 				}else{ 
 					alert(data.info);
 				 window.history.back();
@@ -394,6 +437,17 @@ $(function(){
 		})
 	
 	});
+<<<<<<< HEAD
+=======
+//注册后兑换流量
+/*$('#loginbtn,#login_btn').click(function(){
+	$('#flow').show();
+})
+//登录后兑换流量
+/*$('#login_btn').click(function(){
+	
+})*/
+>>>>>>> 5c567db0560a5b5775b8fa28b804c3a0b056e70b
 	//ajax请求登录页面
 	
 	$('#login_btn').click(function(){
