@@ -221,7 +221,8 @@ if (option && typeof option === "object") {
 
 <div class="user_info">
 	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
-	<ul><li><span>可用流量&nbsp&nbsp连赢x<em id='lianying'><?php echo $num;?></em ></span><p><em id="total_flow"></em>M</p></li></ul>
+	<ul><li><span>可用流量</span><p><em id="total_flow"></em>M</p></li>
+	</ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">我要取现</a></span>
 </div>
 
@@ -275,24 +276,10 @@ if (option && typeof option === "object") {
     </div>
 </div>
 
-<!-- 兑换流量页面 -->
-<div id="flow"  class="modal2" style="display:none">
-<div class="gb">X</div>
-     <h3>请兑换</h3>
-    <div id="loginform" class="duih_form">
-        <ul>
-          <li><label for="username">总流量:</label><span><em id="total_flow"></em> M</span></li>
-          <li><label for="password">兑换流量:</label><span class="sp"><input class="duih_input" type="text" name="cashflow"   /> M</span></li>
-		  <li><label for="password">剩余流量:</label><span><em></em> M</span></li>
-        </ul>
-        <div class="center"><a id="tj" class="flatbtn-red hidemodal">提交</a></div>
-    </div>
-</div>
 </body>
 <script type="text/javascript" src="public/js/oh-huangjin.js"></script><!-- @author ohyeah -->
 </html>
 <script>
-
 
 //弹出窗口
 
@@ -407,10 +394,6 @@ $(function(){
 		})
 	
 	});
-//注册后兑换流量
-$('#loginbtn').click(function(){
-	
-})
 	//ajax请求登录页面
 	
 	$('#login_btn').click(function(){
@@ -462,7 +445,6 @@ function get_current_flow(){
 	})
 }
 get_current_flow();
-
 wx.config({
     //debug: true,
     appId: '<?php echo $signPackage["appId"];?>',
@@ -482,7 +464,7 @@ wx.ready(function () {
 	wx.onMenuShareAppMessage({
 		title: '测试', // 分享标题
 		desc: '测试分享', // 分享描述
-		link: 'http://www.jyqq9999.com/cygjs_fr/index.php/index/index', // 分享链接
+		link: 'http://test-wx.cygjs100.com/cygjs_fr/index.php/index/index', // 分享链接
 		imgUrl: '', // 分享图标
 		type: '', // 分享类型,music、video或link，不填默认为link
 		dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空

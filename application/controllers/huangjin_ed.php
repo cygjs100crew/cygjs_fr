@@ -231,13 +231,13 @@ class Huangjin_ed extends MY_Controller{
         $uid=$this->is_uid();
         $data = $this->db->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$uid))->result_array(); // 查询历史交易
 
-        
+        $num=$this->ying_num();
         if ($data[0]['result']=='赢') {
-            echo json_encode(array('success'=>true,'info'=>'赢')); 
+            echo json_encode(array('success'=>true,'info'=>'赢','num'=>$num)); 
         }else if($data[0]['result']=='输'){
-            echo json_encode(array('success'=>true,'info'=>'输'));
+            echo json_encode(array('success'=>true,'info'=>'输','num'=>$num));
         }else if($data[0]['result']=='平'){
-            echo json_encode(array('success'=>true,'info'=>'平'));
+            echo json_encode(array('success'=>true,'info'=>'平','num'=>$num));
         }else{
             echo json_encode(array('success'=>false,'info'=>'未开奖'));
         }                                                                 
