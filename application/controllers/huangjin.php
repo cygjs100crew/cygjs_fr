@@ -110,6 +110,7 @@ class Huangjin extends MY_Controller{
 			   set_cookie('username',$data['username'],0);//用户名存入cookie
 			   $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
 			   $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
+			   $this->db->where('id',$new_customerId)->delete('customer');
 		   }  
 		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
 	   }else{
@@ -120,8 +121,16 @@ class Huangjin extends MY_Controller{
 	public  function login_phone(){
        $data=$this->input->post();
        $sms_code=$this->session->userdata('sms_code');
-       $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
+       $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array(); 
        $username=$ret[0]['name'];
+       $customerId=$ret[0]['id'];
+       $new_customerId=get_cookie('customerId');
+       if($customerId!=$new_customerId){
+           set_cookie('customerId',$customerId,0);
+           $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
+           $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
+           $this->db->where('id',$new_customerId)->delete('customer');
+       }
        if($sms_code !=$data['checkCode']){
            echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
            return;
@@ -156,15 +165,15 @@ class Huangjin extends MY_Controller{
 		//$ret=$this->phone->Get($url);
 		$url="http://120.24.167.205/msg/HttpSendSM?account=gzjygjs&pswd=GZjygjs05&mobile=".$phone."&msg=".$MessageContent."&needstatus=true&product=";
 		$ret=file_get_contents($url);
-		var_dump($ret);
+		//var_dump($ret);
 		die;
 		//echo $ret;
- 		if(preg_match('/,0$/i',$ret)){
+ 		/*if(preg_match('/,0$/i',$ret)){
  			echo json_encode(array('success'=>true,'info'=>'发送成功'));
  			return;
  		}else{
  			echo json_encode(array('success'=>false,'info'=>$ret));
- 		}
+ 		}*/
 	}
 	//统计总流量
 	public function stat_total_flow(){

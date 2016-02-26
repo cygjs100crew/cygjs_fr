@@ -342,15 +342,13 @@ $(function(){
 	//点击发送时发送手机注册验证码
 	$('#btnSendCode1').click(function(){
 		var phone=$('#phone1').val();
-		//这里应该检测一下是否是电话号码，我这里省略掉
-		
 		
 		$.ajax({
 			url:'<?php echo site_url("huangjin/send_sms")?>',
 			data:{phone:phone},
 			type:'post',
 			success:function(data){
-				alert(data.info);
+				//alert(data.info);
 			}
 		});
 	});
@@ -363,7 +361,7 @@ $(function(){
 			data:{phone:phone},
 			type:'post',
 			success:function(data){
-				alert(data.info);
+				//alert(data.info);
 			}
 		});
 	});

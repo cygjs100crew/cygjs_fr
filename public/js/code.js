@@ -11,9 +11,9 @@ $(window).load(function(){
 		var phone=$("#phone1").val();//手机号码  
 		if(phone != ""){  
 			//产生验证码  
-			for (var i = 0; i < codeLength; i++) {  
+			/*for (var i = 0; i < codeLength; i++) {  
 				code += parseInt(Math.random() * 9).toString();  
-			}  
+			} */ 
 			//设置button效果，开始计时  
 			$("#btnSendCode1").attr("disabled", "true");  
 			$("#btnSendCode1").val("请在" + curCount + "秒内输入验证码");  
