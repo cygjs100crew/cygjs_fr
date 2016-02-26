@@ -276,7 +276,7 @@ if (option && typeof option === "object") {
 </div>
 
 <!-- 兑换流量页面 -->
-<div id="flow"  class="modal2" style="display:none">
+<div id="flow"  class="modal2" >
 <div class="gb">X</div>
      <h3>请兑换</h3>
     <div id="loginform" class="duih_form">
@@ -382,7 +382,10 @@ $(function(){
 			type:'post',
 			data:post_data,
 			success:function(data){
-				alert(data.info);
+				if(data && data.success){
+					//alert(data.info);
+				}else{alert(data.info);}
+				
 			}
 		})
 	});
