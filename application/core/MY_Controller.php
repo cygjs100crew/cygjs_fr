@@ -160,7 +160,7 @@ class MY_Controller extends CI_Controller {
         }
 		
 		if (count($numdata)>0) {                                 // 判断是否有会员数据
-		        if ($num>2) {                                        // 连续3次赢1M流量规则
+		        if ($num>0) {                                        // 连续3次赢1M流量规则
 	        	$data = array(
 		                'customer_id' => $uid,                       // 会员ID
 		                'flow'        => 1,                          // 流量
@@ -204,5 +204,10 @@ class MY_Controller extends CI_Controller {
 	public function new_price($symbol=''){
         $result = $this->db->limit(1)->order_by("id","desc")->get_where('recentquotation',array('symbol'=>$symbol))->result_array(); // 查询最近一条报价记录
         return $result[0]['price'];
+    }
+    public function user_play(){
+    	$data['uid']=$this->is_uid();
+        $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
+        return count($userplay)>1?$userplay[0]['flow']:0;
     }
 }

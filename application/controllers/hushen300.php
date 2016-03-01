@@ -13,9 +13,8 @@ class hushen300 extends MY_Controller{
         $username=get_cookie('username')?get_cookie('username'):'';
         $data['username']=$username;
         $data['num']=$this->ying_num();
-        $data['uid']=$this->is_uid().'号会员';
-        $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
-        $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
+        $data['uid']=$this->is_uid();
+        $data['flow']=$this->user_play();
         $this->load->view('hushen300.html',$data);//前端在某个地方输出$username      
     }
     //这里设置游客有多少流量，此时用户可能没有注册;玩了游戏的游客才会被记录到游客表中
@@ -291,6 +290,7 @@ class hushen300 extends MY_Controller{
         $result['price'] = $v['price'];                                                              // 拼接时间数据格式
         }
         $result['st'] =1;
+        $result['flow']=$this->user_play();
         $result['num']=$this->ying_num();
         // $result = $_POST['symbol'];
         echo json_encode($result);    
