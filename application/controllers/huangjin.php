@@ -349,6 +349,7 @@ class Huangjin extends MY_Controller{
         }
         // $result = $_POST['symbol'];
         $result['st'] =1;
+        $result['num']=$this->ying_num();
         echo json_encode($result);    
     }
 	
