@@ -290,19 +290,11 @@ $('#qx').click(function(){
 
 	if(username!='')   //取现判断有没有用户登录
 		{
-			$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
-				if(data<30){
-					alert('流量累计满30M可以兑换，请继续分享或者猜涨跌来赚取流量吧！');
-				}else{
-					$.get('<?php echo site_url('huangjin/cash_flow')?>',function(data){
-						if(data.success){
-							alert('恭喜你，兑换成功，请注意查收！');
-						}else{
-							alert('抱歉，没有兑换成功，请再次操作或者致电本公司！');
-						}
-					});
-				}
-			})
+			
+			$.get('<?php echo site_url('huangjin/cash_flow')?>',function(data){
+				alert(data.info);
+			});
+			
 					
 		}else{ 
 			$('#loginmodal').show();
@@ -479,7 +471,6 @@ $(function(){
 function get_current_flow(){
 	$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
 		$('#total_flow').html(data);
-		$('.total_flow').html(data);
 	})
 }
 get_current_flow();
@@ -523,7 +514,7 @@ wx.ready(function () {
 						alert(data.info);
 						get_current_flow();
 					}else{
-						alert('分享成功，每天仅限分享三次，你今天分享获取流量的权限已经没有了！请明天继续分享。');
+						alert('分享成功，每天仅限分享五次，你今天分享获取流量的权限已经没有了！请明天继续分享。');
 					}
 				}				
 			});

@@ -30,7 +30,7 @@ class  Index extends MY_Controller{
              'customer_id'=>$customer_id,
              'share_time'=>date('Y-m-d H:i:s'),
          );
-         if($share_num>=3){
+         if($share_num>=5){
              echo json_encode(array('success'=>false,'info'=>'每天仅限三次分享获取流量'));
 			 $data['flow']=0;   
          }else{

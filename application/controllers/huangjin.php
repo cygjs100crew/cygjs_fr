@@ -7,7 +7,7 @@ class Huangjin extends MY_Controller{
 			'appId'=>'wxed2d1da1f9023761',
 			'appSecret'=>'452f7ea20e7d0ecadd38acef8664ceec'
 		);
-		$this->load->library('jssdk',$wx_param);//微信传参               
+		$this->load->library('jssdk',$wx_param);            
     }
     
     
@@ -21,7 +21,7 @@ class Huangjin extends MY_Controller{
         $data['uid']=$this->is_uid().'号会员';
         $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
-        $signPackage = $this->jssdk->GetSignPackage();//微信分享
+        $signPackage = $this->jssdk->GetSignPackage();
         $data['signPackage']= $signPackage;
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username      
     }
@@ -147,18 +147,35 @@ class Huangjin extends MY_Controller{
     function cash_flow(){
 		$customerId=get_cookie('customerId');
 		$total_flow=$this->_stat_total_flow();
-		if($total_flow<30){
-			echo json_encode(array('success'=>false,'info'=>'流量满30M才能兑换！'));
+		set_cookie('total_flow',$total_flow,0);//存入流量
+		$result=$this->db->where('customer_id',$customerId)->get('user_flow')->num_rows();//查询兑现时间存不存在
+		if($result=0 && $total_flow<30){
+			echo json_encode(array('success'=>false,'info'=>'首次兑换流量满30M才能兑换！'));
 			return;	
+		}
+		if($result!=0 && $total_flow<100){
+		    echo json_encode(array('success'=>false,'info'=>'流量满100M才能兑换！'));
+		    return;
+		
 		}
 		$row=$this->db->select('phone')->where('id',$customerId)->get('customer')->row_array();
 		if(!$row['phone']){
 			echo json_encode(array('success'=>false,'info'=>'对不起，你没有注册电话号码！'));
 			return;
 		}
+		$numb=rand(10,99);
+		$orderid=data('YmdHis'.$numb);	
 		//此处调用流量公司提供的接口
-		$ret=file_get_contents('http://*********?phone='.$row['phone'].'&flow='.$total_flow);
+		$ret=file_get_contents('http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101
+		    &ORDERID=$orderid&PRODUCTCODE=HG006&CTMRETURL=http://192.168.0.21/reback.php&APIKEY=4866f53d0563496385bc2f67009c9d4f?phone='.$row['phone'].'&flow='.$total_flow);
 		if($ret){
+		    
+		    $data=array(
+		        'customer_id'=>$customerId,
+		        'cash_flow'=>get_cookie('total_flow'),
+		        'cash_time'=>date('Y-m-d H:i:s')
+		    );
+		    $this->db->insert('user_flow',$data);
 			//注意，此处最为关键，兑换成功后，要把share和play表里的该用户的所有流量都置0
 			$this->where('customer_id',$customerId)->update('share',array('flow'=>0));
 			$this->where('customer_id',$customerId)->update('play',array('flow'=>0));
@@ -174,8 +191,7 @@ class Huangjin extends MY_Controller{
 	public function send_sms(){
 		//$this->load->model('phone_model','phone');
 		$phone=$this->input->post('phone');
-		//$phone='15074716900';
-		//$MessageContent='手机测试';
+		
 		//生成验证码
 		$code = rand(1000,9999);
 		$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
@@ -189,12 +205,10 @@ class Huangjin extends MY_Controller{
 		);*/
 		//var_dump($data);
 		//$ret=$this->phone->send($data);
-		//$ret=$this->phone->Get($url);
+		
 		$url="http://120.24.167.205/msg/HttpSendSM?account=gzjygjs&pswd=GZjygjs05&mobile=".$phone."&msg=".$MessageContent."&needstatus=true&product=";
 		$ret=file_get_contents($url);
-		//var_dump($ret);
 		die;
-		//echo $ret;
  		/*if(preg_match('/,0$/i',$ret)){
  			echo json_encode(array('success'=>true,'info'=>'发送成功'));
  			return;
@@ -218,7 +232,7 @@ class Huangjin extends MY_Controller{
 	public function test_sms(){
 		$this->load->model('phone_model','phone');
 		$data = array(
-		    'phone' => '15074716900',
+		    'phone' => '150****6900',
 		    'MessageContent' => '您本次验证码为12345678如需退订回复TD。',
 		);
 		echo $this->phone->send($data);
