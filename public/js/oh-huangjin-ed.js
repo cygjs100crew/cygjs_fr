@@ -53,39 +53,39 @@ $('#zhang').on('click', function(){
 						    content:'<img src="public/img/challenge.png" />'
 						    });
 					}
-					if (second < 59 && second >12) {
-						layer.closeAll('page');
-						if (Number($('#capital').val())<Number($('#capital1').val())) {
-					    	layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/y2.png" />'
-						    });
-					    }
-					    if (Number($('#capital').val())>Number($('#capital1').val())) {
-					    	layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/y1.png" />'
-						    });
-					    };
-					    if (Number($('#capital').val())==Number($('#capital1').val())) {challenge_hou.png
-					    	layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/y5.png" />'
-						    });
-					    };
-					}
+					// if (second < 59 && second >12) {
+					// 	layer.closeAll('page');
+					// 	if (Number($('#capital').val())<Number($('#capital1').val())) {
+					//     	layer.open({
+					// 	    type: 1,
+					// 	    title: false,
+					// 	    closeBtn: 0,
+					// 	    skin: 'layui-layer-nobg', //没有背景色
+					// 	    // shadeClose: true,
+					// 	    content:'<img src="public/img/y2.png" />'
+					// 	    });
+					//     }
+					//     if (Number($('#capital').val())>Number($('#capital1').val())) {
+					//     	layer.open({
+					// 	    type: 1,
+					// 	    title: false,
+					// 	    closeBtn: 0,
+					// 	    skin: 'layui-layer-nobg', //没有背景色
+					// 	    // shadeClose: true,
+					// 	    content:'<img src="public/img/y1.png" />'
+					// 	    });
+					//     };
+					//     if (Number($('#capital').val())==Number($('#capital1').val())) {challenge_hou.png
+					//     	layer.open({
+					// 	    type: 1,
+					// 	    title: false,
+					// 	    closeBtn: 0,
+					// 	    skin: 'layui-layer-nobg', //没有背景色
+					// 	    // shadeClose: true,
+					// 	    content:'<img src="public/img/y5.png" />'
+					// 	    });
+					//     };
+					// }
 					if (second < 12 && second >10) {
 						layer.closeAll('page');
 						layer.open({
@@ -241,39 +241,39 @@ $('#die').on('click', function(){
 						    content:'<img src="public/img/challenge.png" />'
 						    });
 					}
-					if (second < 59 && second >12) {
-						layer.closeAll('page');
-						if (Number($('#capital').val())>Number($('#capital1').val())) {
-					    	layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/y2.png" />'
-						    });
-					    }
-					    if (Number($('#capital').val())<Number($('#capital1').val())) {
-					    	layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/y1.png" />'
-						    });
-					    };
-					    if (Number($('#capital').val())==Number($('#capital1').val())) {challenge_hou.png
-					    	layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/y5.png" />'
-						    });
-					    };
-					}
+					// if (second < 59 && second >12) {
+					// 	layer.closeAll('page');
+					// 	if (Number($('#capital').val())>Number($('#capital1').val())) {
+					//     	layer.open({
+					// 	    type: 1,
+					// 	    title: false,
+					// 	    closeBtn: 0,
+					// 	    skin: 'layui-layer-nobg', //没有背景色
+					// 	    // shadeClose: true,
+					// 	    content:'<img src="public/img/y2.png" />'
+					// 	    });
+					//     }
+					//     if (Number($('#capital').val())<Number($('#capital1').val())) {
+					//     	layer.open({
+					// 	    type: 1,
+					// 	    title: false,
+					// 	    closeBtn: 0,
+					// 	    skin: 'layui-layer-nobg', //没有背景色
+					// 	    // shadeClose: true,
+					// 	    content:'<img src="public/img/y1.png" />'
+					// 	    });
+					//     };
+					//     if (Number($('#capital').val())==Number($('#capital1').val())) {challenge_hou.png
+					//     	layer.open({
+					// 	    type: 1,
+					// 	    title: false,
+					// 	    closeBtn: 0,
+					// 	    skin: 'layui-layer-nobg', //没有背景色
+					// 	    // shadeClose: true,
+					// 	    content:'<img src="public/img/y5.png" />'
+					// 	    });
+					//     };
+					// }
 					if (second < 12 && second >10) {
 						layer.closeAll('page');
 						layer.open({

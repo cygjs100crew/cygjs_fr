@@ -6,10 +6,10 @@
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>沪深300</title>
  <base href="<?php echo base_url()?>">
-<link rel="stylesheet" type="text/css" href="http://layoutit.justjavac.com/css/bootstrap-combined.min.css"><!-- Bootstra框架Combined引入 -->
+<link rel="stylesheet" type="text/css" href="public/oh_static/css/bootstrap-combined.min.css"><!-- Bootstra框架Combined引入 -->
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
 <link rel="stylesheet" type="text/css" href="public/oh_static/css/oh-common.css"><!-- @author ohyeah -->
- <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script><!-- JQ由Baidu加速DNS提供 -->
+ <script src="<?php echo base_url()?>public/js/jquery.js"></script><!-- JQ由Baidu加速DNS提供 -->
  <script type="text/javascript" src="public/js/code.js"></script>
  <script type="text/javascript" src="public/js/register.js"></script>
  <script type="text/javascript" src="public/layer/layer.js"></script><!-- Layer弹窗组件引入 -->
@@ -57,9 +57,10 @@
 
 <div class="focus_data">
     <!-- 为新浪准备一个具备大小（宽高）的Dom -->
-    <div id="container" style="width: 100%; height:270px;"></div>
+    <div id="container" style="width: 100%; height:200px;"></div>
 <script type="text/javascript" src="<?php echo base_url()?>public/js/echarts-all-3.0.0.js"></script>
 <script type="text/javascript">
+
 var dom = document.getElementById("container");
 var myChart = echarts.init(dom);
 var app = {};
@@ -67,8 +68,10 @@ option = null;
 var base = +new Date(2014, 9, 3);
 var oneDay = 24 * 3600 * 1000;
 var date = [];
+
 var data = [Math.random() * 150];
 var now = new Date(base);
+
 function addData(shift) {
     now = [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-');
     date.push(now);
@@ -79,9 +82,11 @@ function addData(shift) {
     }
     now = new Date(Date.parse(now) + 24 * 3600 * 1000);
 }
+
 for (var i = 1; i < 100; i++) {
     addData();
 }
+
 option = {
     tooltip: {
             trigger: 'axis',
@@ -95,6 +100,8 @@ option = {
     grid: {
         top:0,
         bottom:-15,
+        left:0,
+        right:-45,
         containLabel: true,
     },
     xAxis: {
@@ -104,8 +111,8 @@ option = {
     },
     yAxis : [
                 {
-                   
                     scale: true,
+                    axisLabel: {show: false},
                     splitLine: {show: false},
                     boundaryGap: [0.001, 0.001],
 		            position:'right',
@@ -122,6 +129,11 @@ option = {
                     type:'line',
                     stack: '总量',
                     symbolRotate: -45,
+                    markLine : {
+		                data : [
+		                    {type : 'average', name: '平均值'}
+		                ]
+		            },
                     itemStyle: {
                         normal: {
                             color: 'red',
