@@ -150,10 +150,10 @@ class MY_Controller extends CI_Controller {
         if (count($numdata)<1) {  
         	$num=0;
         	if ($shuying_result=='赢') {
-        		$num=1;
+        		$num=3;
         	}
         }elseif ($shuying_result=='赢') {                   //判断赢
-        	$num=intval($numdata[0]['num'])+1;     //累计次数
+        	$num=intval($numdata[0]['num'])+3;     //累计次数
 
         }else{                                     //中断连续，并重置次数
         	$num=0;

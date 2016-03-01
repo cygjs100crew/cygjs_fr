@@ -97,7 +97,7 @@ $('#zhang').on('click', function(){
 					// 	    // shadeClose: true,
 					// 	    content:'<img src="public/img/challenge.png" />'
 					// 	    });
-					}
+					// }
 					if (second < 60 && second >0) {
 						layer.closeAll('page');
 						layer.open({
@@ -113,7 +113,7 @@ $('#zhang').on('click', function(){
 						layer.closeAll('page');
 						var index = layer.load();
 						$.post('/cygjs_fr/index.php/huangjin_ed/huangjin_js_list',function(data){
-							layer.close(index);  
+							layer.close(index); 
 							var json=JSON.parse(data);
 							if (json.info=='赢') {
 								if (json.num==1) {
@@ -126,7 +126,7 @@ $('#zhang').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
 								    });
 								}
 								if (json.num==2) {
@@ -289,7 +289,6 @@ $('#die').on('click', function(){
 					// }
 					if (second < 60 && second >0) {
 						layer.closeAll('page');
-
 						layer.open({
 						    type: 1,
 						    title: false,
@@ -452,6 +451,31 @@ $('#jinyulink').on('click', function(){
 // 	        	} 
 // 	    });
 // 	},3000);
+
+// setInterval(function(){
+//     $.post('/cygjs_fr/index.php/huangjin/price',{symbol:'XAU'},function(data){
+//     // alert(data);
+//     var json=JSON.parse(data);  
+//     	if (Number($('#capital').val())<Number(json.price)) {
+// 	    	$(".button_ab dl").css("border","4px solid Red");
+// 	    }
+// 	    if (Number($('#capital').val())>Number(json.price)) {
+// 	    	$(".button_ab dl").css("border","4px solid Lime");
+// 	    };
+// 	    if (Number($('#capital').val())==Number(json.price)) {
+// 	    	$(".button_ab dl").css("border","4px solid Black");
+// 	    };
+
+//     $('#capital').val(json.price);
+//     $('#lianying').html(json.num);
+//     	if ($('#timeed').val()==json.time) {
+// 	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
+// 	    	$('#capital').val('');
+// 	    	$('#capital1').val('');
+// 	    };
+//     $('#timeed').val(json.time);
+//     });
+// },5000);
 
 // $('.tx').on('click', function(){
 // 	layer.alert('流量取现请联系客服确认取现时间。', {
