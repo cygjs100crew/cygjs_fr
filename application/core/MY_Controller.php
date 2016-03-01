@@ -209,8 +209,10 @@ class MY_Controller extends CI_Controller {
         return $result[0]['price'];
     }
     public function user_play(){
-    	$data['uid']=$this->is_uid();
-        $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
-        return count($userplay)>1?$userplay[0]['flow']:0;
+    	$customerId=$this->is_uid();
+		$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
+		$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
+
+        return intval($share_flow+$game_flow)>1?intval($share_flow+$game_flow):0;
     }
 }
