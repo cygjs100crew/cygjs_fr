@@ -125,7 +125,7 @@ $('#zhang').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜您，猜对了，继续加油哦！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
 								    });
 								}
 								if (json.num==2) {
@@ -138,7 +138,7 @@ $('#zhang').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，梅开二度，离流量大包仅一步之遥了！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
 								    });
 								}
 								if (json.num==3) {
@@ -151,13 +151,13 @@ $('#zhang').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，连中三元，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="span12"><h3 class="text-center">恭喜你，又猜对了，你已晋升二元期权高手行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
 								    });
 								}
 								
 							};
 							if (json.info=='输') {
-								layer.alert('很遗憾，您没猜对了，谢谢参与！继续努力吧！', {
+								layer.alert('很遗憾，您没猜对了，继续努力吧！', {
 								    icon: 5,
 								    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
 								});
@@ -313,7 +313,7 @@ $('#die').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜您，猜对了，继续加油哦！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
 								    });
 								}
 								if (json.num==2) {
@@ -326,7 +326,7 @@ $('#die').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，梅开二度，离流量大包仅一步之遥了！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
 								    });
 								}
 								if (json.num==3) {
@@ -339,13 +339,13 @@ $('#die').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，连中三元，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户，连续三次可获得1M数据流量。</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="span12"><h3 class="text-center">恭喜你，又猜对了，你已晋升二元期权高手行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
 								    });
 								}
 								
 							};
 							if (json.info=='输') {
-								layer.alert('很遗憾，您没猜对了，谢谢参与！继续努力吧！', {
+								layer.alert('很遗憾，您没猜对了，继续努力吧！', {
 								    icon: 5,
 								    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
 								});

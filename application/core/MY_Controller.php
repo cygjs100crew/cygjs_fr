@@ -160,7 +160,7 @@ class MY_Controller extends CI_Controller {
         }
 		
 		if (count($numdata)>0) {                                 // 判断是否有会员数据
-		        if ($num>2) {                                        // 连续3次赢1M流量规则
+		        if ($num>0) {                                        // 连续3次赢1M流量规则
 	        	$data = array(
 		                'customer_id' => $uid,                       // 会员ID
 		                'flow'        => 1,                          // 流量
