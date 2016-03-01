@@ -150,10 +150,10 @@ class MY_Controller extends CI_Controller {
         if (count($numdata)<1) {  
         	$num=0;
         	if ($shuying_result=='赢') {
-        		$num=3;
+        		$num=1;
         	}
         }elseif ($shuying_result=='赢') {                   //判断赢
-        	$num=intval($numdata[0]['num'])+3;     //累计次数
+        	$num=intval($numdata[0]['num'])+1;     //累计次数
 
         }else{                                     //中断连续，并重置次数
         	$num=0;
@@ -163,12 +163,15 @@ class MY_Controller extends CI_Controller {
 		        if ($num>0) {                                        // 连续3次赢1M流量规则
 	        	$data = array(
 		                'customer_id' => $uid,                       // 会员ID
-		                'flow'        => 1,                          // 流量
+		                'flow'        => 3,                          // 流量
 		                'play_time'   => date("Y-m-d H:i:s",time()), // 生成时间
 		        );
 		        $this->db->insert('play',$data);                     // 新增流量次数
-		        $num=0;                                              // 重置连续
+		                                                     // 重置连续
         	}
+        	if ($num>2) { 
+        		$num=0;
+        	} 
 			$condition['uid'] =$uid;                                           // 更新对象id
 			$updata['num'] =$num;                                              // 结果赋值
 			$updata['symbol'] =$symbol;

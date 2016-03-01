@@ -175,16 +175,16 @@ $.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'XAU'},function(data){
     var date = json.data_date;
     var data = json.ipdata;
 
-    if (Number($('#capital').val())<Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Red");
+    if (Number($('#capital').html())<Number(json.price)) {
+	    	$(".button_ab dl").addClass('z').removeClass('d').removeClass('n');
 	    }
-	    if (Number($('#capital').val())>Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Lime");
+	    if (Number($('#capital').html())>Number(json.price)) {
+	    	$(".button_ab dl").addClass('d').removeClass('z').removeClass('n');
 	    };
-	    if (Number($('#capital').val())==Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Black");
+	    if (Number($('#capital').html())==Number(json.price)) {
+	    	$(".button_ab dl").addClass('n').removeClass('d').removeClass('z');
 	    };
-    $('#capital').val(json.price);
+    $('#capital').html(json.price);
     $('#lianying').html(json.num);
     	if (json.st==0) {
 	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
@@ -218,9 +218,9 @@ if (option && typeof option === "object") {
     <span class="d"><a href="javascript:void(0);" id="die" class="die">猜跌</a></span>
 
 	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">猜涨</a></span>
-	<dl><dt id='tip'>最新报价</dt><dd><input type="button" name="capital" id="capital" value=""/>
+	<dl><dt id='tip'>最新报价</dt><dd><span id="capital"></span>
 	<dt>PK</dt>
-	<input type="button" name="capital1" id="capital1" value=""/>
+	<span id="capital1"></span>
 	<input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/>
 	<input type="button" name="timeed" id="timeed" value="" style="display:none;"/></dd></dl>
 	
@@ -230,7 +230,7 @@ if (option && typeof option === "object") {
 	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
 	<ul><li><span>可用流量</span><p><em id="total_flow"></em>M</p></li>
 	</ul>
-	<span class="tx"><a href="javascript:void(0);" id="qx">我要取现</a></span>
+	<span class="tx"><a href="javascript:void(0);" id="qx">领取流量</a></span>
 </div>
 
 <div id="regmodal" class="modal2" style="display:none;">

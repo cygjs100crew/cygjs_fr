@@ -36,8 +36,9 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 #rule_cont h2{ color: #222}
 #rule_cont h3{ color: #a00; margin-top: .2rem}
 
-.start a{ display: block; margin:0 25%; width: 50%; line-height: 2.5rem; background: #d99204; color: #300; font-size: 1rem; font-weight: 700; text-align: center; border-radius: 2rem}
-.check2{ width: 100%; color: #fff; margin: 5% 0; overflow: hidden;}
+.start{ position:fixed; width:100%; bottom:0}
+.start a{ display: block; margin:3% 5%; width: 90%; line-height: 3rem; background: #d99204; color: #300; font-size: 1rem; font-weight: 700; text-align: center; border-radius: .3rem}
+.check2{ width: 100%; color: #fff; overflow: hidden;}
 .check2 li{ float: left; width: 47%; height: 250px; margin: 0 0 0 2%; border:1px solid #413f47; font-size: .8rem; border-radius: 6px; padding: 3%; box-sizing: border-box; overflow: hidden; background:#201e28 url(../img/check.png) no-repeat right top; background-size: 10%}
 .check2 center{ line-height: 2rem; font-size: 1rem}
 .check2 span{ color: #fedd78}
@@ -106,16 +107,20 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 .button_ab span.d a{ background: #77ae00; text-indent: 15%}
 .button_ab span.z a{ background-color: #ff3636; text-indent: 60%}
 .button_ab dl{ position: absolute; left: 0; top: 20px; right: 0; bottom: 0; margin:0 auto; padding-top: 30px; width: 150px; height: 115px; border-radius: 50%; background: #1a1821; text-align: center; border:4px solid #413f47;}
+.button_ab dl.z dd span{ color: #ff3636}
+.button_ab dl.d dd span{ color: #77ae00}
+.button_ab dl.n dd span{ color: #fff}
 .button_ab dt{ color: #63606b}
-.button_ab dd{ font-family: Arial; font-size: 30px}
+.button_ab dd{ font-family: Arial; font-size: 30px;}
+.button_ab dl dd span{ width:100%; margin:0}
 
 .user_info{ width: 100%; height: 60px; color: #fff; background: #a00; position:fixed; bottom: 0; z-index: 999}
 .user_info dl{ float: left; position: absolute; left: 10px; top: -30px}
 .user_info dt{ width: 60px; height: 60px; border:2px solid #e52c2c; border-radius: 50%; overflow: hidden;}
 .user_info dt img{ width: 60px; height: 60px;}
 .user_info dd{ width: 70px; font-size: 10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-#capital{ background: none; color:#fff; font:20px/1.5 "Arial";}
-#capital1{ background: none; color:#f80; font:16px/1.5 "Arial";}
+#capital{ background: none; font:20px/1.5 "Arial";}
+#capital1{ background: none; color:#f80; font:16px/1.5 "Arial"; margin:0; width:100%}
 .user_info ul{ float: left; margin: 5px 0 0 90px;}
 .user_info span{color: #650000}
 .user_info p{ font-size: 8px}
@@ -147,11 +152,7 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 .txtfield:focus{outline:none;color:#525864;border-color:#f60;-webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 7px #f80;-moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 7px #f80;box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 7px #f80;}
 .w2{ width: 30%}
 .gb{border:1px solid #fff;width:30px;height:30px;position:absolute;top:0;right:0;font-size:16px;color:#c00;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
-<<<<<<< HEAD
-.gb:hover{cursor:pointer;}
-=======
 .gb:hover{cursor:pointer;}
 
 .duih_form li span{ float:left; width:60%; text-align:right}
 .duih_input{ width:80px;}
->>>>>>> 5c567db0560a5b5775b8fa28b804c3a0b056e70b
