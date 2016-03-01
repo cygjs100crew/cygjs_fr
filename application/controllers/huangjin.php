@@ -18,16 +18,10 @@ class Huangjin extends MY_Controller{
 
         $data['username']=$username;
         $data['num']=$this->ying_num();
-<<<<<<< HEAD
         $data['uid']=$this->is_uid().'号会员';
         $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
         $signPackage = $this->jssdk->GetSignPackage();
-=======
-        $data['uid']=$this->is_uid();
-        $data['flow']=$this->user_play();
-        $signPackage = $this->jssdk->GetSignPackage();//微信分享
->>>>>>> origin/master
         $data['signPackage']= $signPackage;
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username      
     }
@@ -197,7 +191,8 @@ class Huangjin extends MY_Controller{
 	public function send_sms(){
 		//$this->load->model('phone_model','phone');
 		$phone=$this->input->post('phone');
-		
+		//$phone='15074716900';
+		//$MessageContent='手机测试';
 		//生成验证码
 		$code = rand(1000,9999);
 		$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
@@ -211,10 +206,12 @@ class Huangjin extends MY_Controller{
 		);*/
 		//var_dump($data);
 		//$ret=$this->phone->send($data);
-		
+		//$ret=$this->phone->Get($url);
 		$url="http://120.24.167.205/msg/HttpSendSM?account=gzjygjs&pswd=GZjygjs05&mobile=".$phone."&msg=".$MessageContent."&needstatus=true&product=";
 		$ret=file_get_contents($url);
+		//var_dump($ret);
 		die;
+		//echo $ret;
  		/*if(preg_match('/,0$/i',$ret)){
  			echo json_encode(array('success'=>true,'info'=>'发送成功'));
  			return;
@@ -238,7 +235,7 @@ class Huangjin extends MY_Controller{
 	public function test_sms(){
 		$this->load->model('phone_model','phone');
 		$data = array(
-		    'phone' => '150****6900',
+		    'phone' => '15074716900',
 		    'MessageContent' => '您本次验证码为12345678如需退订回复TD。',
 		);
 		echo $this->phone->send($data);
@@ -352,8 +349,6 @@ class Huangjin extends MY_Controller{
         }
         // $result = $_POST['symbol'];
         $result['st'] =1;
-        $result['flow']=$this->user_play();
-        $result['num']=$this->ying_num();
         echo json_encode($result);    
     }
 	
