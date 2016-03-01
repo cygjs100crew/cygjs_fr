@@ -18,9 +18,8 @@ class Huangjin extends MY_Controller{
 
         $data['username']=$username;
         $data['num']=$this->ying_num();
-        $data['uid']=$this->is_uid().'号会员';
-        $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
-        $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
+        $data['uid']=$this->is_uid();
+        $data['flow']=$this->user_play();
         $signPackage = $this->jssdk->GetSignPackage();//微信分享
         $data['signPackage']= $signPackage;
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username      
@@ -332,6 +331,8 @@ class Huangjin extends MY_Controller{
         }
         // $result = $_POST['symbol'];
         $result['st'] =1;
+        $result['flow']=$this->user_play();
+        $result['num']=$this->ying_num();
         echo json_encode($result);    
     }
 	

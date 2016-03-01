@@ -9,6 +9,14 @@ $('#zhang').on('click', function(){
 	return false;
 	}
 	var index = layer.load();
+	layer.open({
+						    type: 1,
+						    title: false,
+						    closeBtn: 0,
+						    skin: 'layui-layer-nobg', //没有背景色
+						    // shadeClose: true,
+						    content:'<img src="public/img/bisai_text.png" />'
+						    });
 	$.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:1,symbol:$('#symbol').val()},function(data){
     	layer.close(index);
     	 // var obj = eval(data);
@@ -19,14 +27,7 @@ $('#zhang').on('click', function(){
 	 //    icon: 1,
 	 //    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
 		// });
-		layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/bisai_text.png" />'
-						    });
+		
         /*60秒倒计时开始*/
 		var intDiff = parseInt(60); //120秒倒计时总秒数量
 		function timer(intDiff) {
@@ -41,17 +42,17 @@ $('#zhang').on('click', function(){
 					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 					if (minute <= 9) minute = '0' + minute;
 					if (second <= 9) second = '0' + second;
-					if (second < 60 && second >59) {
-						layer.closeAll('page');
-						layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/challenge.png" />'
-						    });
-					}
+					// if (second < 60 && second >59) {
+					// 	layer.closeAll('page');
+					// 	layer.open({
+					// 	    type: 1,
+					// 	    title: false,
+					// 	    closeBtn: 0,
+					// 	    skin: 'layui-layer-nobg', //没有背景色
+					// 	    // shadeClose: true,
+					// 	    content:'<img src="public/img/challenge.png" />'
+					// 	    });
+					// }
 					// if (second < 59 && second >12) {
 					// 	layer.closeAll('page');
 					// 	if (Number($('#capital').val())<Number($('#capital1').val())) {
@@ -85,18 +86,18 @@ $('#zhang').on('click', function(){
 					// 	    });
 					//     };
 					// }
-					if (second < 12 && second >10) {
-						layer.closeAll('page');
-						layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/challenge.png" />'
-						    });
-					}
-					if (second < 10 && second >0) {
+					// if (second < 12 && second >10) {
+					// 	layer.closeAll('page');
+					// 	layer.open({
+					// 	    type: 1,
+					// 	    title: false,
+					// 	    closeBtn: 0,
+					// 	    skin: 'layui-layer-nobg', //没有背景色
+					// 	    // shadeClose: true,
+					// 	    content:'<img src="public/img/challenge.png" />'
+					// 	    });
+					// }
+					if (second < 60 && second >0) {
 						layer.closeAll('page');
 						layer.open({
 						    type: 1,
@@ -199,6 +200,14 @@ $('#die').on('click', function(){
 	return false;
 	}
 	var index = layer.load();
+	layer.open({
+				    type: 1,
+				    title: false,
+				    closeBtn: 0,
+				    skin: 'layui-layer-nobg', //没有背景色
+				    // shadeClose: true,
+				    content:'<img src="public/img/bisai_text.png" />'
+				    });
     $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').val(),invest_type:0,symbol:$('#symbol').val()},function(data){
     	layer.close(index); 
     	 // var obj = eval(data);
@@ -209,14 +218,7 @@ $('#die').on('click', function(){
 	 //    icon: 1,
 	 //    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
 		// });
-		layer.open({
-				    type: 1,
-				    title: false,
-				    closeBtn: 0,
-				    skin: 'layui-layer-nobg', //没有背景色
-				    // shadeClose: true,
-				    content:'<img src="public/img/bisai_text.png" />'
-				    });
+		
         /*60秒倒计时开始*/
 		var intDiff = parseInt(60); //120秒倒计时总秒数量
 		function timer(intDiff) {
@@ -229,17 +231,17 @@ $('#die').on('click', function(){
 					second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 					if (minute <= 9) minute = '0' + minute;
 					if (second <= 9) second = '0' + second;
-					if (second < 60 && second >59) {
-						layer.closeAll('page');
-						layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/challenge.png" />'
-						    });
-					}
+					// if (second < 60 && second >59) {
+					// 	layer.closeAll('page');
+					// 	layer.open({
+					// 	    type: 1,
+					// 	    title: false,
+					// 	    closeBtn: 0,
+					// 	    skin: 'layui-layer-nobg', //没有背景色
+					// 	    // shadeClose: true,
+					// 	    content:'<img src="public/img/challenge.png" />'
+					// 	    });
+					// }
 					// if (second < 59 && second >12) {
 					// 	layer.closeAll('page');
 					// 	if (Number($('#capital').val())>Number($('#capital1').val())) {
@@ -273,18 +275,18 @@ $('#die').on('click', function(){
 					// 	    });
 					//     };
 					// }
-					if (second < 12 && second >10) {
-						layer.closeAll('page');
-						layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/challenge.png" />'
-						    });
-					}
-					if (second < 10 && second >0) {
+					// if (second < 12 && second >10) {
+					// 	layer.closeAll('page');
+					// 	layer.open({
+					// 	    type: 1,
+					// 	    title: false,
+					// 	    closeBtn: 0,
+					// 	    skin: 'layui-layer-nobg', //没有背景色
+					// 	    // shadeClose: true,
+					// 	    content:'<img src="public/img/challenge.png" />'
+					// 	    });
+					// }
+					if (second < 60 && second >0) {
 						layer.closeAll('page');
 						layer.open({
 						    type: 1,

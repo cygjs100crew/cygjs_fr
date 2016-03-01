@@ -205,4 +205,9 @@ class MY_Controller extends CI_Controller {
         $result = $this->db->limit(1)->order_by("id","desc")->get_where('recentquotation',array('symbol'=>$symbol))->result_array(); // 查询最近一条报价记录
         return $result[0]['price'];
     }
+    public function user_play(){
+    	$data['uid']=$this->is_uid();
+        $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
+        return count($userplay)>1?$userplay[0]['flow']:0;
+    }
 }
