@@ -110,17 +110,20 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 .button_ab dl.z dd span{ color: #ff3636}
 .button_ab dl.d dd span{ color: #77ae00}
 .button_ab dl.n dd span{ color: #fff}
-.button_ab dt{ color: #63606b}
-.button_ab dd{ font-family: Arial; font-size: 30px;}
+.button_ab dl.z i{ position:absolute; left:20px; display:block; width:8px; height:8px; background:url(../img/up.gif) no-repeat center; background-size:100%}
+.button_ab dl.d i{ position:absolute; left:20px; display:block; width:8px; height:8px; background:url(../img/down.gif) no-repeat center; background-size:100%}
+.button_ab dt{ color: #63606b; margin:0 auto;}
+.button_ab dt.pk{ width:30px; height:20px; background:#a00; color:#fff; border-radius:20px}
+.button_ab dd{ font-family: Arial; font-size: 30px; overflow:hidden}
 .button_ab dl dd span{ width:100%; margin:0}
 
 .user_info{ width: 100%; height: 60px; color: #fff; background: #a00; position:fixed; bottom: 0; z-index: 999}
 .user_info dl{ float: left; position: absolute; left: 10px; top: -30px}
 .user_info dt{ width: 60px; height: 60px; border:2px solid #e52c2c; border-radius: 50%; overflow: hidden;}
 .user_info dt img{ width: 60px; height: 60px;}
-.user_info dd{ width: 70px; font-size: 10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-#capital{ background: none; font:20px/1.5 "Arial";}
-#capital1{ background: none; color:#f80; font:16px/1.5 "Arial"; margin:0; width:100%}
+.user_info dd{ width: 64px; font-size: 10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align: center;}
+#capital{ font:20px/1.5 "Arial";}
+#capital1{ color:#f80; font:16px/1.5 "Arial"; margin:0; width:100%}
 .user_info ul{ float: left; margin: 5px 0 0 90px;}
 .user_info span{color: #650000}
 .user_info p{ font-size: 8px}

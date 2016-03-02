@@ -15,6 +15,7 @@
  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
  <script type="text/javascript" src="public/layer/layer.js"></script><!-- Layer弹窗组件引入 -->
  <script type="text/javascript" src="public/layer/extend/layer.ext.js"></script><!-- Layer弹窗组件引入 -->
+ <div id='wx_pic' style="display:none"><img src='public/img/pic300.jpg' /></div>
 <style>
 #mask{
 
@@ -186,7 +187,6 @@ $.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'XAU'},function(data){
 	    };
     $('#capital').html(json.price);
     $('#lianying').html(json.num);
-    $('#total_flow').html(json.flow);
     	if (json.st==0) {
 	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
 	    };
@@ -219,8 +219,8 @@ if (option && typeof option === "object") {
     <span class="d"><a href="javascript:void(0);" id="die" class="die">猜跌</a></span>
 
 	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">猜涨</a></span>
-	<dl><dt id='tip'>最新报价</dt><dd><span id="capital"></span>
-	<dt>PK</dt>
+	<dl><dt id='tip'>最新报价</dt><dd><i></i><span id="capital"></span>
+	<dt class="pk">PK</dt>
 	<span id="capital1"></span>
 	<input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/>
 	<input type="button" name="timeed" id="timeed" value="" style="display:none;"/></dd></dl>
