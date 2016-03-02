@@ -30,7 +30,7 @@ $('#zhang').on('click', function(){
 		// });
 
         /*60秒倒计时开始*/
-		var intDiff = parseInt(60); //120秒倒计时总秒数量
+		var intDiff = parseInt(20); //120秒倒计时总秒数量
 		function timer(intDiff) {
 			window.setInterval(function() {
 				var day = 0,
@@ -120,39 +120,36 @@ $('#zhang').on('click', function(){
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
 								    });
 								}
 								if (json.num==2) {
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
 								    });
 								}
 								if (json.num==3) {
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，又猜对了，你已晋升二元期权高手行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em?行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
 								    });
 								}
 								
@@ -221,7 +218,7 @@ $('#die').on('click', function(){
 		// });
 
         /*60秒倒计时开始*/
-		var intDiff = parseInt(60); //120秒倒计时总秒数量
+		var intDiff = parseInt(20); //120秒倒计时总秒数量
 		function timer(intDiff) {
 			window.setInterval(function() {
 				var day = 0,
@@ -309,39 +306,36 @@ $('#die').on('click', function(){
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
 								    });
 								}
 								if (json.num==2) {
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
 								    });
 								}
 								if (json.num==3) {
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，又猜对了，你已晋升二元期权高手行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em>行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
 								    });
 								}
 								

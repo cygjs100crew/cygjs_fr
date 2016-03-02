@@ -187,6 +187,7 @@ $.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'XAU'},function(data){
 	    };
     $('#capital').html(json.price);
     $('#lianying').html(json.num);
+    $('#total_flow').html(json.flow);
     	if (json.st==0) {
 	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
 	    };
