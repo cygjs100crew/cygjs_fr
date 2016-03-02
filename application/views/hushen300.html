@@ -156,17 +156,18 @@ $.post('/cygjs_fr/index.php/hushen300/e_data',{symbol:'CFIFZ5'},function(data){
     var json=JSON.parse(data);
     var date = json.data_date;
     var data = json.ipdata;
-    if (Number($('#capital').val())<Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Red");
+    if (Number($('#capital').html())<Number(json.price)) {
+	    	$(".button_ab dl").addClass('z').removeClass('d').removeClass('n');
 	    }
-	    if (Number($('#capital').val())>Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Lime");
+	    if (Number($('#capital').html())>Number(json.price)) {
+	    	$(".button_ab dl").addClass('d').removeClass('z').removeClass('n');
 	    };
-	    if (Number($('#capital').val())==Number(json.price)) {
-	    	$(".button_ab dl").css("border","4px solid Black");
+	    if (Number($('#capital').html())==Number(json.price)) {
+	    	$(".button_ab dl").addClass('n').removeClass('d').removeClass('z');
 	    };
-    $('#capital').val(json.price);
+    $('#capital').html(json.price);
     $('#lianying').html(json.num);
+    $('#total_flow').html(json.flow);
     	if (json.st==0) {
 	    	$('#tip').html('股市开市再来吧！</br>');
 	    };
@@ -194,18 +195,22 @@ if (option && typeof option === "object") {
     </script>
 </div>
 <div class="button_ab">
+
     <span class="d"><a href="javascript:void(0);" id="die" class="die">猜跌</a></span>
+
 	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">猜涨</a></span>
-	<dl><dt id='tip'>最新报价</dt><dd>
-	<input type="button" name="capital" id="capital" value=""/>
-	<dt>PK</dt>
-	<input type="button" name="capital1" id="capital1" value=""/>
-	<input type="button" name="symbol" id="symbol" value="CFIFZ5" style="display:none;"/>
+	<dl><dt id='tip'>最新报价</dt><dd><i></i><span id="capital"></span>
+	<dt class="pk">PK</dt>
+	<span id="capital1"></span>
+	<input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/>
 	<input type="button" name="timeed" id="timeed" value="" style="display:none;"/></dd></dl>
+	
 </div>
+
 <div class="user_info">
 	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
-	<ul><li><span>可用流量</span><p><em><?php echo $flow;?></em>M</p></li></ul>
+	<ul><li><span>可用流量</span><p><em id="total_flow"></em>M</p></li>
+	</ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">领取流量</a></span>
 </div>
 

@@ -2,7 +2,7 @@
 $('#zhang').on('click', function(){
 	
 	/*买入价不能为空*/
-	if($('#capital').val() == '') {
+	if($('#capital').html() == '') {
 	layer.alert('数据加载未完成', {
     icon: 5,
     skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
@@ -18,19 +18,19 @@ $('#zhang').on('click', function(){
 				    // shadeClose: true,
 				    content:'<img src="public/img/bisai_text.png" />'
 				    });
-    $.post('/cygjs_fr/index.php/huangjin_ed/investor_detail_add',{capital:$('#capital').val(),invest_type:1,symbol:$('#symbol').val()},function(data){
+    $.post('/cygjs_fr/index.php/huangjin_ed/investor_detail_add',{capital:$('#capital').html(),invest_type:1,symbol:$('#symbol').val()},function(data){
     	layer.close(index);
     	 // var obj = eval(data);
         // alert(data);
-        $('#capital1').val($('#capital').val());
+        $('#capital1').html($('#capital').html());
         var json=JSON.parse(data);
-  //       layer.alert('看涨。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
+  //       layer.alert('看涨。买入价：'+$('#capital').html()+'。中奖请查看历史记录。', {
 	 //    icon: 1,
 	 //    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
 		// });
 
         /*60秒倒计时开始*/
-		var intDiff = parseInt(5); //120秒倒计时总秒数量
+		var intDiff = parseInt(60); //120秒倒计时总秒数量
 		function timer(intDiff) {
 			window.setInterval(function() {
 				var day = 0,
@@ -56,7 +56,7 @@ $('#zhang').on('click', function(){
 					// }
 					// if (second < 59 && second >12) {
 					// 	layer.closeAll('page');
-					// 	if (Number($('#capital').val())<Number($('#capital1').val())) {
+					// 	if (Number($('#capital').html())<Number($('#capital1').html())) {
 					//     	layer.open({
 					// 	    type: 1,
 					// 	    title: false,
@@ -66,7 +66,7 @@ $('#zhang').on('click', function(){
 					// 	    content:'<img src="public/img/y2.png" />'
 					// 	    });
 					//     }
-					//     if (Number($('#capital').val())>Number($('#capital1').val())) {
+					//     if (Number($('#capital').html())>Number($('#capital1').html())) {
 					//     	layer.open({
 					// 	    type: 1,
 					// 	    title: false,
@@ -76,7 +76,7 @@ $('#zhang').on('click', function(){
 					// 	    content:'<img src="public/img/y1.png" />'
 					// 	    });
 					//     };
-					//     if (Number($('#capital').val())==Number($('#capital1').val())) {challenge_hou.png
+					//     if (Number($('#capital').html())==Number($('#capital1').html())) {challenge_hou.png
 					//     	layer.open({
 					// 	    type: 1,
 					// 	    title: false,
@@ -112,7 +112,7 @@ $('#zhang').on('click', function(){
 					if (second == '00') {
 						layer.closeAll('page');
 						var index = layer.load();
-						$.post('/cygjs_fr/index.php/huangjin_ed/huangjin_js_list',function(data){
+						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',function(data){
 							layer.close(index); 
 							var json=JSON.parse(data);
 							if (json.info=='赢') {
@@ -120,39 +120,36 @@ $('#zhang').on('click', function(){
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								if (json.num==2) {
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								if (json.num==3) {
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，又猜对了，你已晋升二元期权高手行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em?行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								
@@ -193,7 +190,7 @@ $('#zhang').on('click', function(){
 // 跌事件
 $('#die').on('click', function(){
 	/*买入价不能为空*/
-	if($('#capital').val() == '') {
+	if($('#capital').html() == '') {
 	layer.alert('数据加载未完成', {
     icon: 5,
     skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
@@ -209,19 +206,19 @@ $('#die').on('click', function(){
 		    // shadeClose: true,
 		    content:'<img src="public/img/bisai_text.png" />'
 		    });
-    $.post('/cygjs_fr/index.php/huangjin_ed/investor_detail_add',{capital:$('#capital').val(),invest_type:0,symbol:$('#symbol').val()},function(data){
+    $.post('/cygjs_fr/index.php/huangjin_ed/investor_detail_add',{capital:$('#capital').html(),invest_type:0,symbol:$('#symbol').val()},function(data){
     	layer.close(index); 
     	 // var obj = eval(data);
         // alert(data);
-        $('#capital1').val($('#capital').val());
+        $('#capital1').html($('#capital').html());
         var json=JSON.parse(data);
-  //       layer.alert('看跌。买入价：'+$('#capital').val()+'。中奖请查看历史记录。', {
+  //       layer.alert('看跌。买入价：'+$('#capital').html()+'。中奖请查看历史记录。', {
 	 //    icon: 1,
 	 //    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
 		// });
 
         /*60秒倒计时开始*/
-		var intDiff = parseInt(5); //120秒倒计时总秒数量
+		var intDiff = parseInt(60); //120秒倒计时总秒数量
 		function timer(intDiff) {
 			window.setInterval(function() {
 				var day = 0,
@@ -245,7 +242,7 @@ $('#die').on('click', function(){
 					// }
 					// if (second < 59 && second >12) {
 					// 	layer.closeAll('page');
-					// 	if (Number($('#capital').val())>Number($('#capital1').val())) {
+					// 	if (Number($('#capital').html())>Number($('#capital1').html())) {
 					//     	layer.open({
 					// 	    type: 1,
 					// 	    title: false,
@@ -255,7 +252,7 @@ $('#die').on('click', function(){
 					// 	    content:'<img src="public/img/y2.png" />'
 					// 	    });
 					//     }
-					//     if (Number($('#capital').val())<Number($('#capital1').val())) {
+					//     if (Number($('#capital').html())<Number($('#capital1').html())) {
 					//     	layer.open({
 					// 	    type: 1,
 					// 	    title: false,
@@ -265,7 +262,7 @@ $('#die').on('click', function(){
 					// 	    content:'<img src="public/img/y1.png" />'
 					// 	    });
 					//     };
-					//     if (Number($('#capital').val())==Number($('#capital1').val())) {challenge_hou.png
+					//     if (Number($('#capital').html())==Number($('#capital1').html())) {challenge_hou.png
 					//     	layer.open({
 					// 	    type: 1,
 					// 	    title: false,
@@ -301,7 +298,7 @@ $('#die').on('click', function(){
 					if (second == '00') {
 						layer.closeAll('page');
 						var index = layer.load();
-						$.post('/cygjs_fr/index.php/huangjin_ed/huangjin_js_list',function(data){
+						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',function(data){
 							layer.close(index); 
 							var json=JSON.parse(data);
 							if (json.info=='赢') {
@@ -309,39 +306,36 @@ $('#die').on('click', function(){
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								if (json.num==2) {
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，猜对了，获得金裕二元期权1M流量奖励！</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								if (json.num==3) {
 									layer.open({
 								    type: 1,
 								    title: false,
-								    area: ['340px', '280px'],
-								    skin: 'layui-layer-demo', //样式类名
-								    closeBtn: 0, //不显示关闭按钮
+								    skin: 'layui-layer-nobg', //样式类名
+								    closeBtn: 1, //不显示关闭按钮
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="span12"><h3 class="text-center">恭喜你，又猜对了，你已晋升二元期权高手行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户。</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em>行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								
@@ -431,16 +425,16 @@ $('#jinyulink').on('click', function(){
 // 	            	document.title = title;
 // 	                var html_src = '实时行情: '+rt_hq+"|最高: "+hq[3]+" | 最低: "+hq[2]+"|昨收: "+hq[7]+"| 北京时间: "+hq[6]+"";
 // 	                var html_src_img = '<img src="http://image.sinajs.cn/newchart/v5/futures/global/min/GC.gif?'+new Date().getTime()+'">';
-// 	                if (Number($('#capital').val())<Number(hq[3])) {
+// 	                if (Number($('#capital').html())<Number(hq[3])) {
 // 	                	$(".button_ab dl").css("border","4px solid Red");
 // 	                }
-// 	                if (Number($('#capital').val())>Number(hq[3])) {
+// 	                if (Number($('#capital').html())>Number(hq[3])) {
 // 	                	$(".button_ab dl").css("border","4px solid Lime");
 // 	                };
-// 	                if (Number($('#capital').val())==Number(hq[3])) {
+// 	                if (Number($('#capital').html())==Number(hq[3])) {
 // 	                	$(".button_ab dl").css("border","4px solid Black");
 // 	                };
-// 	                $('#capital').val(hq[3]);
+// 	                $('#capital').html(hq[3]);
 // 	                $("#m-chart-realhq").html(html_src);
 // 	                $("#m-chart-img").html(html_src_img);
 
@@ -456,22 +450,22 @@ $('#jinyulink').on('click', function(){
 //     $.post('/cygjs_fr/index.php/huangjin/price',{symbol:'XAU'},function(data){
 //     // alert(data);
 //     var json=JSON.parse(data);  
-//     	if (Number($('#capital').val())<Number(json.price)) {
+//     	if (Number($('#capital').html())<Number(json.price)) {
 // 	    	$(".button_ab dl").css("border","4px solid Red");
 // 	    }
-// 	    if (Number($('#capital').val())>Number(json.price)) {
+// 	    if (Number($('#capital').html())>Number(json.price)) {
 // 	    	$(".button_ab dl").css("border","4px solid Lime");
 // 	    };
-// 	    if (Number($('#capital').val())==Number(json.price)) {
+// 	    if (Number($('#capital').html())==Number(json.price)) {
 // 	    	$(".button_ab dl").css("border","4px solid Black");
 // 	    };
 
-//     $('#capital').val(json.price);
+//     $('#capital').html(json.price);
 //     $('#lianying').html(json.num);
 //     	if ($('#timeed').val()==json.time) {
 // 	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
-// 	    	$('#capital').val('');
-// 	    	$('#capital1').val('');
+// 	    	$('#capital').html('');
+// 	    	$('#capital1').html('');
 // 	    };
 //     $('#timeed').val(json.time);
 //     });

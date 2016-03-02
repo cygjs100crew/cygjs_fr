@@ -125,7 +125,7 @@ $('#zhang').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								if (json.num==2) {
@@ -137,7 +137,7 @@ $('#zhang').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								if (json.num==3) {
@@ -149,7 +149,7 @@ $('#zhang').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em?行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em?行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								
@@ -311,7 +311,7 @@ $('#die').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/tong_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								if (json.num==2) {
@@ -323,7 +323,7 @@ $('#die').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/silver_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								if (json.num==3) {
@@ -335,7 +335,7 @@ $('#die').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em>行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/gold_bei.png"><img class="gold_x" src="public/oh_static/img/x.png"><img src="public/oh_static/img/buzu_one.png"></div></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em>行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
 								

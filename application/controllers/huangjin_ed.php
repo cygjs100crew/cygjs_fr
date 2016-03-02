@@ -160,7 +160,7 @@ class Huangjin_ed extends MY_Controller{
     public function investor_detail_add(){
         $data = array(
                 'start_time'   => time(),                   // 开始时间
-                'and_time'     => strtotime("+57 seconds"), // 结束时间
+                'and_time'     => strtotime("+60 seconds"), // 结束时间
                 'capital'      => $_POST['capital'],        // 买入价
                 'duration'     => 60,                       // 间隔时间
                 'add_ip'       => $_SERVER["REMOTE_ADDR"],  // 用户IP
@@ -255,7 +255,7 @@ class Huangjin_ed extends MY_Controller{
     }
     function e_data(){
         $symbol=$_POST['symbol'];
-        $list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s'),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        $list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         if (count($list)<1) {                       
             $result['st'] =0; //没有数据则提示
             echo json_encode($result);
