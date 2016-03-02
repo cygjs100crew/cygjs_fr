@@ -160,7 +160,7 @@ class Huangjin_ed extends MY_Controller{
     public function investor_detail_add(){
         $data = array(
                 'start_time'   => time(),                   // 开始时间
-                'and_time'     => strtotime("+50 seconds"), // 结束时间
+                'and_time'     => strtotime("+57 seconds"), // 结束时间
                 'capital'      => $_POST['capital'],        // 买入价
                 'duration'     => 60,                       // 间隔时间
                 'add_ip'       => $_SERVER["REMOTE_ADDR"],  // 用户IP

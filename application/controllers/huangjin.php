@@ -253,7 +253,7 @@ class Huangjin extends MY_Controller{
     public function investor_detail_add(){
         $data = array(
                 'start_time'   => time(),                   // 开始时间
-                'and_time'     => strtotime("+50 seconds"), // 结束时间
+                'and_time'     => strtotime("+60 seconds"), // 结束时间
                 'capital'      => $_POST['capital'],        // 买入价
                 'duration'     => 60,                       // 间隔时间
                 'add_ip'       => $_SERVER["REMOTE_ADDR"],  // 用户IP
@@ -331,7 +331,7 @@ class Huangjin extends MY_Controller{
     }
     function e_data(){
         $symbol=$_POST['symbol'];
-        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         // $list=$this->$list->limit(50,100)->result_array();
         // $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
@@ -350,6 +350,7 @@ class Huangjin extends MY_Controller{
         }
         // $result = $_POST['symbol'];
         $result['st'] =1;
+        $result['flow']=$this->user_play();
         $result['num']=$this->ying_num();
         echo json_encode($result);    
     }

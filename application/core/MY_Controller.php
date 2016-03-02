@@ -159,7 +159,7 @@ class MY_Controller extends CI_Controller {
         	$num=0;
         }
 		
-		if (count($numdata)>0) {                                 // 判断是否有会员数据
+		if ($shuying_result=='赢') {                                 // 判断是否有会员数据
 		        if ($num>0) {                                        // 连续3次赢1M流量规则
 	        	$data = array(
 		                'customer_id' => $uid,                       // 会员ID
@@ -179,7 +179,8 @@ class MY_Controller extends CI_Controller {
 			                                        // 比较值
 			$this->db->where($condition)->update("investor_user_num",$updata); // 执行更新语
 
-        }else{                                                //第一次新增数据
+        }
+        if (count($numdata)<1) {                                                //第一次新增数据
         	$data = array(
 	                'uid'      => $uid,                       // 会员ID
 	                'num'      => $num,                       // 次数
