@@ -9,13 +9,20 @@ class hushen300 extends MY_Controller{
 
 //判断cookie中是否有username,没有就是游客,看看游客有多少流量
     function index(){
-        $this->load->database();		
-        $username=get_cookie('username')?get_cookie('username'):'';
-        $data['username']=$username;
-        $data['num']=$this->ying_num();
-        $data['uid']=$this->is_uid();
-        $data['flow']=$this->user_play();
-        $this->load->view('hushen300.html',$data);//前端在某个地方输出$username      
+        $opentime=$this->is_opentime();//开市时间
+        if (intval($opentime)>0) {
+            $this->load->database();      
+            $username=get_cookie('username')?get_cookie('username'):'';
+            $data['username']=$username;
+            $data['num']=$this->ying_num();
+            $data['uid']=$this->is_uid();
+            $data['flow']=$this->user_play();
+            $this->load->view('hushen300.html',$data);//前端在某个地方输出$username 
+            
+        }else{
+            redirect('huangjin/index');
+        }
+             
     }
     //这里设置游客有多少流量，此时用户可能没有注册;玩了游戏的游客才会被记录到游客表中
   /*  function setFlow(){
@@ -243,7 +250,7 @@ class hushen300 extends MY_Controller{
     function huangjin_js_list(){
         $result=$this->shuying(); 
         $id=$this->is_uid();
-        $data = $this->db->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5",'investor_uid'=>$id))->result_array(); // 查询历史交易
+        $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5",'investor_uid'=>$id))->result_array(); // 查询历史交易
 
         
         $num=$this->ying_num();
@@ -272,27 +279,27 @@ class hushen300 extends MY_Controller{
     }
     function e_data(){
         $symbol=$_POST['symbol'];
-        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
-
-
-        if (count($list)<1) {                   
+        $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        
+            if (count($list)<1) {                   
             $result['st'] =0; //没有数据则提示
             echo json_encode($result);
             exit();
-        }
-        foreach($list as $k=>$v){
-            $Kdata[$k] =$v['price'];
-            $data_date[$k] =$v['time'];
-        // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
-        // $result['ipdata'] = implode(',', $Kdata);       
-        $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
-        $result['ipdata'] = $Kdata;
-        $result['price'] = $v['price'];                                                              // 拼接时间数据格式
-        }
-        $result['st'] =1;
-        $result['flow']=$this->user_play();
-        $result['num']=$this->ying_num();
-        // $result = $_POST['symbol'];
-        echo json_encode($result);    
+            }
+            foreach($list as $k=>$v){
+                $Kdata[$k] =$v['price'];
+                $data_date[$k] =$v['time'];
+            // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
+            // $result['ipdata'] = implode(',', $Kdata);       
+            $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
+            $result['ipdata'] = $Kdata;
+            $result['price'] = $v['price'];                                                              // 拼接时间数据格式
+            }
+            $result['st'] =1;
+            $result['flow']=$this->user_play();
+            // $result['num']=$this->ying_num();
+            // $result['opentime']=$this->is_opentime();
+            // $result = $_POST['symbol'];
+            echo json_encode($result);    
     }
 }

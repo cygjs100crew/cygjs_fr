@@ -228,7 +228,7 @@ class Huangjin_ed extends MY_Controller{
     function huangjin_js_list(){
         $result=$this->shuying_ed(); 
         $uid=$this->is_uid();
-        $data = $this->db->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$uid))->result_array(); // 查询历史交易
+        $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$uid))->result_array(); // 查询历史交易
 
         $num=$this->ying_num();
         if ($data[0]['result']=='赢') {
@@ -255,7 +255,7 @@ class Huangjin_ed extends MY_Controller{
     }
     function e_data(){
         $symbol=$_POST['symbol'];
-        $list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         if (count($list)<1) {                       
             $result['st'] =0; //没有数据则提示
             echo json_encode($result);
@@ -263,10 +263,10 @@ class Huangjin_ed extends MY_Controller{
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
-            $data_date[$k] =$v['time'];
+            // $data_date[$k] =$v['time'];
         // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
         // $result['ipdata'] = implode(',', $Kdata);       
-        $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
+        // $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
         $result['ipdata'] = $Kdata; 
         $result['price'] = $v['price'];
                                                                    // 拼接时间数据格式
@@ -279,8 +279,14 @@ class Huangjin_ed extends MY_Controller{
         echo json_encode($result);    
     }
     function tt(){
-        $data['num']=$this->is_user_num(1201,'213','赢');
-        var_dump($data['num']);
+        // $data['num']=$this->is_user_num(1201,'213','赢');
+        // $this->db->select('price');  
+        // $this->db->from('recentquotation');  
+        // $this->db->where('id', 1);  
+          
+        // $list= $this->db->get(); 
+        $list=$this->db->select('price')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>'XAU'))->result_array(); // 查询图表数据
+        var_dump($list);
     }
     function t1(){
             $condition['uid'] =888;                                           // 更新对象id

@@ -7,15 +7,17 @@ class  Index extends MY_Controller{
     }
     //首页
     public function index(){
-		$wx_param=array(
-			'appId'=>'wxed2d1da1f9023761',
-			'appSecret'=>'452f7ea20e7d0ecadd38acef8664ceec'
-		);
-		$this->load->library('jssdk',$wx_param);
-		$signPackage = $this->jssdk->GetSignPackage();
-		$data['signPackage']= $signPackage;
-        $this->load->view('index.html',$data);
-       
+        redirect('hushen300/index');
+    }
+    public function index2(){
+        $wx_param=array(
+            'appId'=>'wxed2d1da1f9023761',
+            'appSecret'=>'452f7ea20e7d0ecadd38acef8664ceec'
+        );
+        $this->load->library('jssdk',$wx_param);
+        $signPackage = $this->jssdk->GetSignPackage();
+        $data['signPackage']= $signPackage;
+        $this->load->view('index.html',$data);      
     }
    
      public function share(){

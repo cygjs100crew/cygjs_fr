@@ -4,10 +4,9 @@
 <meta charset="utf-8">
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>黄金[实时]</title>
+<title>猜涨跌，无限流量等你来拿</title>
 <meta name="description" content='玩游戏赚流量，猜涨猜跌就这么简单!我已经赚了200M流量'>
  <base href="<?php echo base_url()?>">
-<link rel="stylesheet" type="text/css" href="public/oh_static/css/bootstrap-combined.min.css"><!-- Bootstra框架Combined引入 -->
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
 <link rel="stylesheet" type="text/css" href="public/oh_static/css/oh-common.css"><!-- @author ohyeah -->
  <script src="<?php echo base_url()?>public/js/jquery.js"></script></script><!-- JQ由Baidu加速DNS提供 -->
@@ -217,7 +216,7 @@ if (option && typeof option === "object") {
 
 </div>
 <div class="button_ab">
-
+	<div class="tipsbtn"><a id="tips" href="javascript:void(0);">新手指引</a></div>
     <span class="d"><a href="javascript:void(0);" id="die" class="die">猜跌</a></span>
 
 	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">猜涨</a></span>
@@ -290,9 +289,6 @@ if (option && typeof option === "object") {
 <script type="text/javascript" src="public/js/oh-huangjin.js"></script><!-- @author ohyeah -->
 </html>
 <script>
-
-
-
 //弹出窗口
 var username='<?php echo $username?>';
 $('#qx').click(function(){
@@ -504,14 +500,14 @@ wx.config({
     ]
 });
 wx.error(function(res){
-	alert('尊敬的用户，您还没关注我们的微信公众号，关注后每天有三次分享获取流量的机会哟！');
+	//alert('尊敬的用户，您还没关注我们的微信公众号，关注后每天有三次分享获取流量的机会哟！');
 })
 wx.ready(function () {
 	var config_obj={
-		title: '测试', // 分享标题
-		desc: '测试分享', // 分享描述
-		link: 'http://www.jyqq9999.com/cygjs_fr/index.php/index/index', // 分享链接
-		imgUrl: '', // 分享图标
+		title: '玩游戏赚流量，猜涨猜跌就这么简单', // 分享标题
+		desc: '玩游戏赚流量，猜涨猜跌就这么简单', // 分享描述
+		link: 'http://test-wx.cygjs100.com/cygjs_fr/index.php/index/index', // 分享链接
+		imgUrl: 'public/img/banner.jpg', // 分享图标
 		type: '', // 分享类型,music、video或link，不填默认为link
 		dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 		success: function () { 
@@ -541,4 +537,45 @@ wx.ready(function () {
 	wx.onMenuShareWeibo(config_obj);
 	wx.onMenuShareQZone(config_obj);
 });
+
+
+$(function(){
+	$('#tips').on('click', function(){
+			layer.open({
+			    type: 1,
+			    title: false,
+			    skin: 'layui-layer-nobg', //样式类名
+			    closeBtn: 0, //不显示关闭按钮
+			    scrollbar: false,
+			    shift: 2,
+			    shadeClose: true, //开启遮罩关闭
+			    content: '<div class="bag-popup"><div class="welcomebox"><h3 class="text-center">亲，您还没关注我们的微信公众号<br />关注后每天有<em>五次</em>分享机会<br />可以免费获取流量的哟！</h3></div><div class="getbtn"><span class="rmb"><a href="javascript:void(0)" id="ifollow">我要关注</a></span><span class="getm"><a href="javascript:void(0)" id="rule_link">游戏规则</a></span></div></div>'
+			    });
+		$('#rule_link').on('click', function(){
+			layer.open({
+			    type: 1,
+			    title: false,
+			    skin: 'layui-layer-nobg', //样式类名
+			    closeBtn: 1, //不显示关闭按钮
+			    scrollbar: true,
+			    shift: 2,
+			    shadeClose: true, //开启遮罩关闭
+			    content: '<div class="bag-popup2"><div id="rule_cont2" class="rule_cont"><center><b>《活动须知》</b></center><h2>2016年金裕二元期权<br />“玩游戏赚流量，无限流量助你玩转猴年”</h2><h3>一、活动时间：即日起至</h3><h3>二、活动介绍：</h3><p>1、从手机界面进入游戏，金裕二元期权猜涨跌。每次猜对即送你3M流量，根据兑换规则，流量可以累积，可以提取。</p><p>2、奔走相告抢流量，动动你的手指，把此链接分享到你的朋友圈，即送1M流量，每天有5次机会哦！</p><h3>三、兑换流量规则：</h3><p>流量可以累积，累积满30M及以上即可作首次提取（第二次后需累积满100M以上方可提取），点击页面“提取流量”按钮，根据提示操作即可，就是这么简单、便捷。</p><h3>四、活动说明：</h3><p>1、请按照须知要求参与活动，一旦发现有非正常行为作弊的用户，金裕将有权取消其继续参与活动的资格。</p><p>2、本次活动最终解释权归金裕所有。</p></div></div>'
+			});
+		});
+		$('#ifollow').on('click', function(){
+			layer.open({
+			    type: 1,
+			    title: false,
+			    skin: 'layui-layer-nobg', //样式类名
+			    closeBtn: 0, //不显示关闭按钮
+			    scrollbar: false,
+			    shift: 2,
+			    shadeClose: true, //开启遮罩关闭
+			    content: '<div class="bag-popup2"><div id="rule_cont2" class="rule_cont text-center"><img src="public/img/code.gif"><h3>请用微信扫描关注测试公众号</h3><p>（长按二维码选择识别）</p></div></div>'
+			});
+		});
+	});
+});
+
 </script>

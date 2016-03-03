@@ -1836,6 +1836,16 @@ a {
 	display: none;
 }
 
-.span12{width: 300px; padding:20px; margin:auto}
-.span12 h3{ color:#a00; font-size:20px; line-height:28px}
+.span12{width: 260px; padding:20px; margin:auto; background:#fff3c3; border-radius:16px;box-shadow: 1px 1px 10px #ffea99; text-align: center;}
+.span12 h3{ color:#a00; font-size:16px; line-height:28px}
+.span12 em{ color:#f80; font-size:26px}
 .span12 img.gold_not_gold{ width:100px}
+.getbtn{ width:100%; overflow:hidden}
+.getbtn span{ float:left; width:50%}
+.getbtn span a{ display:block; width:80%; margin:5% auto; background:#f80; line-height:40px; border-radius:40px; text-align:center; border:2px solid #fff3c3}
+.getbtn span.getm a{ background:#7aa300}
+
+.welcomebox{ width:300px; margin:auto; padding: 230px 0 10px; background:#191820 url(../../img/banner.jpg) no-repeat center top; background-size:100%; box-shadow: 1px 1px 10px #f00; border-radius:16px}
+.welcomebox h3{ line-height: 20px; color: #fedd78}
+.welcomebox em{ color:#f60;}
+.gamestar a{ display: block; width:90%; margin:0 5%; text-align:center; line-height:40px; background: #f40; color:#fff; border-radius:6px}
