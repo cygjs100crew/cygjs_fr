@@ -16,8 +16,10 @@ class hushen300 extends MY_Controller{
     function index(){
         $this->load->database();		
         $username=get_cookie('username')?get_cookie('username'):'请登入';
+        
+        
 
-        $data['username']=$username;
+        $data['username']=$username; 
         $data['num']=$this->ying_num();
         $data['uid']=$this->is_uid().'号会员';
         $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
@@ -30,7 +32,10 @@ class hushen300 extends MY_Controller{
         }
         $signPackage = $this->jssdk->GetSignPackage();
         $data['signPackage']= $signPackage;
-        $this->load->view('hushen300.html',$data);//前端在某个地方输出$username      
+        $this->load->view('hushen300.html',$data);//前端在某个地方输出$username  
+       
+        
+        
     }
  
     
@@ -61,7 +66,8 @@ class hushen300 extends MY_Controller{
 		}
         $ret=$this->db->insert('customer',$userinfo);
         //此处应该利用原有的id
-        //$id=get_cookie('customerId');
+        // $id=get_cookie('customerId');
+      
 		//$ret=$this->db->where('id',$id)->update('customer',$userinfo);
 		if($ret){
 			echo json_encode(array('success'=>true,'info'=>'注册成功'));
@@ -117,6 +123,9 @@ class hushen300 extends MY_Controller{
 			   set_cookie('username',$data['username'],0);//用户名存入cookie
 			   $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
 			   $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
+			   //原来游客id名下的flow要转移过来
+			   $total_flow=$this->db->select('total_flow')->where('id',$new_customerId)->get('customer')->row()->total_flow;
+			   $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
 			   $this->db->where('id',$new_customerId)->delete('customer');
 		   }  
 		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
@@ -136,6 +145,9 @@ class hushen300 extends MY_Controller{
            set_cookie('customerId',$customerId,0);
            $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
            $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
+		   //原来游客id名下的flow要转移过来
+		   $total_flow=$this->db->select('total_flow')->where('id',$new_customerId)->get('customer')->row()->total_flow;
+		   $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
            $this->db->where('id',$new_customerId)->delete('customer');
        }
        if($sms_code !=$data['checkCode']){
@@ -150,7 +162,7 @@ class hushen300 extends MY_Controller{
 	   }   
 	}
 	
-//兑现流量
+	//兑现流量
     function cash_flow(){
 		$customerId=get_cookie('customerId');
 		$total_flow=$this->_stat_total_flow();	
@@ -195,7 +207,7 @@ class hushen300 extends MY_Controller{
 			echo json_encode(array('success'=>false,'info'=>'对不起，没有查到你的号码归属！'));
 		}
 		//此处调用流量公司提供的接口来下单
-		$callback=urlencode('http://test-wx.cygjs100.com/cygjs_fr/index.php/hushen300/callback');
+		$callback=urlencode('http://test-wx.cygjs100.com/cygjs_fr/index.php/hungjin/callback');
 		$ret=file_get_contents('http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE='.$row['phone'].'&ORDERID='.$orderid.'&PRODUCTCODE='.$product_code.'&CTMRETURL='.$callback.'&APIKEY=4866f53d0563496385bc2f67009c9d4f');
 		$ret_arr=json_decode($ret,true);
 		
@@ -244,8 +256,7 @@ class hushen300 extends MY_Controller{
 	public function send_sms(){
 		//$this->load->model('phone_model','phone');
 		$phone=$this->input->post('phone');
-		//$phone='15074716900';
-		//$MessageContent='手机测试';
+		
 		//生成验证码
 		$code = rand(1000,9999);
 		$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
@@ -276,13 +287,18 @@ class hushen300 extends MY_Controller{
 	//统计总流量
 	private function _stat_total_flow(){
 		$customerId=get_cookie('customerId');
-		$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
-		$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
-		return $share_flow+$game_flow;
+		//$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
+		//$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
+		//return $share_flow+$game_flow;
+		$total_flow=$this->db->select('total_flow')->where('id',$customerId)->get('customer')->row()->total_flow;
+		//set_cookie('total_flow',$total_flow,0);//存入流量
+		return $total_flow;
+		
 	}
 	//统计总流量
 	public function stat_total_flow(){	
 		echo $this->_stat_total_flow();
+		
 	}
 	//测试短信接口用
 	public function test_sms(){

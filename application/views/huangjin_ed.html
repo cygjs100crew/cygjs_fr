@@ -207,8 +207,8 @@ if (option && typeof option === "object") {
 </div>
 
 <div class="user_info">
-	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
-	<ul><li><span>可用流量</span><span><em id="total_flow"><?php echo $total_flow;?></em>M</span></li>
+	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?></dd></dl>
+	<ul><li><span>可用流量</span><span><em id="total_flow"><?php echo $totalflow;?></em>M</span></li>
 		<?php if(isset($cash_flow_inexcute)):?>
 	    <li><span><em id="cash_flow"><?php echo $cash_flow_inexcute;?></em>M</span><span>流量正在处理中...</span></li>
 		<?php endif?>
