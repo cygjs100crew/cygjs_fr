@@ -290,9 +290,10 @@ class Huangjin_ed extends MY_Controller{
 		//$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
 		//$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
 		//return $share_flow+$game_flow;
-		$total_flow=$this->db->select('total_flow')->where('id',$customerId)->get('customer')->row()->total_flow;
-		//set_cookie('total_flow',$total_flow,0);//存入流量
-		return $total_flow;
+	   $total_flow=$this->db->select('total_flow')->where('id',$customerId)->get('customer')->row();
+		if(isset($total_flow)){
+			return $total_flow->total_flow;
+		}
 		
 	}
 	//统计总流量
