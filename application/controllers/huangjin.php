@@ -28,6 +28,8 @@ class Huangjin extends MY_Controller{
         $ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'trade_status'=>2))->row_array();
         if($ret && count($ret)>0){//存在正在处理的流量订单
             $data['cash_flow_inexcute']=$ret['cash_flow'];
+        }else{
+            $data['cash_flow_inexcute']='';
         }
         $signPackage = $this->jssdk->GetSignPackage();
         $data['signPackage']= $signPackage;
