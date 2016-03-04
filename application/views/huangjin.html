@@ -176,7 +176,7 @@ $.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'XAU'},function(data){
     var date = json.data_date;
     var data = json.ipdata;
 
-    if (Number($('#capital').html())<Number(json.price)) {
+     if (Number($('#capital').html())<Number(json.price)) {
 	    	$(".button_ab dl").addClass('z').removeClass('d').removeClass('n');
 	    }
 	    if (Number($('#capital').html())>Number(json.price)) {
@@ -291,11 +291,11 @@ if (option && typeof option === "object") {
 </html>
 <script>
 //弹出窗口
-var username='<?php echo $username?>';
+var username='<?php echo $username;?>';
 $('#qx').click(function(){
 	//$('#loginmodal').attr('style','display:block');
 
-	if(username!='请录入')   //取现判断有没有用户登录
+	if(username!='请登入')   //取现判断有没有用户登录
 		{
 			
 			$.get('<?php echo site_url('huangjin/cash_flow')?>',function(data){
