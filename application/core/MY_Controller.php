@@ -179,8 +179,8 @@ class MY_Controller extends CI_Controller {
 	        // 	$flownum=intval($numdata[0]['num'])+1;
 	        // }
 	        $data = array(
-	                'id' => $uid,                       // 会员ID
-	                'total_flow' =>intval($numdata[0]['total_flow'])+3,                          // 流量
+                    // 会员ID
+	                'total_flow' =>intval($result[0]['total_flow'])+3,                          // 流量
 	        );
 	        $this->db->update('customer',$data);                     // 新增流量次数
 
