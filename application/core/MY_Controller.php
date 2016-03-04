@@ -167,12 +167,22 @@ class MY_Controller extends CI_Controller {
         }
 		
 		if ($shuying_result=='赢') {                                 // 判断是否有会员数据
+
         	$data = array(
 	                'customer_id' => $uid,                       // 会员ID
 	                'flow'        => 3,                          // 流量
 	                'play_time'   => date("Y-m-d H:i:s",time()), // 生成时间
 	        );
 	        $this->db->insert('play',$data);                     // 新增流量次数
+	        $result = $this->db->select('total_flow')->get_where('customer',array('id'=>$uid))->result_array(); // 查询连赢记录
+	        // if (count($result)<1) {
+	        // 	$flownum=intval($numdata[0]['num'])+1;
+	        // }
+	        $data = array(
+	                'id' => $uid,                       // 会员ID
+	                'total_flow' =>intval($numdata[0]['total_flow'])+3,                          // 流量
+	        );
+	        $this->db->update('customer',$data);                     // 新增流量次数
 
 
 			$condition['uid'] =$uid;                                           // 更新对象id
