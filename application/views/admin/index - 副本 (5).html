@@ -24,19 +24,19 @@
 		<div class="sidemenu">
 			<ul>
 				<li>
-					<a href="<?php echo site_url('admin/user_index')?>">
+					<a href="#">
 						<i class="ico i-nav1"></i>
 						<p>用户</p>
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo site_url('admin/count_index')?>">
+					<a href="#">
 						<i class="ico i-nav2"></i>
 						<p>点击量</p>
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo site_url('admin/flow_index')?>">
+					<a href="#">
 						<i class="ico i-nav3"></i>
 						<p>流量订单</p>
 					</a>
@@ -60,13 +60,13 @@
 					</a>
 				</li> -->
 				<li>
-					<a href="<?php echo site_url('admin/system_index')?>">
+					<a href="#">
 						<i class="ico i-nav7"></i>
 						<p>设置</p>
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo site_url('admin/charts_index')?>">
+					<a href="#">
 						<i class="ico i-nav8"></i>
 						<p>报表</p>
 					</a>
@@ -78,8 +78,8 @@
 	<!--header start-->
 	<div class="header clear">
 		<div class="date-cont1 left">
-			<span class="time" id="nowTime">17:36</span>
-			<p class="date" id="nowTime1">2015-09-02</p>
+			<span class="time">17:36</span>
+			<p class="date">2015-09-02</p>
 		</div>
 		<!-- <div class="date-cont2 left">
 			<i class="ico i-date left"></i>
@@ -121,7 +121,7 @@
 			<!--postion start-->
 			<div class="postion ">
 				<div class="pos-txt"><span class="fz24 padr5">当前位置</span>Current position</div>
-				<div class="pos-link mart20"><a href="/">首页</a>  >  <a href="#">概况</a></div>
+				<div class="pos-link mart20"><a href="/">首页</a>  >  <a href="#">账单</a></div>
 			</div>
 			<!--postion end-->
 			<!--stats start-->
@@ -446,22 +446,5 @@
 		});
 	});				
 </script>
-<script type="text/javascript"> 
-function current(){ 
-var d=new Date(),str=''; 
-str +=d.getHours()+':'; 
-str +=d.getMinutes()+':'; 
-str +=d.getSeconds()+''; 
-return str; } 
-function current1(){ 
-var d=new Date(),str=''; 
-str +=d.getFullYear()+'-'; //获取当前年份 
-str +=d.getMonth()+1+'-'; //获取当前月份（0——11） 
-str +=d.getDate()+''; 
-return str; } 
-setInterval(function(){$("#nowTime").html(current);
-	$("#nowTime1").html(current1);
-},1000); 
-</script> 
 </body>
 </html>

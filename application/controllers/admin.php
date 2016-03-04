@@ -26,6 +26,78 @@ class Admin extends MY_Controller{
     	$data['customer_phone_list']=count($customer_phone_list);
         $this->load->view('admin/index.html',$data);//前端在某个地方输出$username  
     }
+    function user_index(){
+    	$data['lishi'] = $this->db->limit(50)->order_by("id","desc")->get_where('customer')->result_array(); // 查询历史交易
+        $this->load->view('admin/user_index.html',$data);//前端在某个地方输出$username  
+    }
+    function system_index(){
+    	$data['lishi'] = $this->db->limit(10)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array(); // 查询历史交易
+    	$this->load->view('admin/system_index.html',$data);//前端在某个地方输出$username  
+    }
+    function flow_index(){
+    	$data['lishi'] = $this->db->limit(50)->order_by("id","desc")->get_where('user_flow')->result_array(); // 查询历史交易
+    	$this->load->view('admin/flow_index.html',$data);//前端在某个地方输出$username  
+    }
+    function count_index(){
+    	$data['lishi'] = $this->db->limit(50)->order_by("id","desc")->get_where('share')->result_array(); // 查询历史交易
+    	$this->load->view('admin/count_index.html',$data);//前端在某个地方输出$username  
+    }
+    function charts_index(){
+    	$data['lishi'] = $this->db->limit(10)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array(); // 查询历史交易
+    	$this->load->view('admin/charts_index.html',$data);//前端在某个地方输出$username  
+    }
+    /**
+     * 会员状态修改
+     */
+    public function changeStatus($method=null,$id=0){
+		$method=$_GET['method'];
+		$id=$_GET['id'];
+    	switch ( strtolower($method) ){
+            case 'forbiduser':
+                
+                break;
+            case 'resumeuser':
+                
+                break;
+            case 'deleteuser':
+                                $result=$this->db->delete('customer', array('id' => $id));
+                                if($result>0){
+                                    echo json_encode(array('status'=>1,'info'=>'删除成功'));
+                                } else {
+                                    echo json_encode(array('status'=>0,'info'=>'删除失败'));
+                                }
+                break;
+            default:
+                echo json_encode(array('status'=>0,'info'=>'参数非法'));
+        }
+    	
+        
+    	
+        // $id = array_unique((array)I('id',0));
+        // $id = is_array($id) ? implode(',',$id) : $id;
+        // if ( empty($id) ) {
+        //     $this->error('请选择要操作的数据!');
+        // }
+        // $map['id'] =   array('in',$id);
+        // switch ( strtolower($method) ){
+        //     case 'forbiduser':
+        //         $this->forbid('Huodong', $map );
+        //         break;
+        //     case 'resumeuser':
+        //         $this->resume('Huodong', $map );
+        //         break;
+        //     case 'deleteuser':
+        //                         $Model = M('Huodong');
+        //                         if($Model->where($map)->delete()){
+        //                             $this->success('删除成功');
+        //                         } else {
+        //                             $this->error('删除失败！');
+        //                         }
+        //         break;
+        //     default:
+        //         $this->error('参数非法');
+        // }
+    }
  
     
     //用户注册的地方，假设用户表中有这几个字段，用户名，密码，确认密码，手机号,验证码
