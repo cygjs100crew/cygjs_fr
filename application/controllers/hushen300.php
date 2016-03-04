@@ -2,53 +2,37 @@
 class hushen300 extends MY_Controller{
     public function __construct(){
         parent::__construct();
-        $this->load->helper('cookie');
-        $this->load->library('session');
+        //$this->load->helper('cookie');
+       // $this->load->library('session');
+        $wx_param=array(
+            'appId'=>'wxed2d1da1f9023761',
+            'appSecret'=>'452f7ea20e7d0ecadd38acef8664ceec'
+        );
+        $this->load->library('jssdk',$wx_param);
     }
   
 
 //判断cookie中是否有username,没有就是游客,看看游客有多少流量
     function index(){
-        $opentime=$this->is_opentime();//开市时间
-        if (intval($opentime)>0) {
-            $this->load->database();      
-            $username=get_cookie('username')?get_cookie('username'):'';
-            $data['username']=$username;
-            $data['num']=$this->ying_num();
-            $data['uid']=$this->is_uid();
-            $data['flow']=$this->user_play();
-            $this->load->view('hushen300.html',$data);//前端在某个地方输出$username 
-            
-        }else{
-            redirect('huangjin/index');
+        $this->load->database();		
+        $username=get_cookie('username')?get_cookie('username'):'请登入';
+
+        $data['username']=$username;
+        $data['num']=$this->ying_num();
+        $data['uid']=$this->is_uid().'号会员';
+        $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
+        $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
+        $data['totalflow']=$this->_stat_total_flow();
+        $customer_id=get_cookie('customerId');
+        $ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'trade_status'=>2))->row_array();
+        if($ret && count($ret)>0){//存在正在处理的流量订单
+            $data['cash_flow_inexcute']=$ret['cash_flow'];
         }
-             
+        $signPackage = $this->jssdk->GetSignPackage();
+        $data['signPackage']= $signPackage;
+        $this->load->view('hushen300.html',$data);//前端在某个地方输出$username      
     }
-    //这里设置游客有多少流量，此时用户可能没有注册;玩了游戏的游客才会被记录到游客表中
-  /*  function setFlow(){
-        $this->load->database();
-        //存入cookie中
-
-        $yk_id=get_cookie('sessionid');//获取游客id
-        set_cookie('flow',$flow,0);
-
-        $count=$this->db->where('sessionid',$yk_id)->from('user_session')->count_all_results();//插入之前先查查游客表该游客是否被记录了
-
-        $session_data=array(
-            'sessionid'=>$yk_id   
-        );
-        if($count>0){//游客已经存入表中，只是更新
-            unset($session_data['sessionid']);
-            $this->db->where('sessionid',$yk_id)->update('user_session',$session_data);
-        }else{
-            $this->db->insert('user_session',$session_data);
-        }
-//         if(get_cookie('username')){//如果用户已经注册，则还要存入用户表
-//             $this->db->where('username',$username)->update('user_info',array('flow'=>'100M'));
-//         }
-        echo 'success';
-    }*/
-  
+ 
     
     //用户注册的地方，假设用户表中有这几个字段，用户名，密码，确认密码，手机号,验证码
     function register(){
@@ -64,7 +48,21 @@ class hushen300 extends MY_Controller{
 			echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
 			return;
 		}
+		//防止重复注册
+		$check_arr=array(
+			'username'=>$data['username'],
+			'phone'=>$data['phone']
+		);
+		
+		$ret=$this->_check($check_arr);
+		if(!$ret){
+			echo json_encode(array('success'=>false,'info'=>'重复注册'));
+			return;
+		}
         $ret=$this->db->insert('customer',$userinfo);
+        //此处应该利用原有的id
+        //$id=get_cookie('customerId');
+		//$ret=$this->db->where('id',$id)->update('customer',$userinfo);
 		if($ret){
 			echo json_encode(array('success'=>true,'info'=>'注册成功'));
 			set_cookie('username',$data['username'],0);
@@ -73,25 +71,32 @@ class hushen300 extends MY_Controller{
 		}
     }
     // 检验用户名和手机号是否重复注册
-	public function check(){
-		$data=$this->input->post();
+	private function _check($data=array()){		
 		
 		if(isset($data['username'])){
-			$ret=$this->db->get_where('customer',array('username'=>$data['username']))->result_array();
-			$field='用户名';
-		}elseif(isset($data['phone'])){
+			$ret=$this->db->get_where('customer',array('name'=>$data['username']))->result_array();
+		}
+		if(isset($data['phone'])){
 			$ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
-			$field='手机号';
 		}
 		
 		if(count($ret)>0){
-			echo json_encode(array('success'=>false,'info'=>$field.'已注册，请重新输入'));
+			return false;
+		}
+		return true;
+		
+		
+	}
+	
+	public function check(){
+		$data=$this->input->post();
+		$ret=$this->_check($data);
+		if(!$ret){
+			echo json_encode(array('success'=>false,'info'=>'已注册，请重新输入'));
 			return;
 		}else{
-			echo json_encode(array('success'=>true,'info'=>$field.'正常'));
+			echo json_encode(array('success'=>true,'info'=>'正常'));
 		}
-		
-		
 	}
     // 登入
    public  function login_name(){
@@ -100,14 +105,19 @@ class hushen300 extends MY_Controller{
 	   }
        $data=$this->input->post();
        $ret=$this->db->get_where('customer',array('name'=>$data['username'],'passwd'=>md5($data['password'])))->result_array();
+      // var_dump($ret);
 	   if(count($ret)>0){
 		   $customerId=$ret[0]['id'];//登陆后从数据库里获取的id
+		  // var_dump($customerId);//3
+		    
 		   $new_customerId=get_cookie('customerId');//cookie里的id,这是客户进来就有的id,可能跟数据库里的id不一致
+		  //var_dump( $new_customerId);//16
 		   if($customerId!=$new_customerId){//登陆成功后，把用户原来作为游客玩游戏和分享的记录更新为用户的名下
 			   set_cookie('customerId',$customerId,0);//覆盖原来的游客id
 			   set_cookie('username',$data['username'],0);//用户名存入cookie
 			   $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
-			   $this->db->where('customer_id',$new_customerId)->update('game',array('customer_id'=>$customerId));
+			   $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
+			   $this->db->where('id',$new_customerId)->delete('customer');
 		   }  
 		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
 	   }else{
@@ -117,18 +127,122 @@ class hushen300 extends MY_Controller{
 	
 	public  function login_phone(){
        $data=$this->input->post();
-       $ret=$this->db->get_where('user_info',array('username'=>$data['username'],'password'=>md5($data['password'])))->result_array();
-	   if(count($ret)>0){
-		   set_cookie('username',$data['username'],0);//存入cookie
+       $sms_code=$this->session->userdata('sms_code');
+       $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array(); 
+       $username=$ret[0]['name'];
+       $customerId=$ret[0]['id'];
+       $new_customerId=get_cookie('customerId');
+       if($customerId!=$new_customerId){
+           set_cookie('customerId',$customerId,0);
+           $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
+           $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
+           $this->db->where('id',$new_customerId)->delete('customer');
+       }
+       if($sms_code !=$data['checkCode']){
+           echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
+           return;
+       }
+	   if(count($ret)>0 && $data['checkCode']!=''){
+		   set_cookie('username',$username,0);//存入cookie
 		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
 	   }else{
-		   echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
+		   echo json_encode(array('success'=>false,'info'=>'手机号或者验证码不对'));
 	   }   
+	}
+	
+//兑现流量
+    function cash_flow(){
+		$customerId=get_cookie('customerId');
+		$total_flow=$this->_stat_total_flow();	
+		$result=$this->db->where('customer_id',$customerId)->get('user_flow')->num_rows();//查询兑现时间存不存在
+		if($result==0 && $total_flow<30){
+			echo json_encode(array('success'=>false,'info'=>'首次兑换流量满30M才能兑换！'));
+			return;	
+		}
+		if($result!=0 && $total_flow<100){
+		    echo json_encode(array('success'=>false,'info'=>'流量满100M才能兑换！'));
+		    return;
+		
+ 		}
+		$row=$this->db->select('phone')->where('id',$customerId)->get('customer')->row_array();
+		if(!$row['phone']){
+			echo json_encode(array('success'=>false,'info'=>'对不起，你没有注册电话号码！'));
+			return;
+		}
+		$numb=rand(10,99);
+		$orderid=date('YmdHis').$numb;	
+		if($total_flow>=30 && $total_flow<100){
+			$cash_flow=30;
+		}else{
+			$cash_flow=100;
+		}
+		//此处调用流量公司提供的接口查询该号码有哪些套餐可用
+		$ret1=file_get_contents('http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCX&USERNAME=18805710101&PASSWORD=710101&MOBILE='.$row['phone'].'&CATEGORY=1');
+		$ret1_arr=json_decode($ret1,true);//把json数据转换成数组
+		if($ret1_arr['Status']=='0000'){
+			$tmp=array();
+			foreach($ret1_arr['Packages'] as $package){
+				if($package['Package']<=$cash_flow){//先把<=要兑换的流量的套餐放入一个数组array(20=>HG012,50=>HG013);键为套餐，值为对应的code
+					$tmp[$package['Package']]=$package['Code'];
+				}
+			}
+			$packages_arr=array_keys($tmp);//取出键组成一个数组   
+			$cash_flow=max($packages_arr);//取出最大的键值，就是最接近的套餐   
+			$product_code=$tmp[$cash_flow];//实际兑换的套餐选择$tmp里最大的一个套餐  
+			
+			
+		}else{
+			echo json_encode(array('success'=>false,'info'=>'对不起，没有查到你的号码归属！'));
+		}
+		//此处调用流量公司提供的接口来下单
+		$callback=urlencode('http://test-wx.cygjs100.com/cygjs_fr/index.php/hushen300/callback');
+		$ret=file_get_contents('http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE='.$row['phone'].'&ORDERID='.$orderid.'&PRODUCTCODE='.$product_code.'&CTMRETURL='.$callback.'&APIKEY=4866f53d0563496385bc2f67009c9d4f');
+		$ret_arr=json_decode($ret,true);
+		
+		if($ret_arr['STATUS']==0){ 
+ 		    $data=array(
+ 		        'customer_id'=>$customerId,
+				'cash_flow'=>$cash_flow,
+ 		        'cash_time'=>date('Y-m-d H:i:s'),
+				'order_id'=>$orderid,
+				'trade_status'=>2
+ 		    );
+ 		    $this->db->insert('user_flow',$data);
+ 		  
+			//兑换成功后一定要在总流量减去兑换了的流量
+			$this->db->query('update customer set total_flow=total_flow-'.$cash_flow.' where id='.$customerId);
+			//注意，此处最为关键，兑换成功后，要把share和play表里的该用户的所有流量都置0
+			//$this->where('customer_id',$customerId)->update('share',array('flow'=>0));
+			//$this->where('customer_id',$customerId)->update('play',array('flow'=>0));
+			echo json_encode(array('success'=>true,'info'=>'下单成功，请耐心等待！'));
+			return;
+		}else{
+			echo json_encode(array('success'=>false,'info'=>'下单失败！'));
+			return;
+		}
+		
+    }
+	
+	//充值回调函数
+	function callback(){
+		$trade_status=$this->input->get_post('TRADESTATUS');//交易状态码
+		$order_id=$this->input->get_post('ORDERID');//订单号，必须唯一
+		$trade_error=$this->input->get_post('TRADEERROR');
+		$package=$this->input->get_post('PACKAGE');//流量包
+		if($trade_status==1){//兑现成功
+			$this->db->where('order_id',$order_id)->update('user_flow',array('trade_status'=>1));
+		}else{
+			$this->db->where('order_id',$order_id)->update('user_flow',array('trade_status'=>$trade_status,'trade_error'=>$trade_error));
+			//如果兑现失败了，就要把该失败的流量又加到总流量上去
+			$customer_id=$this->db->select('customer_id')->where('order_id',$order_id)->get('user_flow')->row()->customer_id;
+			$this->db->query('update customer set total_flow=total_flow+'.$package.' where id='.$customer_id);
+		}
+		echo 'success';
 	}
    
 	//调用短信接口
 	public function send_sms(){
-		$this->load->model('phone_model','phone');
+		//$this->load->model('phone_model','phone');
 		$phone=$this->input->post('phone');
 		//$phone='15074716900';
 		//$MessageContent='手机测试';
@@ -137,38 +251,48 @@ class hushen300 extends MY_Controller{
 		$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
 		//短信内容
 		//$date=date('Y年m月d日',time());
-		$MessageContent ='您本次验证码为'.$code.'，如需退订回复TD。';
-		$data = array(
+		//$MessageContent ='您本次验证码为'.$code.'，如需退订回复TD。';
+		$MessageContent='尊敬的客户，您的验证码是'.$code.'，请妥善保管，3分钟内有效【金裕黄金】';
+		/*$data = array(
 		    'phone' => $phone,
 		    'MessageContent' => $MessageContent
-		);
-		var_dump($data);
-		$ret=$this->phone->send($data);
+		);*/
+		//var_dump($data);
+		//$ret=$this->phone->send($data);
+		//$ret=$this->phone->Get($url);
+		$url="http://120.24.167.205/msg/HttpSendSM?account=gzjygjs&pswd=GZjygjs05&mobile=".$phone."&msg=".$MessageContent."&needstatus=true&product=";
+		$ret=file_get_contents($url);
+		//var_dump($ret);
+		die;
 		//echo $ret;
- 		if(preg_match('/^result=0.*/i',$ret)){
+ 		/*if(preg_match('/,0$/i',$ret)){
  			echo json_encode(array('success'=>true,'info'=>'发送成功'));
  			return;
  		}else{
  			echo json_encode(array('success'=>false,'info'=>$ret));
- 		}
+ 		}*/
 	}
+	
 	//统计总流量
-	public function stat_total_flow(){
+	private function _stat_total_flow(){
 		$customerId=get_cookie('customerId');
 		$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
 		$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
-		echo $share_flow+$game_flow;
-		
+		return $share_flow+$game_flow;
 	}
-    //测试短信接口用
-    public function test_sms(){
-        $this->load->model('phone_model','phone');
-        $data = array(
-            'phone' => '158****365',
-            'MessageContent' => '您本次验证码为12345678如需退订回复TD。',
-        );
-        echo $this->phone->send($data);
-    }
+	//统计总流量
+	public function stat_total_flow(){	
+		echo $this->_stat_total_flow();
+	}
+	//测试短信接口用
+	public function test_sms(){
+		$this->load->model('phone_model','phone');
+		$data = array(
+		    'phone' => '15074716900',
+		    'MessageContent' => '您本次验证码为12345678如需退订回复TD。',
+		);
+		echo $this->phone->send($data);
+	}
     /* 新浪数据添加 @ohyeah */
     // public function data_add(){
     //     $data = array(

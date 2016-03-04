@@ -1845,7 +1845,10 @@ a {
 .getbtn span a{ display:block; width:80%; margin:5% auto; background:#f80; line-height:40px; border-radius:40px; text-align:center; border:2px solid #fff3c3}
 .getbtn span.getm a{ background:#7aa300}
 
-.welcomebox{ width:300px; margin:auto; padding: 230px 0 10px; background:#191820 url(../../img/banner.jpg) no-repeat center top; background-size:100%; box-shadow: 1px 1px 10px #f00; border-radius:16px}
+.welcomebox{ width:300px; margin:auto; padding: 220px 0 10px; background:#191820 url(../../img/banner.jpg) no-repeat center top; background-size:100%; box-shadow: 1px 1px 10px #f00; border-radius:16px}
 .welcomebox h3{ line-height: 20px; color: #fedd78}
 .welcomebox em{ color:#f60;}
 .gamestar a{ display: block; width:90%; margin:0 5%; text-align:center; line-height:40px; background: #f40; color:#fff; border-radius:6px}
+.countdown{ width: 100px; height: 100px; line-height: 100px; margin: auto; text-align: center; background:rgba(0,0,0,0.6); border-radius:50%;box-shadow: 1px 1px 10px #000;}
+.countdown span{ color: #fff3c3; font-size: 60px; font-family: Arial}
+.starttext{ width: 200px; margin: auto; text-align: center; background:#fff3c3; border-radius:16px;box-shadow: 1px 1px 10px #ffea99;}

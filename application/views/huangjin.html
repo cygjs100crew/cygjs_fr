@@ -229,8 +229,16 @@ if (option && typeof option === "object") {
 </div>
 
 <div class="user_info">
-	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
+<<<<<<< HEAD
+	<dl><dt id="ls"><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
 	<ul><li><span>可用流量</span><p><em id="total_flow"></em>M</p></li>
+=======
+	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?><?php echo $uid;?></dd></dl>
+	<ul><li><span>可用流量</span><span><em id="total_flow"><?php echo $total_flow;?></em>M</span></li>
+		<?php if(isset($cash_flow_inexcute)):?>
+	    <li><span><em id="cash_flow"><?php echo $cash_flow_inexcute;?></em>M</span><span>流量正在处理中...</span></li>
+		<?php endif?>
+>>>>>>> 46fb80086f57653a21785fa7c06a3733ed426b49
 	</ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">领取流量</a></span>
 </div>
@@ -294,12 +302,13 @@ var username='<?php echo $username?>';
 $('#qx').click(function(){
 	//$('#loginmodal').attr('style','display:block');
 
-	if(username!='')   //取现判断有没有用户登录
+	if(username!='请录入')   //取现判断有没有用户登录
 		{
 			
 			$.get('<?php echo site_url('huangjin/cash_flow')?>',function(data){
 				alert(data.info);
-			});
+				location.href="<?php echo site_url('huangjin/index')?>";
+			},'json');
 			
 					
 		}else{ 
@@ -419,7 +428,7 @@ $(function(){
 			success:function(data){
 				if(data && data.success){
 					alert(data.info);
-				  //location.href="<?php echo site_url('huangjin/index')?>";
+				  location.href="<?php echo site_url('huangjin/index')?>";
 				}else{ 
 					alert(data.info);
 				 window.history.back();
@@ -475,12 +484,12 @@ $(function(){
 	
 	
 })
-function get_current_flow(){
+/*function get_current_flow(){
 	$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
 		$('#total_flow').html(data);
 	})
 }
-get_current_flow();
+get_current_flow();*/
 
 
 
@@ -500,7 +509,7 @@ wx.config({
     ]
 });
 wx.error(function(res){
-	//alert('尊敬的用户，您还没关注我们的微信公众号，关注后每天有三次分享获取流量的机会哟！');
+	alert('尊敬的用户，您还没关注我们的微信公众号，关注后每天有五次分享获取流量的机会哟！');
 })
 wx.ready(function () {
 	var config_obj={
@@ -519,7 +528,7 @@ wx.ready(function () {
 				success:function(data){
 					if(data.success){
 						alert(data.info);
-						get_current_flow();
+						//get_current_flow();
 					}else{
 						alert('分享成功，每天仅限分享五次，你今天分享获取流量的权限已经没有了！请明天继续分享。');
 					}

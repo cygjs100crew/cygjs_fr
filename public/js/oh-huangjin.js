@@ -16,7 +16,7 @@ $('#zhang').on('click', function(){
 				    closeBtn: 0,
 				    skin: 'layui-layer-nobg', //没有背景色
 				    // shadeClose: true,
-				    content:'<img src="public/img/bisai_text.png" />'
+				    content:'<div class="starttext"><span>正等待开局...</span></div>'
 				    });
     $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').html(),invest_type:1,symbol:$('#symbol').val()},function(data){
     	layer.close(index);
@@ -30,7 +30,7 @@ $('#zhang').on('click', function(){
 		// });
 
         /*60秒倒计时开始*/
-		var intDiff = parseInt(20); //120秒倒计时总秒数量
+		var intDiff = parseInt(60); //120秒倒计时总秒数量
 		function timer(intDiff) {
 			window.setInterval(function() {
 				var day = 0,
@@ -106,7 +106,7 @@ $('#zhang').on('click', function(){
 						    closeBtn: 0,
 						    skin: 'layui-layer-nobg', //没有背景色
 						    // shadeClose: true,
-						    content:'<img src="public/img/jishi_'+second+'.png" />'
+						    content:'<div class="countdown"><span>'+second+'</span></div>'
 						    });
 				    }
 					if (second == '00') {
@@ -150,7 +150,7 @@ $('#zhang').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em?行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">您的账户已累计 '+zonghe+'M流量</p><img class="gold_not_gold" src="public/img/3mcard.png"></div><div class="getbtn"><span class="rmb"><a href="#">我要赢现金</a></span><span class="getm"><a href="#">我要领流量</a></span></div><div class="gamestar"><a class="layui-layer-ico layui-layer-close layui-layer-close2 animated gostart" href="javascript:;">继续游戏</a></div></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em>行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">您的账户已累计 '+zonghe+'M流量</p><img class="gold_not_gold" src="public/img/3mcard.png"></div><div class="getbtn"><span class="rmb"><a href="#">我要赢现金</a></span><span class="getm"><a href="#">我要领流量</a></span></div><div class="gamestar"><a class="layui-layer-ico layui-layer-close layui-layer-close2 animated gostart" href="javascript:;">继续游戏</a></div></div>'
 								    });
 								}
 								
@@ -205,7 +205,7 @@ $('#die').on('click', function(){
 		    closeBtn: 0,
 		    skin: 'layui-layer-nobg', //没有背景色
 		    // shadeClose: true,
-		    content:'<img src="public/img/bisai_text.png" />'
+		    content:'<div class="starttext"><span>正等待开局...</span></div>'
 		    });
     $.post('/cygjs_fr/index.php/huangjin/investor_detail_add',{capital:$('#capital').html(),invest_type:0,symbol:$('#symbol').val()},function(data){
     	layer.close(index); 
@@ -219,7 +219,7 @@ $('#die').on('click', function(){
 		// });
 
         /*60秒倒计时开始*/
-		var intDiff = parseInt(20); //120秒倒计时总秒数量
+		var intDiff = parseInt(60); //120秒倒计时总秒数量
 		function timer(intDiff) {
 			window.setInterval(function() {
 				var day = 0,
@@ -293,7 +293,7 @@ $('#die').on('click', function(){
 						    closeBtn: 0,
 						    skin: 'layui-layer-nobg', //没有背景色
 						    // shadeClose: true,
-						    content:'<img src="public/img/jishi_'+second+'.png" />'
+						    content:'<div class="countdown"><span>'+second+'</span></div>'
 						    });
 				    }
 					if (second == '00') {
@@ -337,7 +337,7 @@ $('#die').on('click', function(){
 								    scrollbar: false,
 								    shift: 2,
 								    shadeClose: true, //开启遮罩关闭
-								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em?行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">您的账户已累计 '+zonghe+'M流量</p><img class="gold_not_gold" src="public/img/3mcard.png"></div><div class="getbtn"><span class="rmb"><a href="#">我要赢现金</a></span><span class="getm"><a href="#">我要领流量</a></span></div><div class="gamestar"><a class="layui-layer-ico layui-layer-close layui-layer-close2 animated gostart" href="javascript:;">继续游戏</a></div></div>'
+								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em>行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">您的账户已累计 '+zonghe+'M流量</p><img class="gold_not_gold" src="public/img/3mcard.png"></div><div class="getbtn"><span class="rmb"><a href="#">我要赢现金</a></span><span class="getm"><a href="#">我要领流量</a></span></div><div class="gamestar"><a class="layui-layer-ico layui-layer-close layui-layer-close2 animated gostart" href="javascript:;">继续游戏</a></div></div>'
 								    });
 								}
 								
