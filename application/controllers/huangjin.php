@@ -14,13 +14,19 @@ class Huangjin extends MY_Controller{
   //判断cookie中是否有username,没有就是游客,看看游客有多少流量
     function index(){
         $this->load->database();		
-        $username=get_cookie('username')?get_cookie('username'):'';
+        $username=get_cookie('username')?get_cookie('username'):'请登入';
 
         $data['username']=$username;
         $data['num']=$this->ying_num();
         $data['uid']=$this->is_uid().'号会员';
         $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
+        $data['totalflow']=$this->_stat_total_flow();
+        $customer_id=get_cookie('customerId');
+        $ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'trade_status'=>2))->row_array();
+        if($ret && count($ret)>0){//存在正在处理的流量订单
+            $data['cash_flow_inexcute']=$ret['cash_flow'];
+        }
         $signPackage = $this->jssdk->GetSignPackage();
         $data['signPackage']= $signPackage;
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username      
@@ -52,10 +58,10 @@ class Huangjin extends MY_Controller{
 			echo json_encode(array('success'=>false,'info'=>'重复注册'));
 			return;
 		}
-        //$ret=$this->db->insert('customer',$userinfo);
+        $ret=$this->db->insert('customer',$userinfo);
         //此处应该利用原有的id
-        $id=get_cookie('customerId');
-		$ret=$this->db->where('id',$id)->update('customer',$userinfo);
+        //$id=get_cookie('customerId');
+		//$ret=$this->db->where('id',$id)->update('customer',$userinfo);
 		if($ret){
 			echo json_encode(array('success'=>true,'info'=>'注册成功'));
 			set_cookie('username',$data['username'],0);
@@ -143,13 +149,12 @@ class Huangjin extends MY_Controller{
 	   }   
 	}
 	
-	//兑现流量
+//兑现流量
     function cash_flow(){
 		$customerId=get_cookie('customerId');
-		$total_flow=$this->_stat_total_flow();
-		set_cookie('total_flow',$total_flow,0);//存入流量
+		$total_flow=$this->_stat_total_flow();	
 		$result=$this->db->where('customer_id',$customerId)->get('user_flow')->num_rows();//查询兑现时间存不存在
-		if($result=0 && $total_flow<30){
+		if($result==0 && $total_flow<30){
 			echo json_encode(array('success'=>false,'info'=>'首次兑换流量满30M才能兑换！'));
 			return;	
 		}
@@ -157,35 +162,82 @@ class Huangjin extends MY_Controller{
 		    echo json_encode(array('success'=>false,'info'=>'流量满100M才能兑换！'));
 		    return;
 		
-		}
+ 		}
 		$row=$this->db->select('phone')->where('id',$customerId)->get('customer')->row_array();
 		if(!$row['phone']){
 			echo json_encode(array('success'=>false,'info'=>'对不起，你没有注册电话号码！'));
 			return;
 		}
 		$numb=rand(10,99);
-		$orderid=data('YmdHis'.$numb);	
-		//此处调用流量公司提供的接口
-		$ret=file_get_contents('http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101
-		    &ORDERID=$orderid&PRODUCTCODE=HG006&CTMRETURL=http://192.168.0.21/reback.php&APIKEY=4866f53d0563496385bc2f67009c9d4f?phone='.$row['phone'].'&flow='.$total_flow);
-		if($ret){
-		    
-		    $data=array(
-		        'customer_id'=>$customerId,
-		        'cash_flow'=>get_cookie('total_flow'),
-		        'cash_time'=>date('Y-m-d H:i:s')
-		    );
-		    $this->db->insert('user_flow',$data);
+		$orderid=date('YmdHis').$numb;	
+		if($total_flow>=30 && $total_flow<100){
+			$cash_flow=30;
+		}else{
+			$cash_flow=100;
+		}
+		//此处调用流量公司提供的接口查询该号码有哪些套餐可用
+		$ret1=file_get_contents('http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCX&USERNAME=18805710101&PASSWORD=710101&MOBILE='.$row['phone'].'&CATEGORY=1');
+		$ret1_arr=json_decode($ret1,true);//把json数据转换成数组
+		if($ret1_arr['Status']=='0000'){
+			$tmp=array();
+			foreach($ret1_arr['Packages'] as $package){
+				if($package['Package']<=$cash_flow){//先把<=要兑换的流量的套餐放入一个数组array(20=>HG012,50=>HG013);键为套餐，值为对应的code
+					$tmp[$package['Package']]=$package['Code'];
+				}
+			}
+			$packages_arr=array_keys($tmp);//取出键组成一个数组   
+			$cash_flow=max($packages_arr);//取出最大的键值，就是最接近的套餐   
+			$product_code=$tmp[$cash_flow];//实际兑换的套餐选择$tmp里最大的一个套餐  
+			
+			
+		}else{
+			echo json_encode(array('success'=>false,'info'=>'对不起，没有查到你的号码归属！'));
+		}
+		//此处调用流量公司提供的接口来下单
+		$callback=urlencode('http://test-wx.cygjs100.com/cygjs_fr/index.php/hungjin/callback');
+		$ret=file_get_contents('http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE='.$row['phone'].'&ORDERID='.$orderid.'&PRODUCTCODE='.$product_code.'&CTMRETURL='.$callback.'&APIKEY=4866f53d0563496385bc2f67009c9d4f');
+		$ret_arr=json_decode($ret,true);
+		
+		if($ret_arr['STATUS']==0){ 
+ 		    $data=array(
+ 		        'customer_id'=>$customerId,
+				'cash_flow'=>$cash_flow,
+ 		        'cash_time'=>date('Y-m-d H:i:s'),
+				'order_id'=>$orderid,
+				'trade_status'=>2
+ 		    );
+ 		    $this->db->insert('user_flow',$data);
+ 		  
+			//兑换成功后一定要在总流量减去兑换了的流量
+			$this->db->query('update customer set total_flow=total_flow-'.$cash_flow.' where id='.$customerId);
 			//注意，此处最为关键，兑换成功后，要把share和play表里的该用户的所有流量都置0
-			$this->where('customer_id',$customerId)->update('share',array('flow'=>0));
-			$this->where('customer_id',$customerId)->update('play',array('flow'=>0));
-			echo json_encode(array('success'=>true,'info'=>'兑换成功！'));
+			//$this->where('customer_id',$customerId)->update('share',array('flow'=>0));
+			//$this->where('customer_id',$customerId)->update('play',array('flow'=>0));
+			echo json_encode(array('success'=>true,'info'=>'下单成功，请耐心等待！'));
 			return;
 		}else{
-			echo json_encode(array('success'=>false,'info'=>'兑换是吧！'));
+			echo json_encode(array('success'=>false,'info'=>'下单失败！'));
 			return;
 		}
+		
     }
+	
+	//充值回调函数
+	function callback(){
+		$trade_status=$this->input->get_post('TRADESTATUS');//交易状态码
+		$order_id=$this->input->get_post('ORDERID');//订单号，必须唯一
+		$trade_error=$this->input->get_post('TRADEERROR');
+		$package=$this->input->get_post('PACKAGE');//流量包
+		if($trade_status==1){//兑现成功
+			$this->db->where('order_id',$order_id)->update('user_flow',array('trade_status'=>1));
+		}else{
+			$this->db->where('order_id',$order_id)->update('user_flow',array('trade_status'=>$trade_status,'trade_error'=>$trade_error));
+			//如果兑现失败了，就要把该失败的流量又加到总流量上去
+			$customer_id=$this->db->select('customer_id')->where('order_id',$order_id)->get('user_flow')->row()->customer_id;
+			$this->db->query('update customer set total_flow=total_flow+'.$package.' where id='.$customer_id);
+		}
+		echo 'success';
+	}
    
 	//调用短信接口
 	public function send_sms(){

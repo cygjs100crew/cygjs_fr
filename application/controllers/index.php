@@ -33,11 +33,12 @@ class  Index extends MY_Controller{
              'share_time'=>date('Y-m-d H:i:s'),
          );
          if($share_num>=5){
-             echo json_encode(array('success'=>false,'info'=>'每天仅限三次分享获取流量'));
+             echo json_encode(array('success'=>false,'info'=>'每天仅限五次分享获取流量'));
 			 $data['flow']=0;   
          }else{
              echo json_encode(array('success'=>true,'info'=>'本次分享获取流量'.$perFlow.'M,今天还有'.($total_share-$share_num-1).'次机会分享获取流量'));//不要忘了减去本次的次数\
 			 $data['flow']=$perFlow;
+			 $this->db->query("update customer set total_flow=total_flow+".$perFlow." where id=".$customer_id);
          }
 
          $res=$this->db->insert('share',$data);    
