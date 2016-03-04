@@ -66,11 +66,11 @@ class hushen300 extends MY_Controller{
 			echo json_encode(array('success'=>false,'info'=>'重复注册'));
 			return;
 		}
-        $ret=$this->db->insert('customer',$userinfo);
+        //$ret=$this->db->insert('customer',$userinfo);
         //此处应该利用原有的id
-        // $id=get_cookie('customerId');
+         $id=get_cookie('customerId');
       
-		//$ret=$this->db->where('id',$id)->update('customer',$userinfo);
+		$ret=$this->db->where('id',$id)->update('customer',$userinfo);
 		if($ret){
 			echo json_encode(array('success'=>true,'info'=>'注册成功'));
 			set_cookie('username',$data['username'],0);
