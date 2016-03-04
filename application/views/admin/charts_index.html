@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+
+	<!-- Bootstrap -->
+	<link href="<?php echo base_url()?>public/admin/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="<?php echo base_url()?>public/admin/css/font-awesome.min.css" rel="stylesheet" media="screen">
+	<link href="<?php echo base_url()?>public/admin/css/style.css" rel="stylesheet" type="text/css">
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<!-- HTML start-->
+	<!--side start-->
+	<div class="side">
+		<div class="logo">金裕二元期权</div>
+		<div class="sidemenu">
+			<ul>
+				<li>
+					<a href="<?php echo site_url('admin/user_index')?>">
+						<i class="ico i-nav1"></i>
+						<p>用户</p>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo site_url('admin/count_index')?>">
+						<i class="ico i-nav2"></i>
+						<p>点击量</p>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo site_url('admin/flow_index')?>">
+						<i class="ico i-nav3"></i>
+						<p>流量订单</p>
+					</a>
+				</li>
+<!-- 				<li>
+					<a href="#">
+						<i class="ico i-nav4"></i>
+						<p>排行榜</p>
+					</a>
+				</li> -->
+<!-- 				<li>
+					<a href="#">
+						<i class="ico i-nav5"></i>
+						<p>商品库</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="ico i-nav6"></i>
+						<p>资金</p>
+					</a>
+				</li> -->
+				<li>
+					<a href="<?php echo site_url('admin/system_index')?>">
+						<i class="ico i-nav7"></i>
+						<p>设置</p>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo site_url('admin/charts_index')?>">
+						<i class="ico i-nav8"></i>
+						<p>报表</p>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!--side end -->
+	<!--header start-->
+	<div class="header clear">
+		<div class="date-cont1 left">
+			<span class="time" id="nowTime">17:36</span>
+			<p class="date" id="nowTime1">2015-09-02</p>
+		</div>
+		<!-- <div class="date-cont2 left">
+			<i class="ico i-date left"></i>
+			<div class="left txt">
+				<span class="daily">26</span><br>2015-08
+			</div>
+		</div> -->
+
+		<div class="dropdown right head-dropdown">
+			<a href="javascript:;" class="under-n head-droplink" id="dropdownMenu1" data-toggle="dropdown" >
+				<span class="avtar"><img src="<?php echo base_url()?>public/admin/images/img/avatar.jpg" ></span>
+				admin
+				<i class="fa fa-chevron-down"></i> 
+			</a>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<span class="fa fa-angle-up"></span>
+				<li class="line"><a href="#">账号管理</a></li>
+				<li><a href="#">反馈意见</a></li>
+				<li><a href="#">退出系统</a></li>
+			</ul>
+		</div>
+
+		<div class="dropdown right head-dropdown">
+			<a href="javascript:;" class="under-n head-droplink" id="dropdownMenu1" data-toggle="dropdown" >
+				<i class="fa fa-bell-o head-ico"><span class="badge">4</span></i> 
+			</a>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<span class="fa fa-angle-up"></span>
+				<li class="line"><a href="#">账号管理</a></li>
+				<li><a href="#">反馈意见</a></li>
+				<li><a href="#">退出系统</a></li>
+			</ul>
+		</div>
+	</div>
+	<!--header end -->
+	<!--main start-->
+	<div class="main">
+		<div class="pad20">
+		<!--postion start-->
+			<div class="postion ">
+				<div class="pos-txt"><span class="fz24 padr5">当前位置</span>Current position</div>
+				<div class="pos-link mart20"><a href="/">首页</a>  >  <a href="#">报表</a></div>
+			</div>
+			<!--postion end-->
+			<div class="padt10">
+					<div class="chart-tag"><a href="#" class="active">用户浏览</a><a href="#">流量生产</a></div>
+					<div class="chart-box padt10">
+						<div id="chart-container" class="chart-container"></div>
+					</div>
+				</div>
+				
+			<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <table class="table">
+                <thead>
+                    <tr>
+<!--                         <th>
+                            编号
+                        </th> -->
+<!--                         <th>
+                            开始时间
+                        </th>
+                        <th>
+                            结束时间
+                        </th> -->
+                        <th>
+                            买入价
+                        </th>
+                        <th>
+                            开盘价
+                        </th>
+                        <th>
+                            结果[<a href='javascript:void(0);' id='sxin'>刷新</a>]
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach($lishi as $row) : ?>
+                    <tr>
+<!--                         <td>
+                            <?php echo $row['id'] ?>
+                        </td> -->
+<!--                         <td>
+                            <?php echo $row['start_time'] ?>
+                        </td> -->
+<!--                         <td>
+                            <?php echo $row['and_time'] ?>
+                        </td> -->
+                        <td>
+                            <?php echo $row['capital'] ?>/
+                            <?php if ($row['invest_type'] === '1'): ?>
+                                涨
+                            <?php elseif ($row['invest_type'] === '0'): ?>
+                                跌
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php echo $row['currented'] ?>
+                        </td>
+                        <td>
+                            <?php if ($row['result'] === ''): ?>
+                                未开奖
+                            <?php else: ?>
+                                <?php echo $row['result'] ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+
+            </table>
+            <!-- <?php echo $page_links;?> -->
+        </div>
+    </div>
+</div>
+		</div>
+
+		<div class="copy">2016 © OhYeah Crew</div>
+	</div>
+	<!--main end-->
+
+
+
+
+
+	<!--end js load--> 
+	<script src="<?php echo base_url()?>public/admin/js/jquery-1.9.1.min.js"></script> 
+	<script src="<?php echo base_url()?>public/admin/js/bootstrap.min.js"></script> 
+	<script src="<?php echo base_url()?>public/admin/js/highcharts.js"></script> 
+	<script src="<?php echo base_url()?>public/admin/js/common.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		$('#chart-container').highcharts({
+			chart: {
+				type: 'area',
+				spacingBottom: 30
+			},
+			title: {
+				text: ''
+			},
+			subtitle: {
+				text: '',
+				floating: true,
+				align: 'right',
+				verticalAlign: 'bottom',
+				y: 15
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'left',
+				verticalAlign: 'top',
+				x: 150,
+				y: 100,
+				floating: true,
+				borderWidth: 1,
+				backgroundColor: '#FFFFFF'
+			},
+			xAxis: {
+				categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+			},
+			yAxis: {
+				title: {
+					text: 'Y-Axis'
+				},
+				labels: {
+					formatter: function() {
+						return this.value;
+					}
+				}
+			},
+			tooltip: {
+				formatter: function() {
+					return '<b>'+ this.series.name +'</b><br/>'+
+					this.x +': '+ this.y;
+				}
+			},
+			plotOptions: {
+				area: {
+					fillOpacity: 0.5
+				}
+			},
+			credits: {
+				enabled: false
+			},
+			series: [{
+				name: 'John',
+				data: [2000,4200, 3010, 1200, 5000, 3400, 3120, 7000,3400, 3120, 2000, 7000]
+			}]
+		});
+	});				
+</script>
+<script type="text/javascript"> 
+function current(){ 
+var d=new Date(),str=''; 
+str +=d.getHours()+':'; 
+str +=d.getMinutes()+':'; 
+str +=d.getSeconds()+''; 
+return str; } 
+function current1(){ 
+var d=new Date(),str=''; 
+str +=d.getFullYear()+'-'; //获取当前年份 
+str +=d.getMonth()+1+'-'; //获取当前月份（0——11） 
+str +=d.getDate()+''; 
+return str; } 
+setInterval(function(){$("#nowTime").html(current);
+	$("#nowTime1").html(current1);
+},1000); 
+</script> 
+</body>
+</html>

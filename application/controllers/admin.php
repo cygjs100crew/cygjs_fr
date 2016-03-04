@@ -26,6 +26,26 @@ class Admin extends MY_Controller{
     	$data['customer_phone_list']=count($customer_phone_list);
         $this->load->view('admin/index.html',$data);//前端在某个地方输出$username  
     }
+    function user_index(){
+    	$data['lishi'] = $this->db->limit(50)->order_by("id","desc")->get_where('customer')->result_array(); // 查询历史交易
+        $this->load->view('admin/user_index.html',$data);//前端在某个地方输出$username  
+    }
+    function system_index(){
+    	$data['lishi'] = $this->db->limit(10)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array(); // 查询历史交易
+    	$this->load->view('admin/system_index.html',$data);//前端在某个地方输出$username  
+    }
+    function flow_index(){
+    	$data['lishi'] = $this->db->limit(50)->order_by("id","desc")->get_where('user_flow')->result_array(); // 查询历史交易
+    	$this->load->view('admin/flow_index.html',$data);//前端在某个地方输出$username  
+    }
+    function count_index(){
+    	$data['lishi'] = $this->db->limit(50)->order_by("id","desc")->get_where('share')->result_array(); // 查询历史交易
+    	$this->load->view('admin/count_index.html',$data);//前端在某个地方输出$username  
+    }
+    function charts_index(){
+    	$data['lishi'] = $this->db->limit(10)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array(); // 查询历史交易
+    	$this->load->view('admin/charts_index.html',$data);//前端在某个地方输出$username  
+    }
  
     
     //用户注册的地方，假设用户表中有这几个字段，用户名，密码，确认密码，手机号,验证码
