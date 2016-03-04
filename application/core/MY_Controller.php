@@ -224,11 +224,6 @@ class MY_Controller extends CI_Controller {
 		$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
 		$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
 
-
-			$condition['id'] =$customerId;                                           // 更新对象id
-			$updata['total_flow'] =intval($share_flow+$game_flow);                                              // 结果赋值 
-			$this->db->where($condition)->update("customer",$updata); // 执行更新语
-
         return intval($share_flow+$game_flow)>1?intval($share_flow+$game_flow):0;
     }
 }
