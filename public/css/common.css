@@ -131,7 +131,7 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 .user_info span{color: #650000}
 .user_info p{ font-size: 8px}
 .user_info em{ font-size: 16px}
-.user_info span.tx a{ margin: 5px; float: right; font-size: 20px; color: #300; width: 40%; height: 46px; line-height: 46px; text-align: center; background: #d99204; border:0; border-radius: 6px}
+.user_info span.tx a{ margin: 5px; float: right; font-size: 20px; color: #300; width: 35%; height: 46px; line-height: 46px; text-align: center; background: #d99204; border:0; border-radius: 6px}
 
 /* 按钮和登陆框样式 */
 .flatbtn{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;display:inline-block;outline:0;border:0;color:#f3faef;text-decoration:none;background-color:#6bb642;border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);font-size:1.2em;font-weight:bold;padding:12px 22px 12px 22px;line-height:normal;text-align:center;vertical-align:middle;cursor:pointer;text-transform:uppercase;text-shadow:0 1px 0 rgba(0,0,0,0.3);-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(15, 15, 15, 0.3);-moz-box-shadow:0 1px 0 rgba(15, 15, 15, 0.3);box-shadow:0 1px 0 rgba(15, 15, 15, 0.3);}
