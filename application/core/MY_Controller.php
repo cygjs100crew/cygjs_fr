@@ -226,6 +226,11 @@ class MY_Controller extends CI_Controller {
 
         return intval($share_flow+$game_flow)>1?intval($share_flow+$game_flow):0;
     }
+    /**
+	 * 取现订单状态转换
+	 * @return integer
+	 * @author ohyeah
+	 */
     public function is_trade_status($trade_status=0) {
 		switch (is_numeric($trade_status)){
 	        case 0  : return    '失败'; break;
@@ -233,5 +238,15 @@ class MY_Controller extends CI_Controller {
 	        case 2  : return    '处理中'; break;
 	        default : return    false;  break;
 	    }
+	}
+    /**
+	 * 在线人数查询
+	 * @return integer
+	 * @author ohyeah
+	 */
+	public function online_number() {
+		// $list=$this->db->get_where('investor_detail',array('time >'=>date('Y-m-d H:i:s',strtotime('-30 minutes')))->result_array(); // 查询图表数据
+		$list=$this->db->group_by('investor_uid')->get_where('investor_detail',array('start_time >'=>strtotime('-30 minutes')))->result_array();
+		 return count($list)>0?count($list):0;
 	}
 }

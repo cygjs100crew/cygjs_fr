@@ -29,7 +29,7 @@ $('#zhang').on('click', function(){
 		// });
 		
         /*60秒倒计时开始*/
-		var intDiff = parseInt(60); //120秒倒计时总秒数量
+		var intDiff = parseInt(30); //120秒倒计时总秒数量
 		function timer(intDiff) {
 			window.setInterval(function() {
 				var day = 0,
@@ -217,7 +217,7 @@ $('#die').on('click', function(){
 		// });
 		
         /*60秒倒计时开始*/
-		var intDiff = parseInt(60); //120秒倒计时总秒数量
+		var intDiff = parseInt(30); //120秒倒计时总秒数量
 		function timer(intDiff) {
 			window.setInterval(function() {
 				var day = 0,

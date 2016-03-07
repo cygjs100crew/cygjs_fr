@@ -24,10 +24,17 @@ class Admin extends MY_Controller{
     	$data['total_flow_num']=$total_flow_num;
     	$data['cash_flow_num']=$cash_flow_num;
     	$data['customer_phone_list']=count($customer_phone_list);
+    	$data['online_number']= $this->online_number();
         $this->load->view('admin/index.html',$data);//前端在某个地方输出$username  
     }
     function user_index(){
-    	$data['lishi'] = $this->db->limit(50)->order_by("id","desc")->get_where('customer')->result_array(); // 查询历史交易
+    	$nickname =$this->input->post('nickname');
+        if(is_numeric($nickname)){
+            $map['id']=   intval($nickname);
+        }else{
+            $map['name like']    =  '%'.$nickname.'%';
+        }
+    	$data['lishi'] = $this->db->limit(50)->order_by("id","desc")->get_where('customer',$map)->result_array(); // 查询历史交易
         $this->load->view('admin/user_index.html',$data);//前端在某个地方输出$username  
     }
     function system_index(){
