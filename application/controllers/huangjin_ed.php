@@ -4,8 +4,8 @@ class Huangjin_ed extends MY_Controller{
     public function __construct(){
         parent::__construct();
         $wx_param=array(
-            'appId'=>'wxed2d1da1f9023761',
-            'appSecret'=>'452f7ea20e7d0ecadd38acef8664ceec'
+            'appId'=>'wxb789734a2a886553',
+            'appSecret'=>'4f65d464420c998e7754c4cd1487a262'
         );
         $this->load->library('jssdk',$wx_param);
     }
@@ -28,7 +28,7 @@ class Huangjin_ed extends MY_Controller{
         if($ret && count($ret)>0){//存在正在处理的流量订单
             $data['cash_flow_inexcute']=$ret['cash_flow'];
         }else{
-            $data['cash_flow_inexcute']='';
+            $data['cash_flow_inexcute']='0';
         }
         $signPackage = $this->jssdk->GetSignPackage();
         $data['signPackage']= $signPackage;
@@ -208,7 +208,7 @@ class Huangjin_ed extends MY_Controller{
 		}
 		//此处调用流量公司提供的接口来下单
 		$callback=urlencode('http://test-wx.cygjs100.com/cygjs_fr/index.php/hungjin/callback');
-		$url=file_get_contents('http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE='.$row['phone'].'&ORDERID='.$orderid.'&PRODUCTCODE='.$product_code.'&CTMRETURL='.$callback.'&APIKEY=4866f53d0563496385bc2f67009c9d4f');
+		$url='http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE='.$row['phone'].'&ORDERID='.$orderid.'&PRODUCTCODE='.$product_code.'&CTMRETURL='.$callback.'&APIKEY=4866f53d0563496385bc2f67009c9d4f';
 		redirect($url);
 		die;
 		$ret=file_get_contents($url);
@@ -255,6 +255,10 @@ class Huangjin_ed extends MY_Controller{
 		echo 'success';
 	}
    
+	function test_callback(){
+	    $url="http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE=15074716900&ORDERID=2016030710181252&PRODUCTCODE=HG002&CTMRETURL=http%3A%2F%2Ftest-wx.cygjs100.com%2Fcygjs_fr%2Findex.php%2Fhungjin%2Fcallback&APIKEY=4866f53d0563496385bc2f67009c9d4f";
+	    redirect($url);
+	}
 	//调用短信接口
 	public function send_sms(){
 		//$this->load->model('phone_model','phone');
