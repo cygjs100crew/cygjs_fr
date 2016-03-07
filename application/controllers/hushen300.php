@@ -18,7 +18,7 @@ class hushen300 extends MY_Controller{
         $username=get_cookie('username')?get_cookie('username'):'请登入';
         
         $opentime=$this->is_opentime();//开市时间
-        if (intval($opentime)>0) {
+        if (intval($opentime)<1) {
 			redirect('huangjin/index');
         }
 
@@ -413,8 +413,9 @@ class hushen300 extends MY_Controller{
         }                                                                  
     }
     function tt(){
-        $uid = $this->online_number();
-        echo $uid;
+        // $uid = $this->db->query('select id from investor_detail where start_time between "'.date('Y-m-d H:i:s',strtotime('-1 day')).'" and "'.date('Y-m-d H:i:s').'"')->row()->sum;
+        $uid =$this->db->get_where('investor_detail',array('start_time >'=>date('Y-m-d H:i:s',strtotime('-1 day'))))->result_array(); // 查询图表数据
+        var_dump($uid);
     }
     function price(){
         $result=$this->shuying();

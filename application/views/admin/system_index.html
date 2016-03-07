@@ -56,8 +56,17 @@
 			<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span12">
-				<form>
-		<fieldset><legend contenteditable="true">系统配置</legend> <label contenteditable="true">游戏时间 &nbsp;默认60秒</label> <input placeholder="填选游戏时间" type="text"> <span class="help-block" contenteditable="true">是否关闭网站</span> <label class="checkbox" contenteditable="true"> <input type="checkbox"> 勾选同意 </label><button class="btn" contenteditable="true" type="submit">提交</button></fieldset>
+		<form class="form-search form-inline" action="<?php echo site_url('admin/config')?>" method="post">
+		<fieldset><legend contenteditable="true">系统配置</legend>
+		<?php foreach($lishi as $row) : ?>
+		<label contenteditable="true"><?php echo $row['name'] ?> &nbsp;默认60秒</label>
+		<input name="<?php echo $row['id'] ?>value" placeholder="填选<?php echo $row['name'] ?>" type="text" value="<?php echo $row['extra'] ?>">
+		<input type="text" name="<?php echo $row['id'] ?>id" value="<?php echo $row['id'] ?>"  style="display:none;"/>
+		<?php endforeach; ?> 
+		<span class="help-block" contenteditable="true">是否关闭网站</span> 
+		<label class="checkbox" contenteditable="true"> 
+		<input type="checkbox">关闭</label>
+		<button class="btn" contenteditable="true" type="submit">提交</button></fieldset>
 		</form>
 		</div>
 		</div>

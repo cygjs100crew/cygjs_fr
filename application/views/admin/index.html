@@ -273,22 +273,28 @@
 								<li class="bg-green">
 									<a href="#">
 										<p class="report-txt1">今日</p>
-										<p class="report-txt2"><span class="fz22">￥18770.00</span> <br>20笔</p>
-										<p class="report-txt3">2015-9-02</p>
+										<p class="report-txt2"><span class="fz22">游戏次数</span> <br><?php echo $idsum ?>次</p>
+										<p class="report-txt2"><span class="fz22">流量产生（M）</span> <br><?php echo $idsum ?>M</p>
+										<p class="report-txt2"><span class="fz22">取现笔数</span> <br><?php echo $idsum ?>笔</p>
+										<p class="report-txt3"id="nowTime2">2015-9-02</p>
 									</a>
 								</li>
 								<li class="bg-red">
 									<a href="#">
 										<p class="report-txt1">本月</p>
-										<p class="report-txt2"><span class="fz22">￥18770.00</span> <br>20笔</p>
-										<p class="report-txt3">2015-9-02</p>
+										<p class="report-txt2"><span class="fz22">游戏次数</span> <br><?php echo $idsum ?>次</p>
+										<p class="report-txt2"><span class="fz22">流量产生（M）</span> <br><?php echo $idsum ?>M</p>
+										<p class="report-txt2"><span class="fz22">取现笔数</span> <br><?php echo $idsum ?>笔</p>
+										<p class="report-txt3"id="nowTime3">2015-9-02</p>
 									</a>
 								</li>
 								<li class="bg-blue">
 									<a href="#">
 										<p class="report-txt1">今年</p>
-										<p class="report-txt2"><span class="fz22">￥18770.00</span> <br>20笔</p>
-										<p class="report-txt3">2015-9-02</p>
+										<p class="report-txt2"><span class="fz22">游戏次数</span> <br><?php echo $idsum ?>次</p>
+										<p class="report-txt2"><span class="fz22">流量产生（M）</span> <br><?php echo $idsum ?>M</p>
+										<p class="report-txt2"><span class="fz22">取现笔数</span> <br><?php echo $idsum ?>笔</p>
+										<p class="report-txt3"id="nowTime4">2015-9-02</p>
 									</a>
 								</li>
 							</ul>
@@ -343,11 +349,11 @@
 				backgroundColor: '#FFFFFF'
 			},
 			xAxis: {
-				categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+				categories: [<?php echo $data_date ?>]
 			},
 			yAxis: {
 				title: {
-					text: 'Y-Axis'
+					text: '游客数'
 				},
 				labels: {
 					formatter: function() {
@@ -370,8 +376,8 @@
 				enabled: false
 			},
 			series: [{
-				name: 'John',
-				data: [2000,4200, 3010, 1200, 5000, 3400, 3120, 7000,3400, 3120, 2000, 7000]
+				name: '游客数(人)',
+				data: [<?php echo $ipdata ?>]
 			}]
 		});
 	});				
@@ -391,6 +397,9 @@ str +=d.getDate()+'';
 return str; } 
 setInterval(function(){$("#nowTime").html(current);
 	$("#nowTime1").html(current1);
+	$("#nowTime2").html(current1);
+	$("#nowTime3").html(current1);
+	$("#nowTime4").html(current1);
 },1000); 
 </script> 
 </body>
