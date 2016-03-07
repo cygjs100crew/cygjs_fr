@@ -401,16 +401,17 @@ class hushen300 extends MY_Controller{
         $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5",'investor_uid'=>$id))->result_array(); // 查询历史交易
 
         
+        $result['flow']=$this->user_play();
         $num=$this->ying_num();
         if ($data[0]['result']=='赢') {
-            echo json_encode(array('success'=>true,'info'=>'赢','num'=>$num)); 
+            echo json_encode(array('success'=>true,'info'=>'赢','num'=>$num,'flow'=>$result['flow'])); 
         }else if($data[0]['result']=='输'){
-            echo json_encode(array('success'=>true,'info'=>'输','num'=>$num));
+            echo json_encode(array('success'=>true,'info'=>'输','num'=>$num,'flow'=>$result['flow']));
         }else if($data[0]['result']=='平'){
-            echo json_encode(array('success'=>true,'info'=>'平','num'=>$num));
+            echo json_encode(array('success'=>true,'info'=>'平','num'=>$num,'flow'=>$result['flow']));
         }else{
             echo json_encode(array('success'=>false,'info'=>'未开奖'));
-        }                                                                  
+        }                                                                   
     }
     function tt(){
         // $uid = $this->db->query('select id from investor_detail where start_time between "'.date('Y-m-d H:i:s',strtotime('-1 day')).'" and "'.date('Y-m-d H:i:s').'"')->row()->sum;

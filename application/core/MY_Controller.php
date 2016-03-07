@@ -221,7 +221,7 @@ class MY_Controller extends CI_Controller {
     }
     public function user_play(){
     	$customerId=$this->is_uid();
-		$share_flow=$this->db->group_by('create_time')->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
+		$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
 		$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
 
         return intval($share_flow+$game_flow)>1?intval($share_flow+$game_flow):0;

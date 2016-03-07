@@ -383,13 +383,14 @@ class Huangjin extends MY_Controller{
         $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$id))->result_array(); // 查询历史交易
 
         
+        $result['flow']=$this->user_play();
         $num=$this->ying_num();
         if ($data[0]['result']=='赢') {
-            echo json_encode(array('success'=>true,'info'=>'赢','num'=>$num)); 
+            echo json_encode(array('success'=>true,'info'=>'赢','num'=>$num,'flow'=>$result['flow'])); 
         }else if($data[0]['result']=='输'){
-            echo json_encode(array('success'=>true,'info'=>'输','num'=>$num));
+            echo json_encode(array('success'=>true,'info'=>'输','num'=>$num,'flow'=>$result['flow']));
         }else if($data[0]['result']=='平'){
-            echo json_encode(array('success'=>true,'info'=>'平','num'=>$num));
+            echo json_encode(array('success'=>true,'info'=>'平','num'=>$num,'flow'=>$result['flow']));
         }else{
             echo json_encode(array('success'=>false,'info'=>'未开奖'));
         }                                                                
@@ -406,7 +407,7 @@ class Huangjin extends MY_Controller{
     function e_data(){
         $symbol=$_POST['symbol'];
         // $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
-         $list=$this->db->select('price,time')->group_by('investor_uid')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+         $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         // $list=$this->$list->limit(50,100)->result_array();
         // $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
