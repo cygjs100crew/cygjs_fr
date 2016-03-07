@@ -17,7 +17,10 @@ class hushen300 extends MY_Controller{
         $this->load->database();		
         $username=get_cookie('username')?get_cookie('username'):'请登入';
         
-        
+        $opentime=$this->is_opentime();//开市时间
+        if (intval($opentime)>0) {
+			redirect('huangjin/index');
+        }
 
         $data['username']=$username; 
         $data['num']=$this->ying_num();

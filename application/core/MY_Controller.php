@@ -226,4 +226,12 @@ class MY_Controller extends CI_Controller {
 
         return intval($share_flow+$game_flow)>1?intval($share_flow+$game_flow):0;
     }
+    public function is_trade_status($trade_status=0) {
+		switch (is_numeric($trade_status)){
+	        case 0  : return    '失败'; break;
+	        case 1  : return    '成功'; break;
+	        case 2  : return    '处理中'; break;
+	        default : return    false;  break;
+	    }
+	}
 }
