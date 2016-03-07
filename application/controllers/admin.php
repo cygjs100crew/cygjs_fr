@@ -12,6 +12,9 @@ class Admin extends MY_Controller{
     
 //判断cookie中是否有username,没有就是游客,看看游客有多少流量
     function index(){
+    	if (!get_cookie('adminid')){
+    		redirect('admin/login');
+    	}
     	$customer_list=$this->db->order_by("id","desc")->get_where('customer')->result_array();
     	$customer_phone_list=$this->db->query('select * from customer where phone  is not null')->result_array();
     	$total_flow_num=$this->db->query('select sum(total_flow) as sum from customer')->row()->sum;
@@ -26,6 +29,16 @@ class Admin extends MY_Controller{
     	$data['customer_phone_list']=count($customer_phone_list);
     	$data['online_number']= $this->online_number();
         $this->load->view('admin/index.html',$data);//前端在某个地方输出$username  
+    }
+    function login(){
+    	// redirect('admin/index');
+    	if (!get_cookie('adminid')){
+    		set_cookie('adminid',123,0);
+    		$this->load->view('admin/login.html');//前端在某个地方输出$username  
+    	}else{
+    		redirect('admin/index');
+    	}
+    	
     }
     function user_index(){
     	$nickname =$this->input->post('nickname');
