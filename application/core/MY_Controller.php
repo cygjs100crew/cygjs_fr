@@ -182,7 +182,7 @@ class MY_Controller extends CI_Controller {
                     // 会员ID
 	                'total_flow' =>intval($result[0]['total_flow'])+3,                          // 流量
 	        );
-	        $this->db->where('id',$uid)->update('customer',array('total_flow'=>$total_flow));         // 新增流量次数
+	        $this->db->where('id',$uid)->update('customer',$data);         // 新增流量次数
 
 
 			$condition['uid'] =$uid;                                           // 更新对象id
@@ -219,13 +219,13 @@ class MY_Controller extends CI_Controller {
         $result = $this->db->limit(1)->order_by("id","desc")->get_where('recentquotation',array('symbol'=>$symbol))->result_array(); // 查询最近一条报价记录
         return $result[0]['price'];
     }
-    public function user_play(){
-    	$customerId=$this->is_uid();
-		$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
-		$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
+//     public function user_play(){
+//     	$customerId=$this->is_uid();
+// 		//$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
+// 		//$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
 
-        return intval($share_flow+$game_flow)>1?intval($share_flow+$game_flow):0;
-    }
+//         return intval($game_flow)>1?intval($game_flow):0;
+//     }
     /**
 	 * 取现订单状态转换
 	 * @return integer
