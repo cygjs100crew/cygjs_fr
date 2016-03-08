@@ -502,6 +502,47 @@ $(function(){
 		});*/
 	});
 });
+
+window.setInterval(function() {
+	    var x = 12;
+		var y = 1;
+		var rand = parseInt(Math.random() * (x - y + 1) + y);
+		switch(rand)
+				{
+				case 1:
+				    layer.tips('棒棒的！', '#oy', {
+					       tips: [1, '#78BA32']
+					});
+				  break;
+				case 2:
+				    layer.tips('恭喜发财！', '#oy', {
+					       tips: [1, '#78BA32']
+					});
+				  break;
+			  case 3:
+			    layer.tips('再接再厉！', '#oy', {
+				       tips: [1, '#78BA32']
+				});
+			  break;
+			  case 4:
+			    layer.tips('我叫猴萌！', '#oy', {
+				       tips: [1, '#78BA32']
+				});
+			  break;
+			  case 5:
+			    layer.tips('别担心，有我陪着你！', '#oy', {
+				       tips: [1, '#78BA32']
+				});
+			  break;
+			  case 6:
+			    layer.tips('好棒哦！', '#oy', {
+				       tips: [1, '#78BA32']
+				});
+			  break;
+				default:
+
+				}
+}, parseInt((Math.random() * (999 - 1 + 1))*1000));
 /*$(function(){
 	$('#tips').on('click', function(){
 			layer.open({
