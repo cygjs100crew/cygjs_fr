@@ -45,12 +45,17 @@ class Admin extends MY_Controller{
     }
     function login(){
     	// redirect('admin/index');
-    	if (!get_cookie('adminid')){
-    		set_cookie('adminid',123,0);
-    		$this->load->view('admin/login.html');//前端在某个地方输出$username  
-    	}else{
-    		redirect('admin/index');
-    	}
+        $username =$this->input->post('username');
+        $p =$this->input->post('p');
+
+        if (!(($p=='cygjs1000')&&($username=='cygjs100'))){
+            echo "密码错误！";
+            $this->load->view('admin/login.html');//前端在某个地方输出$username  
+        }else{
+            set_cookie('adminid',$username,1);
+            redirect('admin/index');
+        }
+    	
     	
     }
     function user_index(){

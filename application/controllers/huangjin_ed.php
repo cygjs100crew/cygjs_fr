@@ -432,7 +432,7 @@ class Huangjin_ed extends MY_Controller{
             exit();
         }
         foreach($list as $k=>$v){
-            $Kdata[$k] =$v['price'];
+            $Kdata[$k] =round($v['price'],2);
             $data_date[$k] =$v['time'];
         // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
         // $result['ipdata'] = implode(',', $Kdata);       
