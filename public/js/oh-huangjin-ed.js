@@ -152,7 +152,7 @@ $('#zhang').on('click', function(){
 								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em?行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">奖品已经存放入您的账户</p><img class="gold_not_gold" src="public/img/3mcard.png"></div></div>'
 								    });
 								}
-								
+								get_current_flow();
 							};
 							if (json.info=='输') {
 								layer.alert('很遗憾，您没猜对，继续努力吧！', {

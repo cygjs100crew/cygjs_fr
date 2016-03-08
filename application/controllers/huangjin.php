@@ -257,8 +257,9 @@ class Huangjin extends MY_Controller{
 	}
    
 	function test_callback(){
-	    $url="http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE=15074716900&ORDERID=2016030710181252&PRODUCTCODE=HG002&CTMRETURL=http%3A%2F%2Ftest-wx.cygjs100.com%2Fcygjs_fr%2Findex.php%2Fhungjin%2Fcallback&APIKEY=4866f53d0563496385bc2f67009c9d4f";
-	    redirect($url);
+	    $url="http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE=15074716900&ORDERID=2016030810181252&PRODUCTCODE=HG002&CTMRETURL=http%3A%2F%2Ftest-wx.cygjs100.com%2Fcygjs_fr%2Findex.php%2Fhungjin%2Fcallback&APIKEY=4866f53d0563496385bc2f67009c9d4f";
+        $ret=file_get_contents($url);
+	    var_dump($ret);
 	}
 	//调用短信接口
 	public function send_sms(){
