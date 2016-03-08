@@ -174,16 +174,7 @@ class MY_Controller extends CI_Controller {
 	                'play_time'   => date("Y-m-d H:i:s",time()), // 生成时间
 	        );
 	        $this->db->insert('play',$data);                     // 新增流量次数
-	        $result = $this->db->select('total_flow')->get_where('customer',array('id'=>$uid))->result_array(); // 查询连赢记录
-	        // if (count($result)<1) {
-	        // 	$flownum=intval($numdata[0]['num'])+1;
-	        // }
-	        $data = array(
-                    // 会员ID
-	                'total_flow' =>intval($result[0]['total_flow'])+3,                          // 流量
-	        );
-	        $this->db->update('customer',$data);                     // 新增流量次数
-
+	        
 
 			$condition['uid'] =$uid;                                           // 更新对象id
 			$updata['num'] =$num;                                              // 结果赋值
@@ -248,5 +239,17 @@ class MY_Controller extends CI_Controller {
 		// $list=$this->db->get_where('investor_detail',array('time >'=>date('Y-m-d H:i:s',strtotime('-30 minutes')))->result_array(); // 查询图表数据
 		$list=$this->db->group_by('investor_uid')->get_where('investor_detail',array('start_time >'=>strtotime('-30 minutes')))->result_array();
 		 return count($list)>0?count($list):0;
+	}
+	public function online_number(){
+		$result = $this->db->select('total_flow')->get_where('customer',array('id'=>$uid))->result_array(); // 查询连赢记录
+        // if (count($result)<1) {
+        // 	$flownum=intval($numdata[0]['num'])+1;
+        // }
+        $data = array(
+                // 会员ID
+                'total_flow' =>intval($result[0]['total_flow'])+3,                          // 流量
+        );
+        $this->db->update('customer',$data);                     // 新增流量次数
+
 	}
 }
