@@ -71,7 +71,7 @@
 <div class="tab_nav">
 	<ul>
 	<li class="on"><a href="<?php echo site_url('huangjin/index')?>">黄金</a><!-- <a href="javascript:void(0);" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a> --></li>
-	<li><a href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
+	<li><a id="sh" href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
 </ul></div>
 
 <div class="focus_data">
@@ -188,6 +188,12 @@ $.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'XAU'},function(data){
     $('#capital').html(json.price);
     $('#lianying').html(json.num);
     $('#total_flow').html(json.flow);
+    if (Number(json.hs)<1) {
+    	$('#sh').html('沪深300(已收市)');
+    }else{
+    	$('#sh').html('沪深300(开市中)');
+    }
+    
     	if (json.st==0) {
 	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
 	    };

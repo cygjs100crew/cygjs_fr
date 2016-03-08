@@ -416,6 +416,8 @@ class Huangjin extends MY_Controller{
          // $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         // $list=$this->$list->limit(50,100)->result_array();
         // $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        $opentime=$this->is_opentime();//开市时间
+		$result['hs'] =$opentime;
         if (count($list)<1) {                   
             $result['st'] =0; //没有数据则提示
             echo json_encode($result);
@@ -430,6 +432,7 @@ class Huangjin extends MY_Controller{
         $result['ipdata'] = $Kdata;
         $result['price'] = $v['price'];                                                              // 拼接时间数据格式
         }
+        
         // $result = $_POST['symbol'];
         $result['st'] =1;
         $result['flow']=$this->user_play();
