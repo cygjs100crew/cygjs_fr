@@ -182,7 +182,7 @@ class MY_Controller extends CI_Controller {
                     // 会员ID
 	                'total_flow' =>intval($result[0]['total_flow'])+3,                          // 流量
 	        );
-	        $this->db->update('customer',$data);                     // 新增流量次数
+	        $this->db->where('id',$uid)->update('customer',array('total_flow'=>$total_flow));         // 新增流量次数
 
 
 			$condition['uid'] =$uid;                                           // 更新对象id
