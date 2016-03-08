@@ -1,5 +1,6 @@
 // 涨事件
 $('#zhang').on('click', function(){
+	
 	/*买入价不能为空*/
 	if($('#capital').html() == '') {
 	layer.alert('数据加载未完成', {
@@ -10,14 +11,14 @@ $('#zhang').on('click', function(){
 	}
 	var index = layer.load();
 	layer.open({
-						    type: 1,
-						    title: false,
-						    closeBtn: 0,
-						    skin: 'layui-layer-nobg', //没有背景色
-						    // shadeClose: true,
-						    content:'<img src="public/img/bisai_text.png" />'
-						    });
-	$.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').html(),invest_type:1,symbol:$('#symbol').val()},function(data){
+				    type: 1,
+				    title: false,
+				    closeBtn: 0,
+				    skin: 'layui-layer-nobg', //没有背景色
+				    // shadeClose: true,
+				    content:'<div class="starttext"><span>正等待开局...</span></div>'
+				    });
+    $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').html(),invest_type:1,symbol:$('#symbol').val()},function(data){
     	layer.close(index);
     	 // var obj = eval(data);
         // alert(data);
@@ -27,7 +28,7 @@ $('#zhang').on('click', function(){
 	 //    icon: 1,
 	 //    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
 		// });
-		
+
         /*60秒倒计时开始*/
 		var intDiff = parseInt(30); //120秒倒计时总秒数量
 		function timer(intDiff) {
@@ -105,13 +106,13 @@ $('#zhang').on('click', function(){
 						    closeBtn: 0,
 						    skin: 'layui-layer-nobg', //没有背景色
 						    // shadeClose: true,
-						    content:'<img src="public/img/jishi_'+second+'.png" />'
+						    content:'<div class="countdown"><span>'+second+'</span></div>'
 						    });
 				    }
 					if (second == '00') {
 						layer.closeAll('page');
 						var index = layer.load();
-						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',function(data){
+						$.post('/cygjs_fr/index.php/hushen300/huangjin_js_list',function(data){
 							layer.close(index); 
 							var json=JSON.parse(data);
 							if (json.info=='赢') {
@@ -228,13 +229,13 @@ $('#die').on('click', function(){
 	}
 	var index = layer.load();
 	layer.open({
-				    type: 1,
-				    title: false,
-				    closeBtn: 0,
-				    skin: 'layui-layer-nobg', //没有背景色
-				    // shadeClose: true,
-				    content:'<img src="public/img/bisai_text.png" />'
-				    });
+		    type: 1,
+		    title: false,
+		    closeBtn: 0,
+		    skin: 'layui-layer-nobg', //没有背景色
+		    // shadeClose: true,
+		    content:'<div class="starttext"><span>正等待开局...</span></div>'
+		    });
     $.post('/cygjs_fr/index.php/hushen300/investor_detail_add',{capital:$('#capital').html(),invest_type:0,symbol:$('#symbol').val()},function(data){
     	layer.close(index); 
     	 // var obj = eval(data);
@@ -245,7 +246,7 @@ $('#die').on('click', function(){
 	 //    icon: 1,
 	 //    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
 		// });
-		
+
         /*60秒倒计时开始*/
 		var intDiff = parseInt(30); //120秒倒计时总秒数量
 		function timer(intDiff) {
@@ -321,13 +322,13 @@ $('#die').on('click', function(){
 						    closeBtn: 0,
 						    skin: 'layui-layer-nobg', //没有背景色
 						    // shadeClose: true,
-						    content:'<img src="public/img/jishi_'+second+'.png" />'
+						    content:'<div class="countdown"><span>'+second+'</span></div>'
 						    });
 				    }
 					if (second == '00') {
 						layer.closeAll('page');
 						var index = layer.load();
-						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',function(data){
+						$.post('/cygjs_fr/index.php/hushen300/huangjin_js_list',function(data){
 							layer.close(index); 
 							var json=JSON.parse(data);
 							if (json.info=='赢') {
@@ -432,6 +433,13 @@ $('#die').on('click', function(){
     });
 });
 $('#ls').on('click', function(){
+    // $.post('/cygjs_fr/index.php/hushen300/lishi_list',{open:123},function(data){
+    //      // var obj = eval(data);
+    //     // alert(data);
+    //     var json=JSON.parse(data);
+    //     layer.alert(json.a);
+    //     // $("#lishi").html(json.a);
+    // });
     layer.open({
         type: 2,
         title: '交易历史详情',
@@ -439,70 +447,110 @@ $('#ls').on('click', function(){
         shade: false,
         maxmin: true, //开启最大化最小化按钮
         area: ['893px', '600px'],
-        content: '/cygjs_fr/index.php/hushen300/lishi_html_list'
+        content: '/cygjs_fr/index.php/huangjin/huangjin_html_list'
     });
 });
 $('#sinalink').on('click', function(){
-           $("#dd").attr('src','/cygjs_fr/index.php/hushen300/hushen_sinalink');
-           $('#symbol').val('s_sz399300');
+           $("#dd").attr('src','/cygjs_fr/index.php/huangjin/huangjin_sinalink');
+           $('#symbol').val('hf_GC');
 });
 $('#jinyulink').on('click', function(){
-           $("#dd").attr('src','/cygjs_fr/index.php/hushen300/hushen_link');
-           $('#symbol').val('CFIFZ5');
+           $("#dd").attr('src','/cygjs_fr/index.php/huangjin/huangjin_link');
+           $('#symbol').val('XAU');
 });
-// $('#ls').on('click', function(){
-//            layer.tips('赢现金活动即将推出，注册订阅，获取最新动态。', '#id或者.class', {
-//            tips: [4, '#78BA32']
-// });
-// });
+$('.ls').on('click', function(){
+           layer.tips('赢现金活动即将推出，注册订阅，获取最新动态。', '.ls', {
+			       tips: [1, '#78BA32']
+			});
+});
+$('#tips').on('click', function(){
+		layer.open({
+		    type: 1,
+		    title: false,
+		    skin: 'layui-layer-nobg', //样式类名
+		    closeBtn: 0, //不显示关闭按钮
+		    scrollbar: false,
+		    shift: 2,
+		    shadeClose: true, //开启遮罩关闭
+		    content: '<div class="bag-popup"><div class="welcomebox"><h3 class="text-center">亲，您还没关注我们的微信公众号<br />关注后每天有<em>五次</em>分享机会<br />可以免费获取流量的哟！</h3></div><div class="getbtn"><span class="rmb"><a href="javascript:void(0)" id="ifollow">我要关注</a></span><span class="getm"><a href="javascript:void(0)" id="rule_link">游戏规则</a></span></div></div>'
+		    });
+	$('#rule_link').on('click', function(){
+		layer.open({
+		    type: 1,
+		    title: false,
+		    skin: 'layui-layer-nobg', //样式类名
+		    closeBtn: 1, //不显示关闭按钮
+		    scrollbar: true,
+		    shift: 2,
+		    shadeClose: true, //开启遮罩关闭
+		    content: '<div class="bag-popup2"><div id="rule_cont2" class="rule_cont"><center><b>《活动须知》</b></center><h2>2016年金裕二元期权<br />“玩游戏赚流量，无限流量助你玩转猴年”</h2><h3>一、活动时间：即日起至</h3><h3>二、活动介绍：</h3><p>1、从手机界面进入游戏，金裕二元期权猜涨跌。每次猜对即送你3M流量，根据兑换规则，流量可以累积，可以提取。</p><p>2、奔走相告抢流量，动动你的手指，把此链接分享到你的朋友圈，即送1M流量，每天有5次机会哦！</p><h3>三、兑换流量规则：</h3><p>流量可以累积，累积满30M及以上即可作首次提取（第二次后需累积满100M以上方可提取），点击页面“提取流量”按钮，根据提示操作即可，就是这么简单、便捷。</p><h3>四、活动说明：</h3><p>1、请按照须知要求参与活动，一旦发现有非正常行为作弊的用户，金裕将有权取消其继续参与活动的资格。</p><p>2、本次活动最终解释权归金裕所有。</p></div></div>'
+		});
+	});
+	$('#ifollow').on('click', function(){
+		layer.open({
+		    type: 1,
+		    title: false,
+		    skin: 'layui-layer-nobg', //样式类名
+		    closeBtn: 0, //不显示关闭按钮
+		    scrollbar: false,
+		    shift: 2,
+		    shadeClose: true, //开启遮罩关闭
+		    content: '<div class="bag-popup2"><div id="rule_cont2" class="rule_cont text-center"><img src="public/img/code.gif"><h3>请用微信扫描关注测试公众号</h3><p>（长按二维码选择识别）</p></div></div>'
+		});
+	});
+});
+
 
 // setInterval(function(){  
-//     $.ajax({
-//         url: "http://hq.sinajs.cn/?list=s_sz399300",
-//         method: 'GET',
-//         dataType: "script",
-//         scriptCharset: "gb2312",
-//         cache: true,
-//         success: function(data, textStatus){
-//              var hq = hq_str_s_sz399300.split(",");
-//             var title,rt_hq = '';
-//             if(Number(hq[2])>Number(0)){
-//                 title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-//                 rt_hq = '<span style="color:Red;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
-//             }else if(Number(hq[2])<Number(0)){
-//                 title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-//                 rt_hq = '<span style="color:Lime;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
-//             }else{
-//                 title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
-//                rt_hq = '<span style="color:Black;">'+hq[1]+'&nbsp;'+hq[2]+'&nbsp;'+hq[3]+'%</span>';
-//             }
-//             document.title = title;
-//             	if (Number($('#capital').html())<Number(hq[1])) {
+// 		$.ajax({
+// 	            // url: "http://hq.sinajs.cn/?_="+new Date().getTime()+"&list=sh603518",
+// 	            url: "http://hq.sinajs.cn/?list=hf_GC",
+// 	            method: 'GET',
+// 	            dataType: "script",
+// 	            scriptCharset: "gb2312",
+// 	            cache: true,
+// 	            success: function(data, textStatus){
+// 	            	var hq = hq_str_hf_GC.split(",");
+// 	            	var title,rt_hq = '';
+// 	            	if(Number(hq[0])>Number(7)){
+// 	            		title = hq[3]+' +'+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+// 	            		rt_hq = '<span style="color:Red;">'+hq[0]+'&nbsp+'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
+// 	            	}else if(Number(hq[0])<Number(7)){
+// 	            		title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+// 	            		rt_hq = '<span style="color:Lime;">'+hq[0]+'&nbsp-'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
+// 	            	}else{
+// 	            		title = hq[3]+' '+String(((Number(hq[3])-Number(hq[2]))*100/Number(hq[2])).toFixed(2))+'%';
+// 	            		rt_hq = '<span style="color:Black;">'+hq[0]+'&nbsp'+String((Number(hq[0])-Number(hq[7])).toFixed(2))+'&nbsp'+hq[1]+'%</span>';
+// 	            	}
+// 	            	document.title = title;
+// 	                var html_src = '实时行情: '+rt_hq+"|最高: "+hq[3]+" | 最低: "+hq[2]+"|昨收: "+hq[7]+"| 北京时间: "+hq[6]+"";
+// 	                var html_src_img = '<img src="http://image.sinajs.cn/newchart/v5/futures/global/min/GC.gif?'+new Date().getTime()+'">';
+// 	                if (Number($('#capital').html())<Number(hq[3])) {
 // 	                	$(".button_ab dl").css("border","4px solid Red");
 // 	                }
-// 	                if (Number($('#capital').html())>Number(hq[1])) {
+// 	                if (Number($('#capital').html())>Number(hq[3])) {
 // 	                	$(".button_ab dl").css("border","4px solid Lime");
 // 	                };
-// 	                if (Number($('#capital').html())==Number(hq[1])) {
+// 	                if (Number($('#capital').html())==Number(hq[3])) {
 // 	                	$(".button_ab dl").css("border","4px solid Black");
 // 	                };
-//                 var html_src = '实时行情: '+rt_hq+"|量: "+hq[4]+"手 | 额: "+hq[5]+"万元";
-//                 $("#m-chart-realhq").html(html_src);
-//                 $('#capital').html(hq[1]);
-//                 // $.post('/cygjs_fr/index.php/hushen300/data_add',{price:hq[1]},function(data){
-//                 //     // console.log(data.data_date);
-//                 //     var json=JSON.parse(data);
-//                 //     $("#sxin").html(json.info);
-//                 // });
-//             } 
-//         });
-// },5000);
+// 	                $('#capital').val(hq[3]);
+// 	                $("#m-chart-realhq").html(html_src);
+// 	                $("#m-chart-img").html(html_src_img);
+
+
+// 	                // $.post('/cygjs_fr/index.php/huangjin/data_add',{price:hq[3]},function(data){
+// 	                //     // alert(data);
+// 	                // });
+// 	        	} 
+// 	    });
+// 	},3000);
 
 // setInterval(function(){
-//     $.post('/cygjs_fr/index.php/hushen300/price',{symbol:'CFIFZ5'},function(data){
+//     $.post('/cygjs_fr/index.php/huangjin/price',{symbol:'XAU'},function(data){
 //     // alert(data);
-//     var json=JSON.parse(data);
-//         if (Number($('#capital').html())<Number(json.price)) {
+//     var json=JSON.parse(data);  
+//     	if (Number($('#capital').html())<Number(json.price)) {
 // 	    	$(".button_ab dl").css("border","4px solid Red");
 // 	    }
 // 	    if (Number($('#capital').html())>Number(json.price)) {
@@ -511,11 +559,12 @@ $('#jinyulink').on('click', function(){
 // 	    if (Number($('#capital').html())==Number(json.price)) {
 // 	    	$(".button_ab dl").css("border","4px solid Black");
 // 	    };
-//     $('#capital').html(json.price);
+
+//     $('#capital').val(json.price);
 //     $('#lianying').html(json.num);
 //     	if ($('#timeed').val()==json.time) {
 // 	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
-// 	    	$('#capital').html('');
+// 	    	$('#capital').val('');
 // 	    	$('#capital1').html('');
 // 	    };
 //     $('#timeed').val(json.time);
