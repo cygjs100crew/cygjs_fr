@@ -231,7 +231,7 @@ if (option && typeof option === "object") {
 <div class="user_info">
 	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?></dd></dl>
 	<ul><li><span>可用流量</span><span><em id="total"></em>M</span></li>
-	    <li><span><em id="cash_flow"><?php echo $cash_flow_inexcute;?></em>M</span><span>流量正在处理中...</span></li>	
+	    <li><span><em id="cash_flow"><?php echo $cash_flow_inexcute;?></em>M</span><span>流量正在处理中</span></li>	
 	</ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">领取流量</a></span>
 </div>
@@ -551,7 +551,7 @@ $(function(){
 			    scrollbar: false,
 			    shift: 2,
 			    shadeClose: true, //开启遮罩关闭
-			    content: '<div class="bag-popup"><div class="welcomebox"><h3 class="text-center">亲，您还没关注我们的微信公众号<br />关注后每天有<em>五次</em>分享机会<br />可以免费获取流量的哟！</h3></div><div class="getbtn"><span class="rmb"><a href="javascript:void(0)" id="ifollow">我要关注</a></span><span class="getm"><a href="javascript:void(0)" id="rule_link">游戏规则</a></span></div></div>'
+			    content: '<div class="bag-popup"><div class="welcomebox"><h3 class="text-center">亲，<br />每天有<em>五次</em>分享机会<br />可以免费获取流量的哟！</h3></div><div class="getbtn"><span class="getm"><a href="javascript:void(0)" id="rule_link">游戏规则</a></span></div></div>'
 			    });
 		$('#rule_link').on('click', function(){
 			layer.open({
@@ -565,7 +565,7 @@ $(function(){
 			    content: '<div class="bag-popup2"><div id="rule_cont2" class="rule_cont"><center><b>《活动须知》</b></center><h2>2016年金裕二元期权<br />“玩游戏赚流量，无限流量助你玩转猴年”</h2><h3>一、活动时间：即日起至</h3><h3>二、活动介绍：</h3><p>1、从手机界面进入游戏，金裕二元期权猜涨跌。每次猜对即送你3M流量，根据兑换规则，流量可以累积，可以提取。</p><p>2、奔走相告抢流量，动动你的手指，把此链接分享到你的朋友圈，即送1M流量，每天有5次机会哦！</p><h3>三、兑换流量规则：</h3><p>流量可以累积，累积满30M及以上即可作首次提取（第二次后需累积满100M以上方可提取），点击页面“提取流量”按钮，根据提示操作即可，就是这么简单、便捷。</p><h3>四、活动说明：</h3><p>1、请按照须知要求参与活动，一旦发现有非正常行为作弊的用户，金裕将有权取消其继续参与活动的资格。</p><p>2、本次活动最终解释权归金裕所有。</p></div></div>'
 			});
 		});
-		$('#ifollow').on('click', function(){
+		/*$('#ifollow').on('click', function(){
 			layer.open({
 			    type: 1,
 			    title: false,
@@ -576,7 +576,7 @@ $(function(){
 			    shadeClose: true, //开启遮罩关闭
 			    content: '<div class="bag-popup2"><div id="rule_cont2" class="rule_cont text-center"><img src="public/img/code.gif"><h3>请用微信扫描关注测试公众号</h3><p>（长按二维码选择识别）</p></div></div>'
 			});
-		});
+		});*/
 	});
 });
 
