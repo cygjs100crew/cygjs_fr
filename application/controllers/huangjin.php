@@ -390,7 +390,7 @@ class Huangjin extends MY_Controller{
         $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$id))->result_array(); // 查询历史交易
 
         
-        $result['flow']=$this->stat_total_flow();
+        $result['flow']=$this->_stat_total_flow();
         $num=$this->ying_num();
         if ($data[0]['result']=='赢') {
             echo json_encode(array('success'=>true,'info'=>'赢','num'=>$num,'flow'=>$result['flow'])); 
@@ -436,7 +436,7 @@ class Huangjin extends MY_Controller{
         
         // $result = $_POST['symbol'];
         $result['st'] =1;
-        $result['flow']=$this->stat_total_flow();
+        $result['flow']=$this->_stat_total_flow();
         $result['num']=$this->ying_num();
         echo json_encode($result);    
     }
