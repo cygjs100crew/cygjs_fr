@@ -5,8 +5,8 @@ class hushen300 extends MY_Controller{
         //$this->load->helper('cookie');
        // $this->load->library('session');
         $wx_param=array(
-            'appId'=>'wxed2d1da1f9023761',
-            'appSecret'=>'452f7ea20e7d0ecadd38acef8664ceec'
+            'appId'=>'wxb789734a2a886553',
+            'appSecret'=>'4f65d464420c998e7754c4cd1487a262'
         );
         $this->load->library('jssdk',$wx_param);
     }
@@ -27,13 +27,13 @@ class hushen300 extends MY_Controller{
         $data['uid']=$this->is_uid().'号会员';
         $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
-        $data['totalflow']=$this->_stat_total_flow();
+       // $data['totalflow']=$this->_stat_total_flow();
         $customer_id=get_cookie('customerId');
         $ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'trade_status'=>2))->row_array();
         if($ret && count($ret)>0){//存在正在处理的流量订单
             $data['cash_flow_inexcute']=$ret['cash_flow'];
         }else{
-            $data['cash_flow_inexcute']='';
+            $data['cash_flow_inexcute']='0';
         }
         $signPackage = $this->jssdk->GetSignPackage();
         $data['signPackage']= $signPackage;

@@ -230,7 +230,7 @@ if (option && typeof option === "object") {
 
 <div class="user_info">
 	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?></dd></dl>
-	<ul><li><span>可用流量</span><span><em><?php echo $totalflow;?></em>M</span></li>
+	<ul><li><span>可用流量</span><span><em id="total"></em>M</span></li>
 	    <li><span><em id="cash_flow"><?php echo $cash_flow_inexcute;?></em>M</span><span>流量正在处理中...</span></li>	
 	</ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">领取流量</a></span>
@@ -477,12 +477,12 @@ $(function(){
 	
 	
 })
-/*function get_current_flow(){
+function get_current_flow(){
 	$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
-		$('#total_flow').html(data);
+		$('#total').html(data);
 	})
 }
-get_current_flow();*/
+get_current_flow();
 
 
 
@@ -502,18 +502,7 @@ wx.config({
     ]
 });
 wx.error(function(res){
-	//alert('尊敬的用户，您还没关注我们的微信公众号，关注后每天有五次分享获取流量的机会哟！');
-	layer.open({
-	    type: 1,
-	    title: false,
-	    skin: 'layui-layer-nobg', //样式类名
-	    closeBtn: 0, //不显示关闭按钮
-	    scrollbar: false,
-	    shift: 2,
-	    shadeClose: true, //开启遮罩关闭
-	    content: '<div class="bag-popup2"><div id="rule_cont2" class="rule_cont text-center">尊敬的用户，您还没关注我们的微信公众号，关注后每天有五次分享获取流量的机会哟!<img src="public/img/code.jpg"><h3>请用微信扫描关注测试公众号</h3><p>（长按二维码选择识别）</p></div></div>'
-	});
-	
+	//alert('尊敬的用户，您还没关注我们的微信公众号，关注后每天有五次分享获取流量的机会哟！');	
 })
 wx.ready(function () {
 	var config_obj={
@@ -532,7 +521,7 @@ wx.ready(function () {
 				success:function(data){
 					if(data.success){
 						alert(data.info);
-						//get_current_flow();
+						get_current_flow();
 					}else{
 						alert('分享成功，每天仅限分享五次，你今天分享获取流量的权限已经没有了！请明天继续分享。');
 					}
