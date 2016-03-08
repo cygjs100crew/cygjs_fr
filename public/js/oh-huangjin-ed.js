@@ -398,7 +398,7 @@ $('#die').on('click', function(){
 												});
 									});
 								}
-								
+								get_current_flow();	
 							};
 							if (json.info=='输') {
 								layer.alert('很遗憾，您没猜对，继续努力吧！', {
