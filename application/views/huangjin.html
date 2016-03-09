@@ -237,7 +237,7 @@ if (option && typeof option === "object") {
 <div class="user_info">
 	<dl><dt id="oy"><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?></dd></dl>
 	<ul><li><span>可用流量</span><span><em id="total"></em>M</span></li>
-	    <li><span><em id="cash_flow"><?php echo $cash_flow_inexcute;?></em>M</span><span>流量正在处理中</span></li>	
+	    <li><span><em id="cash_flow"></span></li>	
 	</ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">领取流量</a></span>
 </div>
@@ -306,7 +306,17 @@ $('#qx').click(function(){
 			
 			$.get('<?php echo site_url('huangjin/cash_flow')?>',function(data){
 				alert(data.info);
-				location.href="<?php echo site_url('huangjin/index')?>";
+				//location.href="<?php echo site_url('huangjin/index')?>";
+				if(data.info){
+					setInterval(function(){
+							$.get('<?php echo site_url('huangjin/order_status')?>',function(data){
+							 $('#cash_flow').html(data.info);
+							 location.href="<?php echo site_url('huangjin/index')?>";
+						      },'json');
+						},5000);
+					
+				}
+								
 			},'json');
 			
 					

@@ -24,13 +24,13 @@ class Huangjin extends MY_Controller{
         $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
        // $data['totalflow']=$this->_stat_total_flow();
-        $customer_id=get_cookie('customerId');
-        $ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'trade_status'=>2))->row_array();
-        if($ret && count($ret)>0){//存在正在处理的流量订单
-            $data['cash_flow_inexcute']=$ret['cash_flow'];
-        }else{
-            $data['cash_flow_inexcute']='0';
-        }
+//         $customer_id=get_cookie('customerId');
+//         $ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'trade_status'=>2))->row_array();
+//         if($ret && count($ret)>0){//存在正在处理的流量订单
+//             $data['cash_flow_inexcute']=$ret['cash_flow'];
+//         }else{
+//             $data['cash_flow_inexcute']='0';
+//         }
         $signPackage = $this->jssdk->GetSignPackage();
         $data['signPackage']= $signPackage;
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username  
@@ -224,7 +224,7 @@ class Huangjin extends MY_Controller{
 				'trade_status'=>2
  		    );
  		    $this->db->insert('user_flow',$data);
- 		  
+ 		    set_cookie('order_id',$orderid,0);
 			//兑换成功后一定要在总流量减去兑换了的流量
 			$this->db->query('update customer set total_flow=total_flow-'.$cash_flow.' where id='.$customerId);
 			//注意，此处最为关键，兑换成功后，要把share和play表里的该用户的所有流量都置0
@@ -260,6 +260,28 @@ class Huangjin extends MY_Controller{
 	    $url="http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE=15074716900&ORDERID=2016030910531202&PRODUCTCODE=HG001&CTMRETURL=http%3A%2F%2Ftest-wx.cygjs100.com%2Fcygjs_fr%2Findex.php%2Fhuangjin%2Fcallback&APIKEY=4866f53d0563496385bc2f67009c9d4f";
         $ret=file_get_contents($url);
 	    var_dump($ret);
+	}
+	//订单情况
+	function order_status(){
+	    $customer_id=get_cookie('customerId');
+	    $orderid=get_cookie('order_id');
+	    $ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'order_id'=>$orderid))->row_array();//查询有没有这个兑换流量的订单号
+	    if($ret && count($ret)>0){
+	        $cashflow=$ret['cash_flow'];
+	    }else{
+	        $cashflow='0';
+	    }
+	    $trade_status=$this->db->select('trade_status')->where('customer_id',$customer_id)->get('user_flow')->row()->trade_status;
+	    if($trade_status==0){
+	        echo json_encode(array('success'=>false,'info'=>$cashflow.'M兑换失败！'));
+	        return;
+	    }
+	    if($trade_status==1){
+	        echo json_encode(array('success'=>true,'info'=>$cashflow.'M兑换成功！'));
+	    }
+	    if($trade_status==2){
+	        echo json_encode(array('success'=>false,'info'=>$cashflow.'M流量正在处理中！'));
+	    } 
 	}
 	//调用短信接口
 	public function send_sms(){
