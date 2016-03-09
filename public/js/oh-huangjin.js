@@ -108,7 +108,6 @@ $('#zhang').on('click', function(){
 						    // shadeClose: true,
 						    content:'<div class="countdown"><span>'+second+'</span></div>'
 						    });
-                        $('#chatAudio')[0].play(); //播放声音 
 				    }
 				    if (second < 10 && second >0) {
                         $('#chatAudio')[0].play(); //播放声音 

@@ -232,7 +232,7 @@ class MY_Controller extends CI_Controller {
 	 * @author ohyeah
 	 */
     public function is_trade_status($trade_status=0) {
-		switch (is_numeric($trade_status)){
+		switch ($trade_status){
 	        case 0  : return    '失败'; break;
 	        case 1  : return    '成功'; break;
 	        case 2  : return    '处理中'; break;
