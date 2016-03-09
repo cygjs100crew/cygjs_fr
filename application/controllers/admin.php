@@ -25,7 +25,8 @@ class Admin extends MY_Controller{
         $data['ipdata'] = implode(',', $Kdata);                                                          // 拼接时间数据格式
         }
 
-    	$customer_list=$this->db->limit(10)->order_by("id","desc")->get_where('customer')->result_array();
+    	$customer_list=$this->db->order_by("id","desc")->get_where('customer')->result_array();
+        $customer_paiming=$this->db->limit(10)->order_by("id","desc")->get_where('customer')->result_array();
         $customer_list1=$this->db->limit(10)->order_by("total_flow","desc")->get_where('customer')->result_array();
         $customer_list2=$this->db->limit(10)->order_by("num","desc")->get_where('investor_user_num')->result_array();
         $customer_list3=$this->db->limit(10)->order_by("cash_flow","desc")->get_where('user_flow')->result_array();
@@ -58,6 +59,7 @@ class Admin extends MY_Controller{
         $data['idsumyear2']=count($idsumyear2);
     	$data['usernum']=count($customer_list);
         $data['customer_list']=$customer_list;
+        $data['customer_paiming']=$customer_paiming;
         $data['customer_list1']=$customer_list1;
         $data['customer_list2']=$customer_list2;
         $data['customer_list3']=$customer_list3;
