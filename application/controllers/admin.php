@@ -12,9 +12,9 @@ class Admin extends MY_Controller{
     
 //判断cookie中是否有username,没有就是游客,看看游客有多少流量
     function index(){
-    	if (!get_cookie('adminid')){
-    		redirect('admin/login');
-    	}
+    	// if (!get_cookie('adminid')){
+    	// 	redirect('admin/login');
+    	// }
     	$list=$this->db->query('select count(distinct create_time)countid,substr(create_time,1,10)create_time from customer where create_time between "'.date('Y-m-d H:i:s',strtotime('-1 month')).'" and "'.date('Y-m-d H:i:s').'" group by substr(create_time,1,10)')->result_array();
     	foreach($list as $k=>$v){
             $Kdata[$k] =$v['countid'];
@@ -25,18 +25,43 @@ class Admin extends MY_Controller{
         $data['ipdata'] = implode(',', $Kdata);                                                          // 拼接时间数据格式
         }
 
-    	$customer_list=$this->db->order_by("id","desc")->get_where('customer')->result_array();
+    	$customer_list=$this->db->limit(10)->order_by("id","desc")->get_where('customer')->result_array();
+        $customer_list1=$this->db->limit(10)->order_by("total_flow","desc")->get_where('customer')->result_array();
+        $customer_list2=$this->db->limit(10)->order_by("num","desc")->get_where('investor_user_num')->result_array();
+        $customer_list3=$this->db->limit(10)->order_by("cash_flow","desc")->get_where('user_flow')->result_array();
+        $customer_list4=$this->db->limit(10)->order_by("flow","desc")->get_where('share')->result_array();
     	$customer_phone_list=$this->db->query('select * from customer where phone  is not null')->result_array();
     	$total_flow_num=$this->db->query('select sum(total_flow) as sum from customer')->row()->sum;
     	$cash_flow_num=$this->db->query('select sum(cash_flow) as sum from user_flow where trade_status = 2')->row()->sum;
-    	$idsum=$this->db->get_where('investor_detail',array('start_time >'=>date('Y-m-d H:i:s',strtotime('-1 day'))))->result_array(); // 查询图表数据
+    	$idsumday=$this->db->get_where('investor_detail',array('start_time >'=>date('Y-m-d H:i:s',strtotime('-1 day'))))->result_array(); // 查询图表数据
+        $idsummonth=$this->db->get_where('investor_detail',array('start_time >'=>date('Y-m-d H:i:s',strtotime('-1 month'))))->result_array(); // 查询图表数据
+        $idsumyear=$this->db->get_where('investor_detail',array('start_time >'=>date('Y-m-d H:i:s',strtotime('-1 year'))))->result_array(); // 查询图表数据
+        $idsumday1=$this->db->query('select sum(flow) as sum from play where play_time >"'.date('Y-m-d H:i:s',strtotime('-1 day')).'"')->row()->sum;
+        $idsummonth1=$this->db->query('select sum(flow) as sum from play where play_time >"'.date('Y-m-d H:i:s',strtotime('-1 month')).'"')->row()->sum; // 查询图表数据
+        $idsumyear1=$this->db->query('select sum(flow) as sum from play where play_time >"'.date('Y-m-d H:i:s',strtotime('-1 year')).'"')->row()->sum; // 查询图表数据
+        $idsumday2=$this->db->limit(10)->order_by("cash_flow","desc")->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 day'))))->result_array(); // 查询图表数据
+        $idsummonth2=$this->db->limit(10)->order_by("cash_flow","desc")->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 month'))))->result_array(); // 查询图表数据
+        $idsumyear2=$this->db->limit(10)->order_by("cash_flow","desc")->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 year'))))->result_array(); // 查询图表数据
     	
 
     	$data['lishi'] = $this->db->limit(10)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array(); // 查询历史交易
 
 
-        $data['idsum']=count($idsum);
+        $data['idsumday']=count($idsumday);
+        $data['idsummonth']=count($idsummonth);
+        $data['idsumyear']=count($idsumyear);
+        $data['idsumday1']=$idsumday1;
+        $data['idsummonth1']=$idsummonth1;
+        $data['idsumyear1']=$idsumyear1;
+        $data['idsumday2']=count($idsumday2);
+        $data['idsummonth2']=count($idsummonth2);
+        $data['idsumyear2']=count($idsumyear2);
     	$data['usernum']=count($customer_list);
+        $data['customer_list']=$customer_list;
+        $data['customer_list1']=$customer_list1;
+        $data['customer_list2']=$customer_list2;
+        $data['customer_list3']=$customer_list3;
+        $data['customer_list4']=$customer_list4;
     	$data['total_flow_num']=$total_flow_num;
     	$data['cash_flow_num']=$cash_flow_num;
     	$data['customer_phone_list']=count($customer_phone_list);

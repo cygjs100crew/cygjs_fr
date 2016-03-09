@@ -143,19 +143,19 @@
 										<table class="table table-bordered table-striped">
 											<tr>
 												<td width="10%">排名</td>
-												<td width="30%">商品名称</td>
-												<td width="15%">单价</td>
-												<td width="15%">数量</td>
-												<td width="20%">销售额</td>
+												<td width="30%">用户名</td>
+												<td width="15%">登录时间</td>
+												<td width="15%">登录次数</td>
+												<td width="20%">游戏时长</td>
 												<td>操作</td>
 											</tr>
-											<?php foreach($lishi as $row) : ?>
+											<?php $i=1; foreach($customer_list as $row) : ?>
 											<tr>
-												<td><span class="txt-red">Top1</span></td>
+												<td><span class="txt-red">Top<?php echo $i++ ?></span></td>
 												<td><a href="#"><?php echo $row['id'] ?></a></td>
-												<td><?php echo $row['id'] ?></td>
-												<td><?php echo $row['id'] ?></td>
-												<td><?php echo $row['id'] ?></td>
+												<td><?php echo $row['create_time'] ?></td>
+												<td>暂无</td>
+												<td>暂无</td>
 												<td><a href="#">查看详情</a></td>
 											</tr>
 											<?php endforeach; ?>
@@ -168,18 +168,17 @@
 										<table class="table table-bordered table-striped">
 											<tr>
 												<td width="10%">排名</td>
-												<td width="30%">客户名称</td>
-												<td width="25%">订单数量</td>
-												<td width="25%">销售额</td>
+												<td width="30%">用户名</td>
+												<td width="25%">游戏获到的流量额</td>
+												<td width="25%">分享获到的流量额</td>
 												<td>操作</td>
 											</tr>
-											<?php foreach($lishi as $row) : ?>
+											<?php $i=1; foreach($customer_list1 as $row) : ?>
 											<tr>
-												<td><span class="txt-red">Top1</span></td>
+												<td><span class="txt-red">Top<?php echo $i++ ?></span></td>
 												<td><a href="#"><?php echo $row['id'] ?></a></td>
-												<td><?php echo $row['id'] ?></td>
-												<td><?php echo $row['id'] ?></td>
-												<td><?php echo $row['id'] ?></td>
+												<td><?php echo $row['total_flow'] ?></td>
+												<td>暂无</td>
 												<td><a href="#">查看详情</a></td>
 											</tr>
 											<?php endforeach; ?>
@@ -192,18 +191,17 @@
 										<table class="table table-bordered table-striped">
 											<tr>
 												<td width="10%">排名</td>
-												<td width="30%">地区名称</td>
-												<td width="25%">订单数量</td>
-												<td width="25%">销售额</td>
+												<td width="30%">用户名</td>
+												<td width="25%">连赢次数</td>
+												<td width="25%">擅长领域</td>
 												<td>操作</td>
 											</tr>
-											<?php foreach($lishi as $row) : ?>
+											<?php $i=1; foreach($customer_list2 as $row) : ?>
 											<tr>
-												<td><span class="txt-red">Top1</span></td>
-												<td><a href="#"><?php echo $row['id'] ?></a></td>
-												<td><?php echo $row['id'] ?></td>
-												<td><?php echo $row['id'] ?></td>
-												<td><?php echo $row['id'] ?></td>
+												<td><span class="txt-red">Top<?php echo $i++ ?></span></td>
+												<td><a href="#"><?php echo $row['uid'] ?></a></td>
+												<td><?php echo $row['num'] ?></td>
+												<td><?php echo $row['symbol'] ?></td>
 												<td><a href="#">查看详情</a></td>
 											</tr>
 											<?php endforeach; ?>
@@ -216,19 +214,19 @@
 										<table class="table table-bordered table-striped">
 											<tr>
 												<td width="10%">排名</td>
-												<td width="30%">供应商名称</td>
-												<td width="15%">类别</td>
-												<td width="15%">销量</td>
+												<td width="30%">用户名</td>
+												<td width="15%">取现总额</td>
+												<td width="15%">取现次数</td>
 												<td width="20%">销售额</td>
 												<td>操作</td>
 											</tr>
-											<?php foreach($lishi as $row) : ?>
+											<?php $i=1; foreach($customer_list3 as $row) : ?>
 											<tr>
-												<td><span class="txt-red">Top1</span></td>
+												<td><span class="txt-red">Top<?php echo $i++ ?></span></td>
 												<td><a href="#"><?php echo $row['id'] ?></a></td>
-												<td><?php echo $row['id'] ?></td>
-												<td><?php echo $row['id'] ?></td>
-												<td><?php echo $row['id'] ?></td>
+												<td><?php echo $row['cash_flow'] ?></td>
+												<td>暂无</td>
+												<td>暂无</td>
 												<td><a href="#">查看详情</a></td>
 											</tr>
 											<?php endforeach; ?>
@@ -241,17 +239,17 @@
 										<table class="table table-bordered table-striped">
 											<tr>
 												<td width="10%">排名</td>
-												<td width="50%">业务员名称</td>
-												<td width="30%">销售额</td>
+												<td width="50%">用户名</td>
+												<td width="30%">分享总额</td>
+												<td width="30%">分享次数</td>
 												<td>操作</td>
 											</tr>
-											<?php foreach($lishi as $row) : ?>
+											<?php $i=1; foreach($customer_list4 as $row) : ?>
 											<tr>
-												<td><span class="txt-red">Top1</span></td>
-												<td><a href="#"><?php echo $row['id'] ?></a></td>
-												<td><?php echo $row['id'] ?></td>
-												<td><?php echo $row['id'] ?></td>
-												<td><?php echo $row['id'] ?></td>
+												<td><span class="txt-red">Top<?php echo $i++ ?></span></td>
+												<td><a href="#"><?php echo $row['customer_id'] ?></a></td>
+												<td><?php echo $row['flow'] ?></td>
+												<td>暂无</td>
 												<td><a href="#">查看详情</a></td>
 											</tr>
 											<?php endforeach; ?>
@@ -273,27 +271,27 @@
 								<li class="bg-green">
 									<a href="#">
 										<p class="report-txt1">今日</p>
-										<p class="report-txt2"><span class="fz22">游戏次数</span> <br><?php echo $idsum ?>次</p>
-										<p class="report-txt2"><span class="fz22">流量产生（M）</span> <br><?php echo $idsum ?>M</p>
-										<p class="report-txt2"><span class="fz22">取现笔数</span> <br><?php echo $idsum ?>笔</p>
+										<p class="report-txt2"><span class="fz22">游戏次数</span> <br><?php echo $idsumday ?>次</p>
+										<p class="report-txt2"><span class="fz22">流量产生（M）</span> <br><?php echo $idsumday1 ?>M</p>
+										<p class="report-txt2"><span class="fz22">取现笔数</span> <br><?php echo $idsummonth2 ?>笔</p>
 										<p class="report-txt3"id="nowTime2">2015-9-02</p>
 									</a>
 								</li>
 								<li class="bg-red">
 									<a href="#">
 										<p class="report-txt1">本月</p>
-										<p class="report-txt2"><span class="fz22">游戏次数</span> <br><?php echo $idsum ?>次</p>
-										<p class="report-txt2"><span class="fz22">流量产生（M）</span> <br><?php echo $idsum ?>M</p>
-										<p class="report-txt2"><span class="fz22">取现笔数</span> <br><?php echo $idsum ?>笔</p>
+										<p class="report-txt2"><span class="fz22">游戏次数</span> <br><?php echo $idsummonth ?>次</p>
+										<p class="report-txt2"><span class="fz22">流量产生（M）</span> <br><?php echo $idsummonth1 ?>M</p>
+										<p class="report-txt2"><span class="fz22">取现笔数</span> <br><?php echo $idsummonth2 ?>笔</p>
 										<p class="report-txt3"id="nowTime3">2015-9-02</p>
 									</a>
 								</li>
 								<li class="bg-blue">
 									<a href="#">
 										<p class="report-txt1">今年</p>
-										<p class="report-txt2"><span class="fz22">游戏次数</span> <br><?php echo $idsum ?>次</p>
-										<p class="report-txt2"><span class="fz22">流量产生（M）</span> <br><?php echo $idsum ?>M</p>
-										<p class="report-txt2"><span class="fz22">取现笔数</span> <br><?php echo $idsum ?>笔</p>
+										<p class="report-txt2"><span class="fz22">游戏次数</span> <br><?php echo $idsumyear ?>次</p>
+										<p class="report-txt2"><span class="fz22">流量产生（M）</span> <br><?php echo $idsumyear1 ?>M</p>
+										<p class="report-txt2"><span class="fz22">取现笔数</span> <br><?php echo $idsummonth2 ?>笔</p>
 										<p class="report-txt3"id="nowTime4">2015-9-02</p>
 									</a>
 								</li>

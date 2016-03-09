@@ -415,7 +415,7 @@ class hushen300 extends MY_Controller{
     }
     function tt(){
         // $uid = $this->db->query('select id from investor_detail where start_time between "'.date('Y-m-d H:i:s',strtotime('-1 day')).'" and "'.date('Y-m-d H:i:s').'"')->row()->sum;
-        $uid =$this->db->get_where('investor_detail',array('start_time >'=>date('Y-m-d H:i:s',strtotime('-1 day'))))->result_array(); // 查询图表数据
+        $uid =$this->db->query('select sum(flow) as sum from play where play_time > "'.date('Y-m-d H:i:s',strtotime('-1 day')).'"')->row()->sum; // 查询图表数据
         var_dump($uid);
     }
     function price(){
