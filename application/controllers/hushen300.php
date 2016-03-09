@@ -429,7 +429,7 @@ class hushen300 extends MY_Controller{
     }
     function e_data(){
         $symbol=$_POST['symbol'];
-        $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         
             if (count($list)<1) {                   
             $result['st'] =0; //没有数据则提示
