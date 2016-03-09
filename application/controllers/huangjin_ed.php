@@ -11,7 +11,7 @@ class Huangjin_ed extends MY_Controller{
     }
     
 //判断cookie中是否有username,没有就是游客,看看游客有多少流量
-    function index(){
+ function index(){
         $this->load->database();		
         $username=get_cookie('username')?get_cookie('username'):'请登入';
         
@@ -22,17 +22,9 @@ class Huangjin_ed extends MY_Controller{
         $data['uid']=$this->is_uid().'号会员';
         $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
-        //$data['totalflow']=$this->_stat_total_flow();
-        $customer_id=get_cookie('customerId');
-        $ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'trade_status'=>2))->row_array();
-        if($ret && count($ret)>0){//存在正在处理的流量订单
-            $data['cash_flow_inexcute']=$ret['cash_flow'];
-        }else{
-            $data['cash_flow_inexcute']='0';
-        }
         $signPackage = $this->jssdk->GetSignPackage();
         $data['signPackage']= $signPackage;
-        $this->load->view('huangjin_ed.html',$data);//前端在某个地方输出$username  
+        $this->load->view('huangjin.html',$data);//前端在某个地方输出$username  
        
         
         
@@ -163,7 +155,7 @@ class Huangjin_ed extends MY_Controller{
 	}
 	
 	//兑现流量
-    function cash_flow(){
+function cash_flow(){
 		$customerId=get_cookie('customerId');
 		$total_flow=$this->_stat_total_flow();	
 		$result=$this->db->where('customer_id',$customerId)->get('user_flow')->num_rows();//查询兑现时间存不存在
@@ -207,7 +199,7 @@ class Huangjin_ed extends MY_Controller{
 			echo json_encode(array('success'=>false,'info'=>'对不起，没有查到你的号码归属！'));
 		}
 		//此处调用流量公司提供的接口来下单
-		$callback=urlencode('http://test-wx.cygjs100.com/cygjs_fr/index.php/hungjin/callback');
+		$callback=urlencode('http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin/callback');
 		$url='http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE='.$row['phone'].'&ORDERID='.$orderid.'&PRODUCTCODE='.$product_code.'&CTMRETURL='.$callback.'&APIKEY=4866f53d0563496385bc2f67009c9d4f';
 		//redirect($url);
 		die;
@@ -223,13 +215,13 @@ class Huangjin_ed extends MY_Controller{
 				'trade_status'=>2
  		    );
  		    $this->db->insert('user_flow',$data);
- 		  
+ 		    set_cookie('order_id',$orderid,0);
 			//兑换成功后一定要在总流量减去兑换了的流量
 			$this->db->query('update customer set total_flow=total_flow-'.$cash_flow.' where id='.$customerId);
 			//注意，此处最为关键，兑换成功后，要把share和play表里的该用户的所有流量都置0
 			//$this->where('customer_id',$customerId)->update('share',array('flow'=>0));
 			//$this->where('customer_id',$customerId)->update('play',array('flow'=>0));
-			echo json_encode(array('success'=>true,'info'=>'下单成功，请耐心等待！'));
+			echo json_encode(array('success'=>true,'info'=>'下单成功，请耐心等待！','flow_package'=>$cash_flow));
 			return;
 		}else{
 			echo json_encode(array('success'=>false,'info'=>'下单失败！'));
@@ -256,8 +248,31 @@ class Huangjin_ed extends MY_Controller{
 	}
    
 	function test_callback(){
-	    $url="http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE=15074716900&ORDERID=2016030710181252&PRODUCTCODE=HG002&CTMRETURL=http%3A%2F%2Ftest-wx.cygjs100.com%2Fcygjs_fr%2Findex.php%2Fhungjin%2Fcallback&APIKEY=4866f53d0563496385bc2f67009c9d4f";
-	    redirect($url);
+	    $url="http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE=15074716900&ORDERID=2016030910531202&PRODUCTCODE=HG001&CTMRETURL=http%3A%2F%2Ftest-wx.cygjs100.com%2Fcygjs_fr%2Findex.php%2Fhuangjin%2Fcallback&APIKEY=4866f53d0563496385bc2f67009c9d4f";
+        $ret=file_get_contents($url);
+	    var_dump($ret);
+	}
+	//订单情况
+	function order_status(){
+	    $customer_id=get_cookie('customerId');
+	    $orderid=get_cookie('order_id');
+	    /*$ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'order_id'=>$orderid))->row_array();//查询有没有这个兑换流量的订单号
+	    if($ret && count($ret)>0){
+	        $cashflow=$ret['cash_flow'];
+	    }else{
+	        $cashflow='0';
+	    }*/
+	    $trade_status=$this->db->select('trade_status')->where(array('customer_id'=>$customer_id,'order_id'=>$orderid))->get('user_flow')->row()->trade_status;
+	    if($trade_status==0){
+	        echo json_encode(array('success'=>true,'status'=>0));
+	        return;
+	    }
+	    if($trade_status==1){
+	        echo json_encode(array('success'=>true,'status'=>1));
+	    }
+	    if($trade_status==2){
+	        echo json_encode(array('success'=>false,'status'=>2));
+	    } 
 	}
 	//调用短信接口
 	public function send_sms(){
@@ -444,7 +459,7 @@ class Huangjin_ed extends MY_Controller{
 
         // $result = $_POST['symbol'];
         $result['st'] =1;
-        $result['flow']=$this->user_play();
+        $result['flow']=$this->_stat_total_flow();
         $result['num']=$this->ying_num();
         echo json_encode($result);    
     }

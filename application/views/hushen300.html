@@ -207,11 +207,9 @@ if (option && typeof option === "object") {
 </div>
 
 <div class="user_info">
-	<dl><dt><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?></dd></dl>
-	<ul><li><span>可用流量</span><span><em id="total_flow"></em>M</span></li>
-		<?php if(isset($cash_flow_inexcute)):?>
-	    <li><span><em id="cash_flow"><?php echo $cash_flow_inexcute;?></em>M</span><span>流量正在处理中</span></li>
-		<?php endif?>
+	<dl><dt id="oy"><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?></dd></dl>
+	<ul><li><span>可用流量</span><span><em id="total"></em>M</span></li>
+	    <li><span><em id="cash_flow"></span></li>	
 	</ul>
 	<span class="tx"><a href="javascript:void(0);" id="qx">领取流量</a></span>
 </div>
@@ -277,9 +275,28 @@ $('#qx').click(function(){
 	if(username!='请登入')   //取现判断有没有用户登录
 		{
 			
-			$.get('<?php echo site_url('hushen300/cash_flow')?>',function(data){
+			$.get('<?php echo site_url('huangjin/cash_flow')?>',function(data){
 				alert(data.info);
-				location.href="<?php echo site_url('hushen300/index')?>";
+				//location.href="<?php echo site_url('huangjin/index')?>";
+				if(data.success){//如果下单成功，启动计时器
+					get_current_flow();//静态更新总流量
+					$('#cash_flow').html(data.flow_package+'M正在兑换，请耐心等候');//静态更新兑换流量
+					var stat_timer=setInterval(function(){
+							$.get('<?php echo site_url('huangjin/order_status')?>',function(data1){
+								if(data1.success){//反馈后无论失败还是成功，都要终止计时器;否则就一直执行
+									clearInterval(stat_timer);
+									get_current_flow();
+									$('#cash_flow').html('');
+									if(data1.status==1){//兑换成功
+										alert('兑换成功，可能没有短信提醒，请自查流量！');
+									}else{//兑换失败
+										alert('兑换失败，请联系我们！');
+									}
+								}
+						    },'json');
+					},3000);	
+				}
+								
 			},'json');
 			
 					

@@ -23,14 +23,6 @@ class Huangjin extends MY_Controller{
         $data['uid']=$this->is_uid().'号会员';
         $userplay=$this->db->get_where('play',array('customer_id'=>$data['uid']))->result_array();
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
-       // $data['totalflow']=$this->_stat_total_flow();
-//         $customer_id=get_cookie('customerId');
-//         $ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'trade_status'=>2))->row_array();
-//         if($ret && count($ret)>0){//存在正在处理的流量订单
-//             $data['cash_flow_inexcute']=$ret['cash_flow'];
-//         }else{
-//             $data['cash_flow_inexcute']='0';
-//         }
         $signPackage = $this->jssdk->GetSignPackage();
         $data['signPackage']= $signPackage;
         $this->load->view('huangjin.html',$data);//前端在某个地方输出$username  
