@@ -446,7 +446,7 @@ class hushen300 extends MY_Controller{
             $result['price'] = $v['price'];                                                              // 拼接时间数据格式
             }
             $result['st'] =1;
-            $result['flow']=$this->user_play();
+            $result['flow']=$this->_stat_total_flow();
             // $result['num']=$this->ying_num();
             // $result['opentime']=$this->is_opentime();
             // $result = $_POST['symbol'];
