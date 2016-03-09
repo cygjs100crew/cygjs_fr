@@ -208,7 +208,7 @@ class Huangjin extends MY_Controller{
 			echo json_encode(array('success'=>false,'info'=>'对不起，没有查到你的号码归属！'));
 		}
 		//此处调用流量公司提供的接口来下单
-		$callback=urlencode('http://test-wx.cygjs100.com/cygjs_fr/index.php/hungjin/callback');
+		$callback=urlencode('http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin/callback');
 		$url='http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE='.$row['phone'].'&ORDERID='.$orderid.'&PRODUCTCODE='.$product_code.'&CTMRETURL='.$callback.'&APIKEY=4866f53d0563496385bc2f67009c9d4f';
 		//redirect($url);
 		die;
@@ -257,7 +257,7 @@ class Huangjin extends MY_Controller{
 	}
    
 	function test_callback(){
-	    $url="http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE=15074716900&ORDERID=2016030810181252&PRODUCTCODE=HG002&CTMRETURL=http%3A%2F%2Ftest-wx.cygjs100.com%2Fcygjs_fr%2Findex.php%2Fhungjin%2Fcallback&APIKEY=4866f53d0563496385bc2f67009c9d4f";
+	    $url="http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE=15074716900&ORDERID=2016030910531202&PRODUCTCODE=HG001&CTMRETURL=http%3A%2F%2Ftest-wx.cygjs100.com%2Fcygjs_fr%2Findex.php%2Fhungjin%2Fcallback&APIKEY=4866f53d0563496385bc2f67009c9d4f";
         $ret=file_get_contents($url);
 	    var_dump($ret);
 	}
