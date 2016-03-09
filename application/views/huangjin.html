@@ -195,14 +195,8 @@ $.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'XAU'},function(data){
     	$('#sh').html('沪深300(开市中)');
     }
     if (Number(json.st)<1) {
-    	$('#hj').html('黄金');
-    }else{
     	$('#hj').html('黄金(某天数据)');
     }
-    
-
-	    
-
         addData(true);
         myChart.setOption({
             xAxis: {
