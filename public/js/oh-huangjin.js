@@ -110,6 +110,9 @@ $('#zhang').on('click', function(){
 						    });
                         $('#chatAudio')[0].play(); //播放声音 
 				    }
+				    if (second < 10 && second >0) {
+                        $('#chatAudio')[0].play(); //播放声音 
+				    }
 					if (second == '00') {
 						layer.closeAll('page');
 						var index = layer.load();
@@ -326,6 +329,8 @@ $('#die').on('click', function(){
 						    // shadeClose: true,
 						    content:'<div class="countdown"><span>'+second+'</span></div>'
 						    });
+				    }
+				    if (second < 10 && second >0) {
                         $('#chatAudio')[0].play(); //播放声音 
 				    }
 					if (second == '00') {

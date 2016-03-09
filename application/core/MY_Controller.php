@@ -149,7 +149,7 @@ class MY_Controller extends CI_Controller {
         	if ($shuying_result=='赢') {
         		$num=1;
         	}
-        	elseif ($shuying_result=='输'){
+        	else{
         		$num=0;
  		    }
         	$data = array(
