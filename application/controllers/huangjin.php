@@ -406,8 +406,13 @@ class Huangjin extends MY_Controller{
         $this->load->view('huangjin_html_list.html',$data);                                                                                // 加载模板
     }
     function huangjin_js_list(){
-        // $result=$this->shuying_ed(); 
-        $result=$this->shuying(); 
+    	$st =$this->input->post('st');
+    	if ($st==0) {
+    		$result=$this->shuying_ed(); 
+    	}else{
+    		$result=$this->shuying(); 
+    	}
+
         $id=$this->is_uid();
         $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$id))->result_array(); // 查询历史交易
 
@@ -441,10 +446,12 @@ class Huangjin extends MY_Controller{
         // $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         $opentime=$this->is_opentime();//开市时间
 		$result['hs'] =$opentime;
+		$result['st'] =1;
         if (count($list)<1) {                   
             $result['st'] =0; //没有数据则提示
-            echo json_encode($result);
-            exit();
+            // echo json_encode($result);
+            // exit();
+            $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =round($v['price'],2);
@@ -457,7 +464,7 @@ class Huangjin extends MY_Controller{
         }
         
         // $result = $_POST['symbol'];
-        $result['st'] =1;
+        
         $result['flow']=$this->_stat_total_flow();
         $result['num']=$this->ying_num();
         echo json_encode($result);    

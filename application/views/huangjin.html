@@ -70,7 +70,7 @@
 <body>
 <div class="tab_nav">
 	<ul>
-	<li class="on"><a href="<?php echo site_url('huangjin/index')?>">黄金</a><!-- <a href="javascript:void(0);" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a> --></li>
+	<li class="on"><a id="hj" href="<?php echo site_url('huangjin/index')?>">黄金</a><!-- <a href="javascript:void(0);" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a> --></li>
 	<li><a id="sh" href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
 </ul></div>
 
@@ -188,16 +188,21 @@ $.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'XAU'},function(data){
     $('#capital').html(json.price);
     $('#lianying').html(json.num);
     $('#total_flow').html(json.flow);
+    $('#st').val(json.st);
     if (Number(json.hs)<1) {
     	$('#sh').html('沪深300(已收市)');
     }else{
     	$('#sh').html('沪深300(开市中)');
     }
+    if (Number(json.st)<1) {
+    	$('#hj').html('黄金');
+    }else{
+    	$('#hj').html('黄金(某天数据)');
+    }
     
-    	if (json.st==0) {
-	    	$('#tip').html('服务器维护,停止交易！<a href="http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin_ed/index">历史数据接着玩</a>');
-	    };
-    $('#timeed').val(json.time);
+
+	    
+
         addData(true);
         myChart.setOption({
             xAxis: {
@@ -230,7 +235,7 @@ if (option && typeof option === "object") {
 	<dt class="pk">PK</dt>
 	<span id="capital1"></span>
 	<input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/>
-	<input type="button" name="timeed" id="timeed" value="" style="display:none;"/></dd></dl>
+	<input type="button" name="st" id="st" value="" style="display:none;"/></dd></dl>
 	
 </div>
 

@@ -116,7 +116,7 @@ $('#zhang').on('click', function(){
 					if (second == '00') {
 						layer.closeAll('page');
 						var index = layer.load();
-						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',function(data){
+						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',{st:$('#st').val()},function(data){
 							layer.close(index); 
 							var json=JSON.parse(data);
 							$('#chatAudio1')[0].play(); //播放声音 
@@ -336,7 +336,7 @@ $('#die').on('click', function(){
 					if (second == '00') {
 						layer.closeAll('page');
 						var index = layer.load();
-						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',function(data){
+						$.post('/cygjs_fr/index.php/huangjin/huangjin_js_list',{st:$('#st').val()},function(data){
 							layer.close(index); 
 							var json=JSON.parse(data);
 							$('#chatAudio1')[0].play(); //播放声音 
