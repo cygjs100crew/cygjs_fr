@@ -98,14 +98,15 @@ class hushen300 extends MY_Controller{
 		}
 	}
     // 登入
-   public  function login_name(){
+public  function login_name(){
 	   if(get_cookie('username')){//如果登陆了，就不用再登陆了
 		   die('你已经登陆！');
 	   }
        $data=$this->input->post();
        $ret=$this->db->get_where('customer',array('name'=>$data['username'],'passwd'=>md5($data['password'])))->result_array();
       // var_dump($ret);
-	   if(count($ret)>0){
+           
+        if(count($ret)>0){
 		   $customerId=$ret[0]['id'];//登陆后从数据库里获取的id
 		  // var_dump($customerId);//3
 		    
@@ -120,43 +121,50 @@ class hushen300 extends MY_Controller{
 			   $total_flow=$this->db->select('total_flow')->where('id',$new_customerId)->get('customer')->row()->total_flow;
 			   $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
 			   $this->db->where('id',$new_customerId)->delete('customer');
-		   }  
-		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
-	   }else{
-		   echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
-	   }      
+		   }
+		   if(count($ret)>0 && $data['username']!=''){
+		       echo json_encode(array('success'=>true,'info'=>'登陆成功'));
+		   }else{
+		       echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
+		        } 
+        }else{
+            echo json_encode(array('success'=>false,'info'=>'这个用户没有注册'));
+        }     
 	}
 	
 	public  function login_phone(){
        $data=$this->input->post();
        $sms_code=$this->session->userdata('sms_code');
-       $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array(); 
-       $username=$ret[0]['name'];
-       $customerId=$ret[0]['id'];
-       $new_customerId=get_cookie('customerId');
-       if($customerId!=$new_customerId){
-           set_cookie('customerId',$customerId,0);
-           $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
-           $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
-		   //原来游客id名下的flow要转移过来
-		   $total_flow=$this->db->select('total_flow')->where('id',$new_customerId)->get('customer')->row()->total_flow;
-		   $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
-           $this->db->where('id',$new_customerId)->delete('customer');
-       }
-       if($sms_code !=$data['checkCode']){
-           echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
-           return;
-       }
-	   if(count($ret)>0 && $data['checkCode']!=''){
-		   set_cookie('username',$username,0);//存入cookie
-		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
-	   }else{
-		   echo json_encode(array('success'=>false,'info'=>'手机号或者验证码不对'));
-	   }   
+       $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
+       if(count($ret)>0){ 
+           $username=$ret[0]['name'];
+           $customerId=$ret[0]['id'];
+           $new_customerId=get_cookie('customerId');
+           if($customerId!=$new_customerId){
+               set_cookie('customerId',$customerId,0);
+               $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
+               $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
+    		   //原来游客id名下的flow要转移过来
+    		   $total_flow=$this->db->select('total_flow')->where('id',$new_customerId)->get('customer')->row()->total_flow;
+    		   $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
+               $this->db->where('id',$new_customerId)->delete('customer');
+           }
+           if($sms_code !=$data['checkCode']){
+               echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
+               return;
+           }
+    	   if(count($ret)>0 && $data['checkCode']!=''){
+    		   set_cookie('username',$username,0);//存入cookie
+    		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
+    	   }else{
+    		   echo json_encode(array('success'=>false,'info'=>'手机号或者验证码不对'));
+    	   } 
+      }else{
+          echo json_encode(array('success'=>false,'info'=>'这个手机号没有注册'));
+       }  
 	}
-	
 	//兑现流量
-function cash_flow(){
+ function cash_flow(){
 		$customerId=get_cookie('customerId');
 		$total_flow=$this->_stat_total_flow();	
 		$result=$this->db->where('customer_id',$customerId)->get('user_flow')->num_rows();//查询兑现时间存不存在
