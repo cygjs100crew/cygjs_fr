@@ -407,6 +407,7 @@ class Huangjin extends MY_Controller{
     }
     function huangjin_js_list(){
     	$st =$this->input->post('st');
+    	$symbol =$this->input->post('symbol');
     	if ($st==0) {
     		$result=$this->shuying_ed(); 
     	}else{
@@ -414,7 +415,7 @@ class Huangjin extends MY_Controller{
     	}
 
         $id=$this->is_uid();
-        $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$id))->result_array(); // 查询历史交易
+        $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>$symbol,'investor_uid'=>$id))->result_array(); // 查询历史交易
 
         
         $result['flow']=$this->_stat_total_flow();
