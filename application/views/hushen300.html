@@ -5,40 +5,60 @@
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>手机流量大放送，免费直领30M</title>
+<meta name="description" content='玩游戏赚流量，猜涨猜跌就这么简单!我已经赚了200M流量'>
  <base href="<?php echo base_url()?>">
-<link rel="stylesheet" type="text/css" href="public/oh_static/css/bootstrap-combined.min.css"><!-- Bootstra框架Combined引入 -->
 <link rel="stylesheet" type="text/css" href="public/css/common.css" />
 <link rel="stylesheet" type="text/css" href="public/oh_static/css/oh-common.css"><!-- @author ohyeah -->
- <script src="<?php echo base_url()?>public/js/jquery.js"></script><!-- JQ由Baidu加速DNS提供 -->
+ <script src="<?php echo base_url()?>public/js/jquery.js"></script></script><!-- JQ由Baidu加速DNS提供 -->
  <script type="text/javascript" src="public/js/code.js"></script>
  <script type="text/javascript" src="public/js/register.js"></script>
+ <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
  <script type="text/javascript" src="public/layer/layer.js"></script><!-- Layer弹窗组件引入 -->
  <script type="text/javascript" src="public/layer/extend/layer.ext.js"></script><!-- Layer弹窗组件引入 -->
  <div id='wx_pic' style="display:none"><img src='public/img/pic300.jpg' /></div>
 <style>
 #mask{
+
             margin: 0 auto;
+
             width: 100%;
+
             height: 100%;
+
             z-index: 200;
+
             background-color: grey;
+
             position: fixed;
+
             left: 0;
+
             top: 0;
+
             opacity: 100;
+
             moz-opacity:100;
+
             filter:alpha(opacity=100);
 			
 			display:none;
 			z-index:0;
 }
+
 #register{
+
             position:absolute;
+
             top:50%;
+
             left:50%;
+
             width:300px;
+
             height:300px;
+
             margin: -150px 0 0 -150px;
+
             vertical-align: middle;
 			
 			display:none;
@@ -49,10 +69,9 @@
 </head>
 <body>
 <div class="tab_nav">
-	<span class="line"></span>
 	<ul>
-	<li ><a href="<?php echo site_url('huangjin/index')?>">黄金</a></li>
-	<li class="on"><a href="<?php echo site_url('hushen300/index')?>">沪深300</a><!-- <a href="javascript:void(0);" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a> --></li>
+	<li ><a id="hj" href="<?php echo site_url('huangjin/index')?>">黄金</a><!-- <a href="javascript:void(0);" id="jinyulink">[金裕]</a><a href="javascript:void(0);" id="sinalink">[新浪]</a> --></li>
+	<li class="on"><a id="sh" href="<?php echo site_url('hushen300/index')?>">沪深300</a></li>
 </ul></div>
 
 <div class="focus_data">
@@ -71,6 +90,8 @@ var date = [];
 
 var data = [Math.random() * 150];
 var now = new Date(base);
+
+
 
 function addData(shift) {
     now = [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-');
@@ -151,12 +172,13 @@ option = {
 };
 myChart.showLoading();
 app.timeTicket = setInterval(function () {
-$.post('/cygjs_fr/index.php/hushen300/e_data',{symbol:'CFIFZ5'},function(data){
+$.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'CFIFZ5'},function(data){
     myChart.hideLoading();
     var json=JSON.parse(data);
     var date = json.data_date;
     var data = json.ipdata;
-    if (Number($('#capital').html())<Number(json.price)) {
+
+     if (Number($('#capital').html())<Number(json.price)) {
 	    	$(".button_ab dl").addClass('z').removeClass('d').removeClass('n');
 	    }
 	    if (Number($('#capital').html())>Number(json.price)) {
@@ -168,10 +190,16 @@ $.post('/cygjs_fr/index.php/hushen300/e_data',{symbol:'CFIFZ5'},function(data){
     $('#capital').html(json.price);
     $('#lianying').html(json.num);
     $('#total_flow').html(json.flow);
-    	if (json.st==0) {
-	    	$('#tip').html('股市开市再来吧！</br>');
-	    };
-    $('#timeed').val(json.time);
+    $('#st').val(json.st);
+    if (Number(json.hs)<1) {
+    	$('#sh').html('沪深300(已收市)');
+    	$('#tip').html('股市开市再来吧！</br>');
+    }else{
+    	$('#sh').html('沪深300(开市中)');
+    }
+    if (Number(json.st)<1) {
+    	$('#hj').html('黄金(某天数据)');
+    }
         addData(true);
         myChart.setOption({
             xAxis: {
@@ -193,16 +221,18 @@ if (option && typeof option === "object") {
     }
         
     </script>
+
 </div>
 <div class="button_ab">
 	<div class="tipsbtn"><a id="tips" href="javascript:void(0);">新手指引</a></div>
     <span class="d"><a href="javascript:void(0);" id="die" class="die">猜跌</a></span>
+
 	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">猜涨</a></span>
 	<dl><dt id='tip'>最新报价</dt><dd><i></i><span id="capital"></span>
 	<dt class="pk">PK</dt>
 	<span id="capital1"></span>
-	<input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/>
-	<input type="button" name="timeed" id="timeed" value="" style="display:none;"/></dd></dl>
+	<input type="button" name="symbol" id="symbol" value="CFIFZ5" style="display:none;"/>
+	<input type="button" name="st" id="st" value="" style="display:none;"/></dd></dl>
 	
 </div>
 
@@ -263,12 +293,21 @@ if (option && typeof option === "object") {
 		</div>
     </div>
 </div>
+
 </body>
-<script type="text/javascript" src="public/js/oh-hushen300.js"></script><!-- @author ohyeah -->
+<script type="text/javascript" src="public/js/oh-huangjin.js"></script><!-- @author ohyeah -->
 </html>
 <script>
+
+function get_current_flow(){
+	$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
+		$('#total').html(data);
+	})
+}
+get_current_flow();
+
 //弹出窗口
-var username='<?php echo $username?>';
+var username='<?php echo $username;?>';
 $('#qx').click(function(){
 	//$('#loginmodal').attr('style','display:block');
 
@@ -349,7 +388,7 @@ $(function(){
 		var phone=$('#phone1').val();
 		
 		$.ajax({
-			url:'<?php echo site_url("hushen300/send_sms")?>',
+			url:'<?php echo site_url("huangjin/send_sms")?>',
 			data:{phone:phone},
 			type:'post',
 			success:function(data){
@@ -362,7 +401,7 @@ $(function(){
 		var phone=$('#phone2').val();
 		
 		$.ajax({
-			url:'<?php echo site_url("hushen300/send_sms")?>',
+			url:'<?php echo site_url("huangjin/send_sms")?>',
 			data:{phone:phone},
 			type:'post',
 			success:function(data){
@@ -382,7 +421,7 @@ $(function(){
 		var post_data={};
 		post_data[field]=value;
 		$.ajax({
-			url:'<?php echo site_url("hushen300/check")?>',
+			url:'<?php echo site_url("huangjin/check")?>',
 		    dataType:"json",
 			type:'post',
 			data:post_data,
@@ -410,14 +449,14 @@ $(function(){
 			post_obj[item]=$('#regmodal').find('[name="'+item+'"]').val();
 		});
 		$.ajax({
-			url:"<?php echo site_url('hushen300/register')?>",
+			url:"<?php echo site_url('huangjin/register')?>",
 			dataType:"json",
 			type:"post",
 			data:post_obj,
 			success:function(data){
 				if(data && data.success){
 					alert(data.info);
-				  location.href="<?php echo site_url('hushen300/index')?>";
+				  location.href="<?php echo site_url('huangjin/index')?>";
 				}else{ 
 					alert(data.info);
 				 window.history.back();
@@ -435,11 +474,11 @@ $(function(){
 		var post_arr,post_url,$ele;
 		if($('#yh').hasClass('on')){//用户名登陆
 			post_arr=['username','password'];
-			post_url="<?php echo site_url('hushen300/login_name')?>";
+			post_url="<?php echo site_url('huangjin/login_name')?>";
 			$ele=$('#userlogin');
 		}else{//手机登陆
 			post_arr=['phone','checkCode'];
-			post_url="<?php echo site_url('hushen300/login_phone')?>";
+			post_url="<?php echo site_url('huangjin/login_phone')?>";
 			$ele=$('#phonelogin');
 		}
 		
@@ -457,7 +496,7 @@ $(function(){
 	    	// alert(data.info);
 	    	if(data && data.success){
 	    		alert(data.info);
-	    		location.href="<?php echo site_url('hushen300/index')?>";
+	    		location.href="<?php echo site_url('huangjin/index')?>";
 	    	}else{
 	    		alert(data.info);
 	    		//window.history.back();	
@@ -466,19 +505,8 @@ $(function(){
 	       }
 	   })	
 	});
-	
-
-	
-	
-	
-	
 })
-function get_current_flow(){
-	$.get('<?php echo site_url('hushen300/stat_total_flow')?>',function(data){
-		$('#total_flow').html(data);
-	})
-}
-get_current_flow();
+
 
 
 
@@ -498,12 +526,12 @@ wx.config({
     ]
 });
 wx.error(function(res){
-	//alert('尊敬的用户，您还没关注我们的微信公众号，关注后每天有五次分享获取流量的机会哟！');
+	//alert('尊敬的用户，您还没关注我们的微信公众号，关注后每天有五次分享获取流量的机会哟！');	
 })
 wx.ready(function () {
 	var config_obj={
-		title: '玩游戏赚流量，猜涨猜跌就这么简单', // 分享标题
-		desc: '玩游戏赚流量，猜涨猜跌就这么简单', // 分享描述
+		title: '手机流量大放送，免费直领30M', // 分享标题
+		desc: '手机流量大放送，免费直领30M', // 分享描述
 		link: 'http://test-wx.cygjs100.com/cygjs_fr/index.php/index/index', // 分享链接
 		imgUrl: 'public/img/banner.jpg', // 分享图标
 		type: '', // 分享类型,music、video或link，不填默认为link
@@ -535,5 +563,4 @@ wx.ready(function () {
 	wx.onMenuShareWeibo(config_obj);
 	wx.onMenuShareQZone(config_obj);
 });
-
 </script>

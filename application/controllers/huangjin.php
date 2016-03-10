@@ -451,7 +451,7 @@ class Huangjin extends MY_Controller{
             $result['st'] =0; //没有数据则提示
             // echo json_encode($result);
             // exit();
-            $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+            $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =round($v['price'],2);

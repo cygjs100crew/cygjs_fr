@@ -26,7 +26,7 @@ class hushen300 extends MY_Controller{
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
         $signPackage = $this->jssdk->GetSignPackage();
         $data['signPackage']= $signPackage;
-        $this->load->view('huangjin.html',$data);//前端在某个地方输出$username  
+        $this->load->view('hushen300.html',$data);//前端在某个地方输出$username  
        
         
         
@@ -411,7 +411,13 @@ function cash_flow(){
         $this->load->view('lishi_html_list.html',$data);                                                                                      // 加载模板
     }
     function huangjin_js_list(){
-        $result=$this->shuying(); 
+    	$st =$this->input->post('st');
+    	if ($st==0) {
+    		$result=$this->shuying_ed(); 
+    	}else{
+    		$result=$this->shuying(); 
+    	}
+
         $id=$this->is_uid();
         $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5",'investor_uid'=>$id))->result_array(); // 查询历史交易
 
@@ -445,11 +451,10 @@ function cash_flow(){
     function e_data(){
         $symbol=$_POST['symbol'];
         $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
-        
+            $result['st'] =1;
             if (count($list)<1) {                   
-            $result['st'] =0; //没有数据则提示
-            echo json_encode($result);
-            exit();
+	            $result['st'] =0; //没有数据则提示
+	            $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
             }
             foreach($list as $k=>$v){
                 $Kdata[$k] =round($v['price'],2);
@@ -460,7 +465,7 @@ function cash_flow(){
             $result['ipdata'] = $Kdata;
             $result['price'] = $v['price'];                                                              // 拼接时间数据格式
             }
-            $result['st'] =1;
+            
             $result['flow']=$this->_stat_total_flow();
             // $result['num']=$this->ying_num();
             // $result['opentime']=$this->is_opentime();

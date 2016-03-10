@@ -109,12 +109,16 @@ $('#zhang').on('click', function(){
 						    content:'<div class="countdown"><span>'+second+'</span></div>'
 						    });
 				    }
+				    if (second < 10 && second >0) {
+                        $('#chatAudio')[0].play(); //播放声音 
+				    }
 					if (second == '00') {
 						layer.closeAll('page');
 						var index = layer.load();
-						$.post('/cygjs_fr/index.php/hushen300/huangjin_js_list',function(data){
+						$.post('/cygjs_fr/index.php/hushen300/huangjin_js_list',{st:$('#st').val()},function(data){
 							layer.close(index); 
 							var json=JSON.parse(data);
+							$('#chatAudio1')[0].play(); //播放声音 
 							if (json.info=='赢') {
 								if (json.num==1) {
 									layer.open({
@@ -325,12 +329,16 @@ $('#die').on('click', function(){
 						    content:'<div class="countdown"><span>'+second+'</span></div>'
 						    });
 				    }
+				    if (second < 10 && second >0) {
+                        $('#chatAudio')[0].play(); //播放声音 
+				    }
 					if (second == '00') {
 						layer.closeAll('page');
 						var index = layer.load();
-						$.post('/cygjs_fr/index.php/hushen300/huangjin_js_list',function(data){
+						$.post('/cygjs_fr/index.php/hushen300/huangjin_js_list',{st:$('#st').val()},function(data){
 							layer.close(index); 
 							var json=JSON.parse(data);
+							$('#chatAudio1')[0].play(); //播放声音 
 							if (json.info=='赢') {
 								if (json.num==1) {
 									layer.open({
@@ -502,6 +510,66 @@ $(function(){
 	});
 });
 
+$(function(){  
+	$('<audio id="chatAudio"><source src="public/audio/pi.mp3" type="audio/ogg"> <source src="public/audio/pi.mp3" type="audio/mpeg"><source src="notify.wav" type="audio/wav"> </audio>').appendTo('body');//载入声音文件
+	$('<audio id="chatAudio1"><source src="public/audio/chime.mp3" type="audio/ogg"> <source src="public/audio/chime.mp3" type="audio/mpeg"><source src="notify.wav" type="audio/wav"> </audio>').appendTo('body');//载入声音文件
+}); 
+    // $("#oy").click(function(){ 
+    	
+    //         $('#chatAudio1')[0].play(); //播放声音 
+    //         layer.tips('恭喜发财！', '#oy', {
+				// 	       tips: [1, '#78BA32']
+				// 	});
+    // }); 
+window.setInterval(function() {
+	    
+	    var x = 12;
+		var y = 1;
+		var rand = parseInt(Math.random() * (x - y + 1) + y);
+		if (rand = parseInt($('#st').val())<1) {
+			rand=999；
+		}
+		switch(rand)
+				{
+				case 1:
+				    layer.tips('棒棒的！', '#oy', {
+					       tips: [1, '#78BA32']
+					});
+				  break;
+				case 2:
+				    layer.tips('恭喜发财！', '#oy', {
+					       tips: [1, '#78BA32']
+					});
+				  break;
+			  case 3:
+			    layer.tips('再接再厉！', '#oy', {
+				       tips: [1, '#78BA32']
+				});
+			  break;
+			  case 4:
+			    layer.tips('我叫猴萌！', '#oy', {
+				       tips: [1, '#78BA32']
+				});
+			  break;
+			  case 5:
+			    layer.tips('别担心，有我陪着你！', '#oy', {
+				       tips: [1, '#78BA32']
+				});
+			  break;
+			  case 6:
+			    layer.tips('好棒哦！', '#oy', {
+				       tips: [1, '#78BA32']
+				});
+			  break;
+			  case 999:
+			    layer.tips('咱们换个地方玩吧。', '#oy', {
+				       tips: [1, '#78BA32']
+				});
+			  break;
+				default:
+
+				}
+}, parseInt((Math.random() * (99 - 1 + 1))*2000));
 
 // setInterval(function(){  
 // 		$.ajax({

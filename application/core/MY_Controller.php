@@ -7,7 +7,6 @@ class MY_Controller extends CI_Controller {
 		$this->load->library ( 'session' );
 		$this->set_customerId();//在所有controller前调用
 	}
-	
 	// 设置游客Id,在所有控制器调用前执行，这样就保证了无论用户从网站哪里进入，都可以第一时间分配一个唯一的sessionid
 	public function set_customerId() {
 		if (! get_cookie ( 'customerId' )) { // 手动生成唯一的id，来唯一记录该游客
@@ -128,7 +127,7 @@ class MY_Controller extends CI_Controller {
 	 */
 	public function is_opentime(){
         $h = intval(date("Hi"));                                                                       // 获取当前时间值
-        if (($h < 1500 && $h > 930)||($h < 1130 && $h > 1300)&&((date('w') != 6)||(date('w') != 0))) { // 判断股市休市时间范围
+        if (( $h > 930 && $h < 1130)||($h > 1300 && $h < 1500)&&((date('w') != 6)||(date('w') != 0))) { // 判断股市休市时间范围
         return 1; 
         } else {
         return 0;                                                                                      // 返回属性信息
