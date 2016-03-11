@@ -248,4 +248,18 @@ class MY_Controller extends CI_Controller {
 		$list=$this->db->group_by('investor_uid')->get_where('investor_detail',array('start_time >'=>strtotime('-30 minutes')))->result_array();
 		 return count($list)>0?count($list):0;
 	}
+	 /**
+	 * 兑现一次流量后限制20次
+	 * @return integer
+	 * @author ohyeah
+	 */
+	public function game_times() {
+		$uid=$this->is_uid();
+		$data['lishi'] = $this->db->get_where('user_flow',array('customer_id '=>$uid))->result_array(); // 查询历史交易
+        if (count($data['lishi'])>0) {
+            $data2= $this->db->get_where('investor_detail',array('investor_uid '=>$uid,'start_time >'=>strtotime(date('Y-m-d 00:00:00'))))->result_array(); // 查询历史交易
+            return count($data2)<20?count($data2):false;
+        }
+        return true;
+	}
 }

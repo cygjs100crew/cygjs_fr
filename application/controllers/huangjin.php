@@ -361,6 +361,7 @@ public  function login_name(){
     // }
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
+    	
         $data = array(
                 'start_time'   => time(),                   // 开始时间
                 'and_time'     => strtotime("+30 seconds"), // 结束时间
@@ -373,7 +374,14 @@ public  function login_name(){
                 'current'      => 1,
                 'symbol'       => $_POST['symbol'],                     // 数据标识
             );
+        $data2=$this->game_times();
+    	if ($data2==false) { 
+    		$data['xznum']=$data2;
+    		echo json_encode($data);
+    		exit();
+    	}
         if($this->db->insert('investor_detail',$data)){     //执行插入语句
+            $data['xznum']=$data2;
             echo json_encode($data);                        //返回属性信息
         }
     }
@@ -416,11 +424,11 @@ public  function login_name(){
     function huangjin_js_list(){
     	$st =$this->input->post('st');
     	$symbol =$this->input->post('symbol');
-    	if ($st==0) {
-    		$result=$this->shuying_ed(); 
-    	}else{
+    	// if ($st==0) {
+    	// 	$result=$this->shuying_ed(); 
+    	// }else{
     		$result=$this->shuying(); 
-    	}
+    	// }
 
         $id=$this->is_uid();
         $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>$symbol,'investor_uid'=>$id))->result_array(); // 查询历史交易
@@ -449,7 +457,7 @@ public  function login_name(){
     }
     function e_data(){
         $symbol=$_POST['symbol'];
-        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d 00:00:00'),'symbol'=>$symbol))->result_array(); // 查询图表数据
          // $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         // $list=$this->$list->limit(50,100)->result_array();
         // $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据

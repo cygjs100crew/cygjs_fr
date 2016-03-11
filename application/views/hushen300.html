@@ -198,7 +198,8 @@ $.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'CFIFZ5'},function(data){
     	$('#sh').html('沪深300(开市中)');
     }
     if (Number(json.st)<1) {
-    	$('#hj').html('黄金(某天数据)');
+    	// $('#hj').html('黄金(某天数据)');
+    	$('#tip').html('暂无数据！</br>');
     }
         addData(true);
         myChart.setOption({

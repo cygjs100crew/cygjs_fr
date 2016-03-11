@@ -24,6 +24,14 @@ $('#zhang').on('click', function(){
         // alert(data);
         $('#capital1').html($('#capital').html());
         var json=JSON.parse(data);
+        if (json.xznum==false) {
+        	layer.closeAll('page');
+        	layer.alert('今天的游戏次数已使用完毕，明天再来吧！', {
+		    icon: 5,
+		    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+			});
+			exit();
+        }
   //       layer.alert('看涨。买入价：'+$('#capital').html()+'。中奖请查看历史记录。', {
 	 //    icon: 1,
 	 //    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
@@ -246,6 +254,14 @@ $('#die').on('click', function(){
         // alert(data);
         $('#capital1').html($('#capital').html());
         var json=JSON.parse(data);
+        if (!json.xznum) {
+        	layer.closeAll('page');
+        	layer.alert('今天的游戏次数已使用完毕，明天再来吧！', {
+		    icon: 5,
+		    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+			});
+			exit();
+        }
   //       layer.alert('看跌。买入价：'+$('#capital').html()+'。中奖请查看历史记录。', {
 	 //    icon: 1,
 	 //    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
