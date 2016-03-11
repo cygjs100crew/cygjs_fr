@@ -372,7 +372,7 @@ public  function login_name(){
                 'status'       => 1,                        // 状态
                 'investor_uid' => $this->is_uid(),          // 用户ID 
                 'current'      => 1,
-                'symbol'       => $_POST['symbol'],                     // 数据标识
+                'symbol'       => $_POST['symbol'],         // 数据标识
             );
         $data2=$this->game_times();
     	if ($data2==false) { 
@@ -413,7 +413,7 @@ public  function login_name(){
         $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
         $result['ipdata'] = implode(',', $Kdata);                                                               // 拼接时间数据格式
         }
-        $this->load->view('huangjin_sinalink.html',$result);                                                        // 加载模板
+        $this->load->view('huangjin_sinalink.html',$result);                                                    // 加载模板
     }
     /* 交易历史iframe显示页面 @ohyeah */
     function huangjin_html_list(){
@@ -446,15 +446,6 @@ public  function login_name(){
             echo json_encode(array('success'=>false,'info'=>'未开奖'));
         }                                                                
     }
-    function price(){
-        $result=$this->shuying();
-        $symbol=$_POST['symbol'];
-        $result = $this->db->limit(1)->order_by("id","desc")->get_where('recentquotation',array('symbol'=>$symbol))->result_array(); // 查询最近一条报价记录
-        $data['price'] = $result[0]['price'];
-        $data['time'] = $result[0]['time'];
-        $data['num']=$this->ying_num();
-        echo json_encode($data); 
-    }
     function e_data(){
         $symbol=$_POST['symbol'];
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d 00:00:00'),'symbol'=>$symbol))->result_array(); // 查询图表数据
@@ -473,15 +464,12 @@ public  function login_name(){
         foreach($list as $k=>$v){
             $Kdata[$k] =round($v['price'],2);
             $data_date[$k] =$v['time'];
-        // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
+        // $result['data_date'] = implode(',', $data_date);      // 拼接报价数据格式
         // $result['ipdata'] = implode(',', $Kdata);       
-        $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
+        $result['data_date'] = $data_date;                       // 拼接报价数据格式
         $result['ipdata'] = $Kdata;
-        $result['price'] = $v['price'];                                                              // 拼接时间数据格式
+        $result['price'] = $v['price'];                          // 拼接时间数据格式
         }
-        
-        // $result = $_POST['symbol'];
-        
         $result['flow']=$this->_stat_total_flow();
         $result['num']=$this->ying_num();
         echo json_encode($result);    

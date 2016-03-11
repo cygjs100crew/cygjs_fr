@@ -418,66 +418,9 @@ public  function login_name(){
         $result=$this->shuying();                                                                                                             // 验证结果
         $this->load->view('lishi_html_list.html',$data);                                                                                      // 加载模板
     }
-    function huangjin_js_list(){
-    	$st =$this->input->post('st');
-    	if ($st==0) {
-    		$result=$this->shuying_ed(); 
-    	}else{
-    		$result=$this->shuying(); 
-    	}
-
-        $id=$this->is_uid();
-        $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5",'investor_uid'=>$id))->result_array(); // 查询历史交易
-
-        
-        $result['flow']=$this->_stat_total_flow();
-        $num=$this->ying_num();
-        if ($data[0]['result']=='赢') {
-            echo json_encode(array('success'=>true,'info'=>'赢','num'=>$num,'flow'=>$result['flow'])); 
-        }else if($data[0]['result']=='输'){
-            echo json_encode(array('success'=>true,'info'=>'输','num'=>$num,'flow'=>$result['flow']));
-        }else if($data[0]['result']=='平'){
-            echo json_encode(array('success'=>true,'info'=>'平','num'=>$num,'flow'=>$result['flow']));
-        }else{
-            echo json_encode(array('success'=>false,'info'=>'未开奖'));
-        }                                                                   
-    }
     function tt(){
         // $uid = $this->db->query('select id from investor_detail where start_time between "'.date('Y-m-d H:i:s',strtotime('-1 day')).'" and "'.date('Y-m-d H:i:s').'"')->row()->sum;
         $uid =$this->game_times(); // 查询图表数据
         var_dump($uid);
-    }
-    function price(){
-        $result=$this->shuying();
-        $symbol=$_POST['symbol'];
-        $result = $this->db->limit(1)->order_by("id","desc")->get_where('recentquotation',array('symbol'=>$symbol))->result_array(); // 查询最近一条报价记录
-        $data['price'] = $result[0]['price'];
-        $data['time'] = $result[0]['time'];
-        $data['num']=$this->ying_num();
-        echo json_encode($data); 
-    }
-    function e_data(){
-        $symbol=$_POST['symbol'];
-        $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
-            $result['st'] =1;
-            if (count($list)<1) {                   
-	            $result['st'] =0; //没有数据则提示
-	            $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
-            }
-            foreach($list as $k=>$v){
-                $Kdata[$k] =round($v['price'],2);
-                $data_date[$k] =$v['time'];
-            // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
-            // $result['ipdata'] = implode(',', $Kdata);       
-            $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
-            $result['ipdata'] = $Kdata;
-            $result['price'] = $v['price'];                                                              // 拼接时间数据格式
-            }
-            
-            $result['flow']=$this->_stat_total_flow();
-            // $result['num']=$this->ying_num();
-            // $result['opentime']=$this->is_opentime();
-            // $result = $_POST['symbol'];
-            echo json_encode($result);    
     }
 }

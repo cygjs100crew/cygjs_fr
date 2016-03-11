@@ -14,7 +14,6 @@ class MY_Controller extends CI_Controller {
 				'create_time'=>date('Y-m-d H:i:s')
 			);
 			$ret=$this->db->insert('customer',$data);
-			//var_dump($ret);
 			$customerId=$this->db->insert_id();
 			set_cookie('customerId',$customerId,0);
 		}
@@ -114,10 +113,10 @@ class MY_Controller extends CI_Controller {
 	 */
 	public function is_uid(){
 	    $user = get_cookie('customerId'); // 获取cookie值
-	    if (empty($user)) {       // 判断是否为空
-	    return 0;                 // true返回空0
+	    if (empty($user)) {               // 判断是否为空
+	    return 0;                         // true返回空0
 	    } else {
-	    return $user;             // false返回属性信息
+	    return $user;                     // false返回属性信息
 	    }
 	}
 	/**
@@ -126,11 +125,11 @@ class MY_Controller extends CI_Controller {
 	 * @author ohyeah
 	 */
 	public function is_opentime(){
-        $h = intval(date("Hi"));                                                                       // 获取当前时间值
+        $h = intval(date("Hi"));                                                                        // 获取当前时间值
         if (( $h > 930 && $h < 1130)||($h > 1300 && $h < 1500)&&((date('w') != 6)||(date('w') != 0))) { // 判断股市休市时间范围
         return 1; 
         } else {
-        return 0;                                                                                      // 返回属性信息
+        return 0;                                                                                       // 返回属性信息
         }
 	}
 	/**
@@ -142,7 +141,7 @@ class MY_Controller extends CI_Controller {
 	 * @author ohyeah
 	 */
 	public function is_user_num($uid=0,$symbol='',$shuying_result=''){
-        $numdata = $this->db->get_where('investor_user_num',array('uid'=>$uid))->result_array(); // 查询连赢记录
+        $numdata = $this->db->get_where('investor_user_num',array('uid'=>$uid))->result_array();        // 查询连赢记录
 			 
         if (count($numdata)<1) {  
         	if ($shuying_result=='赢') {
@@ -159,14 +158,13 @@ class MY_Controller extends CI_Controller {
 	        );
 	        $this->db->insert('investor_user_num',$data);     // 执行插入语句
 
-        }elseif ($shuying_result=='赢') {                   //判断赢
-        	$num=intval($numdata[0]['num'])+1;     //累计次数
-        }elseif ($shuying_result=='输'){                                     //中断连续，并重置次数
+        }elseif ($shuying_result=='赢') {                     //判断赢
+        	$num=intval($numdata[0]['num'])+1;                //累计次数
+        }elseif ($shuying_result=='输'){                      //中断连续，并重置次数
         	$num=0;
         }
 		
-		if ($shuying_result=='赢') {                                 // 判断是否有会员数据
-
+		if ($shuying_result=='赢') {                             // 判断是否有会员数据
         	$data1 = array(
 	                'customer_id' => $uid,                       // 会员ID
 	                'flow'        => 3,                          // 流量
@@ -179,7 +177,7 @@ class MY_Controller extends CI_Controller {
 	        // }
 	        $data2 = array(
                     // 会员ID
-	                'total_flow' =>intval($result[0]['total_flow'])+3,                          // 流量
+	                'total_flow' =>intval($result[0]['total_flow'])+3,         // 流量
 	        );
 	        $this->db->where('id',$uid)->update('customer',$data2);         // 新增流量次数
 
@@ -210,22 +208,6 @@ class MY_Controller extends CI_Controller {
         return count($result)>0?$result[0]['num']:0;
     }
     /**
-	 * 查询最新报价
-	 * @return integer
-	 * @author ohyeah
-	 */
-	public function new_price($symbol=''){
-        $result = $this->db->limit(1)->order_by("id","desc")->get_where('recentquotation',array('symbol'=>$symbol))->result_array(); // 查询最近一条报价记录
-        return $result[0]['price'];
-    }
-//     public function user_play(){
-//     	$customerId=$this->is_uid();
-// 		//$share_flow=$this->db->query('select sum(flow) as sum from share where customer_id='.$customerId)->row()->sum;
-// 		//$game_flow=$this->db->query('select sum(flow) as sum from play where customer_id='.$customerId)->row()->sum;
-
-//         return intval($game_flow)>1?intval($game_flow):0;
-//     }
-    /**
 	 * 取现订单状态转换
 	 * @return integer
 	 * @author ohyeah
@@ -244,7 +226,6 @@ class MY_Controller extends CI_Controller {
 	 * @author ohyeah
 	 */
 	public function online_number() {
-		// $list=$this->db->get_where('investor_detail',array('time >'=>date('Y-m-d H:i:s',strtotime('-30 minutes')))->result_array(); // 查询图表数据
 		$list=$this->db->group_by('investor_uid')->get_where('investor_detail',array('start_time >'=>strtotime('-30 minutes')))->result_array();
 		 return count($list)>0?count($list):0;
 	}
@@ -255,9 +236,9 @@ class MY_Controller extends CI_Controller {
 	 */
 	public function game_times() {
 		$uid=$this->is_uid();
-		$data['lishi'] = $this->db->get_where('user_flow',array('customer_id '=>$uid))->result_array(); // 查询历史交易
+		$data['lishi'] = $this->db->get_where('user_flow',array('customer_id '=>$uid))->result_array(); // 查询是否完成首次取现
         if (count($data['lishi'])>0) {
-            $data2= $this->db->get_where('investor_detail',array('investor_uid '=>$uid,'start_time >'=>strtotime(date('Y-m-d 00:00:00'))))->result_array(); // 查询历史交易
+            $data2= $this->db->get_where('investor_detail',array('investor_uid '=>$uid,'start_time >'=>strtotime(date('Y-m-d 00:00:00'))))->result_array(); // 统计次数
             return count($data2)<20?count($data2):false;
         }
         return true;
