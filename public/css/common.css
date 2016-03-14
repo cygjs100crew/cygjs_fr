@@ -116,7 +116,7 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 .button_ab dl.z i{ position:absolute; left:20px; display:block; width:8px; height:8px; background:url(../img/up.gif) no-repeat center; background-size:100%}
 .button_ab dl.d i{ position:absolute; left:20px; display:block; width:8px; height:8px; background:url(../img/down.gif) no-repeat center; background-size:100%}
 .button_ab dt{ color: #63606b; margin:0 auto;}
-.button_ab dt.pk{ width:30px; height:20px; background:#a00; color:#fff; border-radius:20px}
+.button_ab dt.pk{ width:60px; height:20px; background:#a00; color:#fff; border-radius:20px}
 .button_ab dd{ font-family: Arial; font-size: 30px; overflow:hidden}
 .button_ab dl dd span{ width:100%; margin:0}
 

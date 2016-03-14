@@ -425,7 +425,7 @@ public  function login_name(){
     	$st =$this->input->post('st');
     	$symbol =$this->input->post('symbol');
     	// if ($st==0) {
-    	// 	$result=$this->shuying_ed(); 
+    		// $result=$this->shuying_ed(); 
     	// }else{
     		$result=$this->shuying(); 
     	// }
@@ -448,7 +448,7 @@ public  function login_name(){
     }
     function e_data(){
         $symbol=$_POST['symbol'];
-        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d 00:00:00'),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
          // $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         // $list=$this->$list->limit(50,100)->result_array();
         // $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
@@ -457,9 +457,9 @@ public  function login_name(){
 		$result['st'] =1;
         if (count($list)<1) {                   
             $result['st'] =0; //没有数据则提示
-            // echo json_encode($result);
-            // exit();
-            $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+            echo json_encode($result);
+            exit();
+            // $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =round($v['price'],2);

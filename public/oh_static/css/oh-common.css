@@ -1846,6 +1846,8 @@ a {
 .getbtn span.getm a{ background:#7aa300}
 
 .welcomebox{ width:300px; margin:auto; padding: 220px 0 10px; background:#191820 url(../../img/banner.jpg) no-repeat center top; background-size:100%; box-shadow: 1px 1px 10px #f00; border-radius:16px}
+.welcomebox1{ width:280px;height:400px;  margin:auto; padding: 220px 0 10px; background:#191820 url(../../img/sp2wm.png) no-repeat center top; background-size:100%; box-shadow: 1px 1px 10px #f00; border-radius:16px}
+
 .welcomebox h3{ line-height: 20px; color: #fedd78}
 .welcomebox em{ color:#f60;}
 .gamestar a{ display: block; width:90%; margin:0 5%; text-align:center; line-height:40px; background: #f40; color:#fff; border-radius:6px}

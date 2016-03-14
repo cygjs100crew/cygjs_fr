@@ -30,6 +30,7 @@ class MY_Controller extends CI_Controller {
 				$data=$this->db->select('and_time,symbol,invest_type,capital,investor_uid,id')->get_where('investor_detail',array('result'=>""))->result_array();                                        // 读取未开奖的条目
 				for ($i=0; $i < count($data); $i++) {                                                                                     // 逐条遍历
 				$list=$this->db->select('price')->get_where('recentquotation',array('time >'=>date("Y-m-d H:i:s",$data[$i]['and_time']),'symbol'=>$data[$i]['symbol']))->result_array(); // 匹配离开奖时间最近一条结果
+				
 				if (count($list)>0){                                                                                                      // 有数据则进入
 				if (intval($data[$i]['invest_type'])==1) {                                                                                // 判断涨
 				    if ($data[$i]['capital']>$list[0]['price']) {
@@ -73,7 +74,7 @@ class MY_Controller extends CI_Controller {
 				$data=$this->db->select('and_time,symbol,invest_type,capital,investor_uid,id')->get_where('investor_detail',array('result'=>""))->result_array();                                 // 读取未开奖的条目
 				for ($i=0; $i < count($data); $i++) {                                                                                     // 逐条遍历
 				$list=$this->db->select('price')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',$data[$i]['and_time']),'symbol'=>$data[$i]['symbol']))->result_array();
-				
+				// $list[0]['price']=$list[0]['price']+200;
 				 // 匹配离开奖时间最近一条结果
 				if (count($list)>0){                                                                                                      // 有数据则进入
 				if (intval($data[$i]['invest_type'])==1) {                                                                                // 判断涨

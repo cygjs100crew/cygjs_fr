@@ -81,9 +81,16 @@ $('#zhang').on('click', function(){
 								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">您的账户已累计'+json.flow+'M流量</p><img class="gold_not_gold" src="public/img/3mcard.png"></div><div class="getbtn"><span class="rmb"><a class="ls" href="javascript:void(0);">我要赢现金</a></span><span class="getm"><a class="lliang" href="javascript:void(0);">我要领流量</a></span></div><div class="gamestar"><a class="layui-layer-ico layui-layer-close layui-layer-close2 animated gostart" href="javascript:;">继续游戏</a></div></div>'
 								    });
 								    $('.ls').on('click', function(){
-									           layer.tips('赢现金活动即将推出，注册订阅，获取最新动态。', '.ls', {
-												       tips: [1, '#78BA32']
-												});
+									           layer.open({
+							    type: 1,
+							    title: false,
+							    skin: 'layui-layer-nobg', //样式类名
+							    closeBtn: 0, //不显示关闭按钮
+							    scrollbar: false,
+							    shift: 2,
+							    shadeClose: true, //开启遮罩关闭
+							    content: '<div class="bag-popup"><div class="welcomebox1"></div></div>'
+							    });
 									});
 									$('.lliang').on('click', function(){
 									           layer.tips('点击右下角注册领取属于您的流量。', '.lliang', {
@@ -103,9 +110,16 @@ $('#zhang').on('click', function(){
 								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，猜对了！<br />获得金裕二元期权<em>3M</em>流量奖励！</h3><p class="text-center">您的账户已累计'+json.flow+'M流量</p><img class="gold_not_gold" src="public/img/3mcard.png"></div><div class="getbtn"><span class="rmb"><a class="ls" href="javascript:void(0);">我要赢现金</a></span><span class="getm"><a class="lliang" href="javascript:void(0);">我要领流量</a></span></div><div class="gamestar"><a class="layui-layer-ico layui-layer-close layui-layer-close2 animated gostart" href="javascript:;">继续游戏</a></div></div>'
 								    });
 								    $('.ls').on('click', function(){
-									           layer.tips('赢现金活动即将推出，注册订阅，获取最新动态。', '.ls', {
-												       tips: [1, '#78BA32']
-												});
+									           layer.open({
+							    type: 1,
+							    title: false,
+							    skin: 'layui-layer-nobg', //样式类名
+							    closeBtn: 0, //不显示关闭按钮
+							    scrollbar: false,
+							    shift: 2,
+							    shadeClose: true, //开启遮罩关闭
+							    content: '<div class="bag-popup"><div class="welcomebox1"></div></div>'
+							    });
 									});
 									$('.lliang').on('click', function(){
 									           layer.tips('点击右下角注册领取属于您的流量。', '.lliang', {
@@ -125,9 +139,16 @@ $('#zhang').on('click', function(){
 								    content: '<div class="bag-popup"><div class="light"></div><div class="span12"><h3 class="text-center">恭喜你，又猜对了！<br />你已晋升<em>二元期权高手</em>行列，来点真实、刺激的吧！马上参与</h3><p class="text-center">您的账户已累计'+json.flow+'M流量</p><img class="gold_not_gold" src="public/img/3mcard.png"></div><div class="getbtn"><span class="rmb"><a class="ls" href="javascript:void(0);">我要赢现金</a></span><span class="getm"><a class="lliang" href="javascript:void(0);">我要领流量</a></span></div><div class="gamestar"><a class="layui-layer-ico layui-layer-close layui-layer-close2 animated gostart" href="javascript:;">继续游戏</a></div></div>'
 								    });
 								    $('.ls').on('click', function(){
-									           layer.tips('赢现金活动即将推出，注册订阅，获取最新动态。', '.ls', {
-												       tips: [1, '#78BA32']
-												});
+									           layer.open({
+							    type: 1,
+							    title: false,
+							    skin: 'layui-layer-nobg', //样式类名
+							    closeBtn: 0, //不显示关闭按钮
+							    scrollbar: false,
+							    shift: 2,
+							    shadeClose: true, //开启遮罩关闭
+							    content: '<div class="bag-popup"><div class="welcomebox1"></div></div>'
+							    });
 									});
 									$('.lliang').on('click', function(){
 									           layer.tips('点击右下角注册领取属于您的流量。', '.lliang', {

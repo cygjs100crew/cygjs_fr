@@ -7,7 +7,13 @@ class  Index extends MY_Controller{
     }
     //首页
     public function index(){
-        redirect('hushen300/index');
+        $opentime=$this->is_opentime();//开市时间
+        if ($opentime>0) {
+            redirect('hushen300/index');
+        }else{
+            redirect('huangjin/index');
+        }
+        
     }
     public function index2(){
         $wx_param=array(
