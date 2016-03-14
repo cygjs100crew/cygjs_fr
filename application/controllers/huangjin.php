@@ -4,8 +4,8 @@ class Huangjin extends MY_Controller{
     public function __construct(){
         parent::__construct();
         $wx_param=array(
-			'appId'=>'wxb789734a2a886553',
-			'appSecret'=>'4f65d464420c998e7754c4cd1487a262'
+			'appId'=>'wxc8de0a92ae983bfc',
+			'appSecret'=>'34f5bb7b057095c7b922c702cb5e9d83'
 		);
 		$this->load->library('jssdk',$wx_param);            
     }

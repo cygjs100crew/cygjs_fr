@@ -1,17 +1,15 @@
 <?php
-class hushen300 extends MY_Controller{
+//error_reporting(0);
+class Huangjin_ed extends MY_Controller{
     public function __construct(){
         parent::__construct();
-        //$this->load->helper('cookie');
-       // $this->load->library('session');
         $wx_param=array(
             'appId'=>'wxc8de0a92ae983bfc',
             'appSecret'=>'34f5bb7b057095c7b922c702cb5e9d83'
         );
         $this->load->library('jssdk',$wx_param);
     }
-  
-
+    
 //判断cookie中是否有username,没有就是游客,看看游客有多少流量
  function index(){
         $this->load->database();		
@@ -26,11 +24,12 @@ class hushen300 extends MY_Controller{
         $data['flow']=count($userplay)>1?$userplay[0]['flow']:0;
         $signPackage = $this->jssdk->GetSignPackage();
         $data['signPackage']= $signPackage;
-        $this->load->view('hushen300.html',$data);//前端在某个地方输出$username  
+        $this->load->view('huangjin.html',$data);//前端在某个地方输出$username  
        
         
         
     }
+ 
     
     //用户注册的地方，假设用户表中有这几个字段，用户名，密码，确认密码，手机号,验证码
     function register(){
@@ -57,7 +56,7 @@ class hushen300 extends MY_Controller{
 			echo json_encode(array('success'=>false,'info'=>'重复注册'));
 			return;
 		}
-        //$ret=$this->db->insert('customer',$userinfo);
+       // $ret=$this->db->insert('customer',$userinfo);
         //此处应该利用原有的id
          $id=get_cookie('customerId');
       
@@ -164,7 +163,7 @@ public  function login_name(){
        }  
 	}
 	//兑现流量
- function cash_flow(){
+function cash_flow(){
 		$customerId=get_cookie('customerId');
 		$total_flow=$this->_stat_total_flow();	
 		$result=$this->db->where('customer_id',$customerId)->get('user_flow')->num_rows();//查询兑现时间存不存在
@@ -325,6 +324,7 @@ public  function login_name(){
 		if(isset($total_flow)){
 			return $total_flow->total_flow;
 		}
+		
 	}
 	//统计总流量
 	public function stat_total_flow(){	
@@ -340,87 +340,154 @@ public  function login_name(){
 		);
 		echo $this->phone->send($data);
 	}
-    /* 新浪数据添加 @ohyeah */
+	/* 新浪数据添加 @ohyeah */
     // public function data_add(){
     //     $data = array(
     //             'price' => $_POST['price'],//最新报价
     //             'time'    =>date("Y-m-d H:i:s",time()),//时间
-    //             'symbol' =>'s_sz399300'//沪深300数据标识
-    //         );
-    //         $result =$this->is_opentime();                                          // 返回结果
-    //         if ($result>0) {                                                        // 判断执行
-    //         $this->db->insert('recentquotation',$data);
-    //         } else {
-    //         echo json_encode(array('success'=>false,'info'=>'现在处于休市状态！')); // 返回属性信息
-    //         }
+    //             'symbol' =>'hf_GC',//黄金数据标识
+    //     );
+    //     $this->db->insert('recentquotation',$data);
     // }
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
         $data = array(
-                'start_time'   => time(),                       // 开始时间
-                'and_time'     => strtotime("+30 seconds"),     // 结束时间
-                'capital'      => $_POST['capital'],            // 买入价
-                'duration'     => 60,                           // 间隔时间
-                'add_ip'       => $_SERVER["REMOTE_ADDR"],      // 间隔时间
-                'invest_type'  => $_POST['invest_type'],        // 投资方向，涨或者跌
-                'status'       => 1,                            // 状态
-                'investor_uid' => $this->is_uid(),              // 用户ID
+                'start_time'   => time(),                   // 开始时间
+                'and_time'     => strtotime("+60 seconds"), // 结束时间
+                'capital'      => $_POST['capital'],        // 买入价
+                'duration'     => 60,                       // 间隔时间
+                'add_ip'       => $_SERVER["REMOTE_ADDR"],  // 用户IP
+                'invest_type'  => $_POST['invest_type'],    // 投资方向，涨或者跌
+                'status'       => 1,                        // 状态
+                'investor_uid' => $this->is_uid(),          // 用户ID 
                 'current'      => 1,
-                'symbol'       => $_POST['symbol'],             // 数据标
+                'symbol'       => $_POST['symbol'],                     // 数据标识
             );
-        if($this->db->insert('investor_detail',$data)){         // 执行插入语句
-        echo json_encode($data);                                // 返回属性信息
+        if($this->db->insert('investor_detail',$data)){     //执行插入语句
+            echo json_encode($data);                        //返回属性信息
         }
     }
-    /* 查询历史交易 @ohyeah */
-    public function lishi_list(){
-        $data = $this->db->get("investor_detail")->result_array();
-        $row = '';
-        foreach ($data as $key => $val)
-        {
-            $row .='编号：'.$val['id'].'金额:'.$val['capital'].'开始:'.date("Y-m-d H:i:s",$val['start_time']).'结束:'.date("Y-m-d H:i:s",$val['and_time']).'结果：'.$val['result'];
-        }
-        $row .= '';
-        echo json_encode(array('result' => true,'a' =>$row));
-    }
-    /* 沪深300走势线iframe显示页面 @ohyeah */
-    function hushen_link(){
-        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"CFIFZ5"))->result_array(); // 查询图表数据
+    /* 黄金走势线iframe显示页面（下单） @ohyeah */
+    function huangjin_link_ed(){
+        $list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-1 hours')),'time <'=>'2016-01-25 '.date('H:i:s'),'symbol'=>"XAU"))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
-            echo "╮(╯﹏╰)╭暂时没有数据！";
-            exit();     //没有数据则提示
+        	echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+        	exit();
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';
-        $result['data_date'] = implode(',', $data_date);                                                                                 // 拼接报价数据格式
-        $result['ipdata'] = implode(',', $Kdata);                                                                                        // 拼接时间数据格式
+        $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
+        $result['ipdata'] = implode(',', $Kdata);                                                               // 拼接时间数据格式
         }
-        $this->load->view('hushen_link.html',$result);                                                                                   // 加载模板
+        $this->load->view('huangjin_link_ed.html',$result);                                                        // 加载模板
     }
-    /* [新浪]沪深300走势线iframe显示页面 @ohyeah */
-    function hushen_sinalink(){
-        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"s_sz399300"))->result_array(); // 查询图表数据
+        /* 黄金走势线iframe显示页面（下单） @ohyeah */
+    function data_ed(){
+        $list=$this->db->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-1 hours')),'time <'=>'2016-01-25 '.date('H:i:s'),'symbol'=>"XAU"))->result_array(); // 查询图表数据
         if (count($list)<1) {                   
             echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+            exit();
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =$v['price'];
             $data_date[$k] ='"'.$v['time'].'"';
-        $result['data_date'] = implode(',', $data_date);                                                                                 // 拼接报价数据格式
-        $result['ipdata'] = implode(',', $Kdata);                                                                                        // 拼接时间数据格式
+        $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
+        $result['ipdata'] = implode(',', $Kdata);                                                               // 拼接时间数据格式
         }
-        $this->load->view('hushen_sinalink.html',$result);                                                                                   // 加载模板
+        echo json_encode($result);                                                         // 加载模板
+    }
+    /* [新浪]黄金走势线iframe显示页面（下单） @ohyeah */
+    function huangjin_sinalink(){
+        $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d',strtotime('-0 day')),'time <'=>date('Y-m-d',strtotime('+1 day')),'symbol'=>"hf_GC"))->result_array(); // 查询图表数据
+        if (count($list)<1) {                   
+        	echo "╮(╯﹏╰)╭暂时没有数据！";     //没有数据则提示
+        	exit();
+        }
+        foreach($list as $k=>$v){
+            $Kdata[$k] =$v['price'];
+            $data_date[$k] ='"'.$v['time'].'"';
+        $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
+        $result['ipdata'] = implode(',', $Kdata);                                                               // 拼接时间数据格式
+        }
+        $this->load->view('huangjin_sinalink.html',$result);                                                        // 加载模板
     }
     /* 交易历史iframe显示页面 @ohyeah */
-    function lishi_html_list(){
-        $data['lishi'] = $this->db->limit(20)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"CFIFZ5"))->result_array(); // 查询历史交易
-        $result=$this->shuying();                                                                                                             // 验证结果
-        $this->load->view('lishi_html_list.html',$data);                                                                                      // 加载模板
+    function huangjin_html_list(){
+        $data['lishi'] = $this->db->limit(20)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array(); // 查询历史交易
+        $result=$this->shuying_ed();                                                                                                          // 验证结果
+        $this->load->view('huangjin_html_list.html',$data);                                                                                // 加载模板
+    }
+    function huangjin_js_list(){
+        $result=$this->shuying_ed(); 
+        $uid=$this->is_uid();
+        $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU",'investor_uid'=>$uid))->result_array(); // 查询历史交易
+
+        $num=$this->ying_num();
+        if ($data[0]['result']=='赢') {
+            echo json_encode(array('success'=>true,'info'=>'赢','num'=>$num)); 
+        }else if($data[0]['result']=='输'){
+            echo json_encode(array('success'=>true,'info'=>'输','num'=>$num));
+        }else if($data[0]['result']=='平'){
+            echo json_encode(array('success'=>true,'info'=>'平','num'=>$num));
+        }else{
+            echo json_encode(array('success'=>false,'info'=>'未开奖'));
+        }                                                                 
+    }
+    function price(){
+        $result=$this->shuying_ed(); 
+        $symbol=$_POST['symbol'];
+        $result = $this->db->limit(1)->order_by("id","desc")->get_where('recentquotation',array('time <'=>'2016-01-25 '.date('H:i:s'),'symbol'=>$symbol))->result_array(); // 查询最近一条报价记录
+        $data['price'] = $result[0]['price'];
+        $data['time'] = $result[0]['time'];
+        $data['num']=$this->ying_num();
+        echo json_encode($data); 
+    }
+    function e(){ 
+        $this->load->view('e.html');  
+    }
+    function e_data(){
+        $symbol=$_POST['symbol'];
+        $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        if (count($list)<1) {                       
+            $result['st'] =0; //没有数据则提示
+            echo json_encode($result);
+            exit();
+        }
+        foreach($list as $k=>$v){
+            $Kdata[$k] =round($v['price'],2);
+            $data_date[$k] =$v['time'];
+        // $result['data_date'] = implode(',', $data_date);                                                        // 拼接报价数据格式
+        // $result['ipdata'] = implode(',', $Kdata);       
+        $result['data_date'] = $data_date;                                                        // 拼接报价数据格式
+        $result['ipdata'] = $Kdata; 
+        $result['price'] = $v['price'];
+                                                                   // 拼接时间数据格式
+        }
+
+        // $result = $_POST['symbol'];
+        $result['st'] =1;
+        $result['flow']=$this->_stat_total_flow();
+        $result['num']=$this->ying_num();
+        echo json_encode($result);    
     }
     function tt(){
-        // $uid = $this->db->query('select id from investor_detail where start_time between "'.date('Y-m-d H:i:s',strtotime('-1 day')).'" and "'.date('Y-m-d H:i:s').'"')->row()->sum;
-        $uid =$this->game_times(); // 查询图表数据
-        var_dump($uid);
+        // $data['num']=$this->is_user_num(1201,'213','赢');
+        // $this->db->select('price');  
+        // $this->db->from('recentquotation');  
+        // $this->db->where('id', 1);  
+          
+        // $list= $this->db->get(); 
+        $list=$this->db->select('price')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>'XAU'))->result_array(); // 查询图表数据
+        var_dump($list);
+    }
+    function t1(){
+            $condition['uid'] =888;                                           // 更新对象id
+            $updata['uid'] =888; 
+            $updata['num'] =1;                                              // 结果赋值
+            $updata['symbol'] ='123';
+            $updata['state'] =1;     
+                                                    // 比较值
+            $this->db->where($condition)->update("investor_user_num",$updata); // 执行更新语
     }
 }
