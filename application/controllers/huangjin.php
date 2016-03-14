@@ -238,7 +238,7 @@ public  function login_name(){
 			//注意，此处最为关键，兑换成功后，要把share和play表里的该用户的所有流量都置0
 			//$this->where('customer_id',$customerId)->update('share',array('flow'=>0));
 			//$this->where('customer_id',$customerId)->update('play',array('flow'=>0));
-			echo json_encode(array('success'=>true,'info'=>'下单成功，请耐心等待！'));
+			echo json_encode(array('success'=>true,'info'=>'下单成功，请耐心等待！','flow_package'=>$cash_flow));
 			return;
 		}else{
 			echo json_encode(array('success'=>false,'info'=>'下单失败！'));
