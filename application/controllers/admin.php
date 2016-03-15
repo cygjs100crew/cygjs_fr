@@ -12,9 +12,9 @@ class Admin extends MY_Controller{
     
 //判断cookie中是否有username,没有就是游客,看看游客有多少流量
     function index(){
-    	// if (!get_cookie('adminid')){
-    	// 	redirect('admin/login');
-    	// }
+    	if (!get_cookie('adminid')){
+    		redirect('admin/login');
+    	}
     	$list=$this->db->query('select count(distinct create_time)countid,substr(create_time,1,10)create_time from customer where create_time between "'.date('Y-m-d H:i:s',strtotime('-1 month')).'" and "'.date('Y-m-d H:i:s').'" group by substr(create_time,1,10)')->result_array();
     	foreach($list as $k=>$v){
             $Kdata[$k] =$v['countid'];
@@ -79,7 +79,7 @@ class Admin extends MY_Controller{
             echo "密码错误！";
             $this->load->view('admin/login.html');//前端在某个地方输出$username  
         }else{
-            set_cookie('adminid',$username,1);
+            set_cookie('adminid',$username,time()+3600);
             redirect('admin/index');
         }
     	

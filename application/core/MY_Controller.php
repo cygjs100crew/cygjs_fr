@@ -244,4 +244,8 @@ class MY_Controller extends CI_Controller {
         }
         return true;
 	}
+	public function game_shijian(){
+		$uid  = $this->db->get_where('config')->result_array(); 
+        return $uid[0]['extra'];
+	}
 }

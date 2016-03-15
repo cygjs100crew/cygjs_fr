@@ -420,7 +420,8 @@ public  function login_name(){
     }
     function tt(){
         // $uid = $this->db->query('select id from investor_detail where start_time between "'.date('Y-m-d H:i:s',strtotime('-1 day')).'" and "'.date('Y-m-d H:i:s').'"')->row()->sum;
-        $uid =$this->game_times(); // 查询图表数据
-        var_dump($uid);
+        $uid  = $this->db->get_where('config')->result_array(); 
+
+        var_dump($uid[0]['extra']);
     }
 }

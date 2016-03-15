@@ -361,10 +361,10 @@ public  function login_name(){
     // }
     /* 会员投资（下单） @ohyeah */
     public function investor_detail_add(){
-    	
+    	$shijian=$this->game_shijian();
         $data = array(
                 'start_time'   => time(),                   // 开始时间
-                'and_time'     => strtotime("+30 seconds"), // 结束时间
+                'and_time'     => strtotime('+'.$shijian.' seconds'), // 结束时间
                 'capital'      => $_POST['capital'],        // 买入价
                 'duration'     => 60,                       // 间隔时间
                 'add_ip'       => $_SERVER["REMOTE_ADDR"],  // 用户IP
@@ -377,6 +377,7 @@ public  function login_name(){
         $data2=$this->game_times();
     	if ($data2==false) { 
     		$data['xznum']=$data2;
+    		$data['shijian']=$shijian;
     		echo json_encode($data);
     		exit();
     	}
