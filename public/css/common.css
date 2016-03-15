@@ -31,11 +31,13 @@ button.btn_w{ border: 1px solid #ddd; height: 30px; padding: 0 20px; overflow: v
 .oh{ overflow:hidden}
 .index{ width: 100%; height: 100%; background: #1a1821}
 .rule a{ position: absolute; top: 0; right:0; margin: 5%; display: block; width: 6rem; line-height: 1.6rem; font-size: .8rem; background: #fff; color: #a00; text-align: center; border-radius: 2rem}
-.tipsbtn a{ position: absolute; top: -10px; left:50%; margin-left:-3rem; display: block; width: 6rem; line-height: 1.6rem; font-size: .8rem; background: #413f47; color: #aaa; text-align: center; border-radius: 2rem}
+.tipsbtn{ position: absolute; top: -10px; left:50%; margin-left:-8rem; text-align: center;}
+.tipsbtn i{ float:left; padding:0 1rem}
+.tipsbtn a{ display: block; width: 6rem; line-height: 1.6rem; font-size: .8rem; background: #413f47; color: #aaa; border-radius: 2rem}
 #rule_cont{ display: none; z-index: 9999; position: absolute; left: 0; top: 0; margin: 5%; background: #fff; color: #333; font-size: .8rem; border-radius: 6px; padding: 5% 5% 10%; overflow: hidden;}
 #rule_cont2{ width: 260px; max-height: 300px; margin: auto; background: #fff; color: #333; font-size: .8rem; border-radius: 6px; padding: 20px; overflow: auto;}
 .rule_cont center{ border-bottom: 1px solid #ddd; padding-bottom: .5rem; margin-bottom: .5rem}
-.rule_cont p{ text-indent: 1rem; padding: .2rem; color: #555}
+.rule_cont p{ padding: .2rem; color: #555}
 .rule_cont h2{ color: #222}
 .rule_cont h3{ color: #a00; margin-top: .2rem}
 
