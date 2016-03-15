@@ -60,9 +60,12 @@
 		<fieldset><legend contenteditable="true">系统配置</legend>
 		<?php foreach($lishi as $row) : ?>
 		<label contenteditable="true"><?php echo $row['name'] ?> &nbsp;默认60秒</label>
-		<input name="<?php echo $row['id'] ?>value" placeholder="填选<?php echo $row['name'] ?>" type="text" value="<?php echo $row['extra'] ?>">
+		<input name="extra" placeholder="填选<?php echo $row['name'] ?>" type="text" value="<?php echo $row['extra'] ?>">
+
 		<input type="text" name="<?php echo $row['id'] ?>id" value="<?php echo $row['id'] ?>"  style="display:none;"/>
 		<?php endforeach; ?> 
+		<label contenteditable="true">历史数据 默认为0</label>
+		<input name="value" placeholder="请输入开启0或1" type="text" value="<?php echo $row['value'] ?>">
 		<span class="help-block" contenteditable="true">是否关闭网站</span> 
 		<label class="checkbox" contenteditable="true"> 
 		<input type="checkbox">关闭</label>

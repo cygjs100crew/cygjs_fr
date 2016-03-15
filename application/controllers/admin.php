@@ -140,8 +140,7 @@ class Admin extends MY_Controller{
             default:
                 echo json_encode(array('status'=>0,'info'=>'参数非法'));
         }
-    	
-        
+
     	
         // $id = array_unique((array)I('id',0));
         // $id = is_array($id) ? implode(',',$id) : $id;
@@ -169,11 +168,11 @@ class Admin extends MY_Controller{
         // }
     }
     function config(){
-
-   //  		$condition['uid'] =$uid;                                           // 更新对象id
-			// $updata['name'] =$num;                                              // 结果赋值
-			// $updata['extra'] =$symbol;
-			// $updata['value'] =1;     
-			// $this->db->where($condition)->update("config",$updata); // 执行更新语
-    }
+        $data=$this->input->post();
+		$condition['id'] =1;  
+		$updata['extra'] =$data['extra'];
+        $updata['value'] =$data['value'];
+		$this->db->where($condition)->update("config",$updata); // 执行更新语
+        redirect('admin/system_index');
+    }        
 }

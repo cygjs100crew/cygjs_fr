@@ -425,10 +425,16 @@ public  function login_name(){
     function huangjin_js_list(){
     	$st =$this->input->post('st');
     	$symbol =$this->input->post('symbol');
+    	$openlishi=$this->game_lishi();
+    	if (intval($openlishi)>0) {
+            	$result=$this->shuying_ed(); 
+            }else{
+            	$result=$this->shuying(); 
+            }
     	// if ($st==0) {
     		// $result=$this->shuying_ed(); 
     	// }else{
-    		$result=$this->shuying(); 
+    		// $result=$this->shuying(); 
     	// }
 
         $id=$this->is_uid();
@@ -454,13 +460,17 @@ public  function login_name(){
         // $list=$this->$list->limit(50,100)->result_array();
         // $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         $opentime=$this->is_opentime();//开市时间
+        $openlishi=$this->game_lishi();
 		$result['hs'] =$opentime;
 		$result['st'] =1;
         if (count($list)<1) {                   
             $result['st'] =0; //没有数据则提示
-            echo json_encode($result);
-            exit();
-            // $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+            if (intval($openlishi)>0) {
+            	$list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+            }else{
+            	echo json_encode($result);
+           		exit();
+            }
         }
         foreach($list as $k=>$v){
             $Kdata[$k] =round($v['price'],2);

@@ -248,4 +248,8 @@ class MY_Controller extends CI_Controller {
 		$uid  = $this->db->get_where('config')->result_array(); 
         return $uid[0]['extra'];
 	}
+	public function game_lishi(){
+		$uid  = $this->db->get_where('config')->result_array(); 
+        return $uid[0]['value'];
+	}
 }
