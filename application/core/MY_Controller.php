@@ -239,7 +239,7 @@ class MY_Controller extends CI_Controller {
 		$uid=$this->is_uid();
 		$data['lishi'] = $this->db->get_where('user_flow',array('customer_id '=>$uid))->result_array(); // 查询是否完成首次取现
         if (count($data['lishi'])>0) {
-            $data2= $this->db->get_where('investor_detail',array('investor_uid '=>$uid,'start_time >'=>strtotime(date('Y-m-d 00:00:00'))))->result_array(); // 统计次数
+            $data2= $this->db->get_where('investor_detail',array('investor_uid '=>$uid,'start_time >'=>strtotime(date('Y-m-d 00:00:01'))))->result_array(); // 统计次数
             return count($data2)<20?count($data2):false;
         }
         return true;

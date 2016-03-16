@@ -383,6 +383,7 @@ public  function login_name(){
     	}
         if($this->db->insert('investor_detail',$data)){     //执行插入语句
             $data['xznum']=$data2;
+            $data['shijian']=$shijian;
             echo json_encode($data);                        //返回属性信息
         }
     }

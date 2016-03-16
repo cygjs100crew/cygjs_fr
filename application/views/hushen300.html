@@ -225,20 +225,20 @@ if (option && typeof option === "object") {
 
 </div>
 <div class="button_ab">
-	<div class="tipsbtn"><a id="tips" href="javascript:void(0);">新手指引</a></div>
+	<div class="tipsbtn"><i><a href="javascript:void(0)" id="rule_link">游戏规则</a></i><i><a id="ifollow" href="javascript:void(0);">分享领流量</a></i></div>
     <span class="d"><a href="javascript:void(0);" id="die" class="die">猜跌</a></span>
 
 	<span class="z"><a href="javascript:void(0);" id="zhang" class="zhang">猜涨</a></span>
 	<dl><dt id='tip'>最新报价</dt><dd><i></i><span id="capital"></span>
 	<dt class="pk">持有价格</dt>
 	<span id="capital1"></span>
-	<input type="button" name="symbol" id="symbol" value="CFIFZ5" style="display:none;"/>
+	<input type="button" name="symbol" id="symbol" value="XAU" style="display:none;"/>
 	<input type="button" name="st" id="st" value="" style="display:none;"/></dd></dl>
 	
 </div>
 
 <div class="user_info">
-	<dl><dt id="oy"><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd id="dr"><?php echo $username;?></dd></dl>
+	<dl id="dr"><dt id="oy"><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?></dd></dl>
 	<ul><li><span>可用流量</span><span><em id="total"></em>M</span></li>
 	    <li><span><em id="cash_flow"></span></li>	
 	</ul>
