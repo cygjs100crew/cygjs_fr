@@ -89,7 +89,7 @@ $('#zhang').on('click', function(){
 							    scrollbar: false,
 							    shift: 2,
 							    shadeClose: true, //开启遮罩关闭
-							    content: '<div class="bag-popup"><div class="welcomebox1"></div></div>'
+							    content: '<div class="bag-popup"><div class="welcomebox1"><span><img src="public/img/ios.gif"></span><span><img src="public/img/andr.gif"></span><p><h3>长按二维码选择“识别”安装二元期权APP</h3></p></div></div>'
 							    });
 									});
 									$('.lliang').on('click', function(){
@@ -118,7 +118,7 @@ $('#zhang').on('click', function(){
 							    scrollbar: false,
 							    shift: 2,
 							    shadeClose: true, //开启遮罩关闭
-							    content: '<div class="bag-popup"><div class="welcomebox1"></div></div>'
+							    content: '<div class="bag-popup"><div class="welcomebox1"><span><img src="public/img/ios.gif"></span><span><img src="public/img/andr.gif"></span><p><h3>长按二维码选择“识别”安装二元期权APP</h3></p></div></div>'
 							    });
 									});
 									$('.lliang').on('click', function(){
@@ -147,7 +147,7 @@ $('#zhang').on('click', function(){
 							    scrollbar: false,
 							    shift: 2,
 							    shadeClose: true, //开启遮罩关闭
-							    content: '<div class="bag-popup"><div class="welcomebox1"></div></div>'
+							    content: '<div class="bag-popup"><div class="welcomebox1"><span><img src="public/img/ios.gif"></span><span><img src="public/img/andr.gif"></span><p><h3>长按二维码选择“识别”安装二元期权APP</h3></p></div></div>'
 							    });
 									});
 									$('.lliang').on('click', function(){

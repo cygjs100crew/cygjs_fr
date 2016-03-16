@@ -1846,7 +1846,10 @@ a {
 .getbtn span.getm a{ background:#7aa300}
 
 .welcomebox{ width:300px; margin:auto; padding: 220px 0 10px; background:#191820 url(../../img/banner.jpg) no-repeat center top; background-size:100%; box-shadow: 1px 1px 10px #f00; border-radius:16px}
-.welcomebox1{ width:280px;height:400px;  margin:auto; padding: 220px 0 10px; background:#191820 url(../../img/sp2wm.png) no-repeat center top; background-size:100%; box-shadow: 1px 1px 10px #f00; border-radius:16px}
+.welcomebox1{ width:220px;text-align:center; margin:auto; padding: 20px 30px 30px; background:#fff; background-size:100%; box-shadow: 1px 1px 10px #fff; border-radius:16px; overflow:hidden}
+.welcomebox1 span{ float:left; width:40%; margin:0 5%}
+.welcomebox1 span img{ width:100%}
+
 
 .welcomebox h3{ line-height: 20px; color: #fedd78}
 .welcomebox em{ color:#f60;}
