@@ -49,7 +49,8 @@ class Huangjin extends MY_Controller{
         $userinfo['phone']=$data['phone'];
 		$userinfo['register_time']=date('Y-m-d H:i:s');
 
-		$sms_code=$this->session->userdata('sms_code');
+		//$sms_code=$this->session->userdata('sms_code');
+		$sms_code=get_cookie('sms_code');
 		if($sms_code!=$data['checkCode']){
 			echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
 			return;
@@ -270,25 +271,25 @@ public  function login_name(){
 	    var_dump($ret);
 	}
 	//订单情况
-	function order_status(){
+  function order_status(){
 	    $customer_id=get_cookie('customerId');
 	    $orderid=get_cookie('order_id');
-	    $ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'order_id'=>$orderid))->row_array();//查询有没有这个兑换流量的订单号
+	    /*$ret=$this->db->get_where('user_flow',array('customer_id'=>$customer_id,'order_id'=>$orderid))->row_array();//查询有没有这个兑换流量的订单号
 	    if($ret && count($ret)>0){
 	        $cashflow=$ret['cash_flow'];
 	    }else{
 	        $cashflow='0';
-	    }
-	    $trade_status=$this->db->select('trade_status')->where('customer_id',$customer_id)->get('user_flow')->row()->trade_status;
+	    }*/
+	    $trade_status=$this->db->select('trade_status')->where(array('customer_id'=>$customer_id,'order_id'=>$orderid))->get('user_flow')->row()->trade_status;
 	    if($trade_status==0){
-	        echo json_encode(array('success'=>false,'info'=>$cashflow.'M兑换失败！'));
+	        echo json_encode(array('success'=>true,'status'=>0));
 	        return;
 	    }
 	    if($trade_status==1){
-	        echo json_encode(array('success'=>true,'info'=>$cashflow.'M兑换成功！'));
+	        echo json_encode(array('success'=>true,'status'=>1));
 	    }
 	    if($trade_status==2){
-	        echo json_encode(array('success'=>false,'info'=>$cashflow.'M流量正在处理中！'));
+	        echo json_encode(array('success'=>false,'status'=>2));
 	    } 
 	}
 	//调用短信接口
@@ -298,7 +299,8 @@ public  function login_name(){
 		
 		//生成验证码
 		$code = rand(1000,9999);
-		$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
+		//$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
+		set_cookie('sms_code',$code,0);
 		//短信内容
 		//$date=date('Y年m月d日',time());
 		//$MessageContent ='您本次验证码为'.$code.'，如需退订回复TD。';

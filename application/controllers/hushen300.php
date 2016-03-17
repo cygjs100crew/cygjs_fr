@@ -41,7 +41,8 @@ class hushen300 extends MY_Controller{
         $userinfo['phone']=$data['phone'];
 		$userinfo['register_time']=date('Y-m-d H:i:s');
 
-		$sms_code=$this->session->userdata('sms_code');
+		//$sms_code=$this->session->userdata('sms_code');
+		$sms_code=get_cookie('sms_code');
 		if($sms_code!=$data['checkCode']){
 			echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
 			return;
@@ -290,7 +291,8 @@ public  function login_name(){
 		
 		//生成验证码
 		$code = rand(1000,9999);
-		$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
+		//$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
+		set_cookie('sms_code',$code,0);
 		//短信内容
 		//$date=date('Y年m月d日',time());
 		//$MessageContent ='您本次验证码为'.$code.'，如需退订回复TD。';
