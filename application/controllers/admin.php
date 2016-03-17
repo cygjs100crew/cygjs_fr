@@ -33,16 +33,16 @@ class Admin extends MY_Controller{
         $customer_list4=$this->db->limit(10)->order_by("flow","desc")->get_where('share')->result_array();
     	$customer_phone_list=$this->db->query('select * from customer where phone  is not null')->result_array();
     	$total_flow_num=$this->db->query('select sum(total_flow) as sum from customer')->row()->sum;
-    	$cash_flow_num=$this->db->query('select sum(cash_flow) as sum from user_flow where trade_status = 2')->row()->sum;
+    	$cash_flow_num=$this->db->query('select sum(cash_flow) as sum from user_flow where trade_status = 1')->row()->sum;
     	$idsumday=$this->db->get_where('investor_detail',array('start_time >'=>strtotime('-1 day')))->result_array(); // 查询图表数据
         $idsummonth=$this->db->get_where('investor_detail',array('start_time >'=>strtotime('-1 month')))->result_array(); // 查询图表数据
         $idsumyear=$this->db->get_where('investor_detail',array('start_time >'=>strtotime('-1 year')))->result_array(); // 查询图表数据
         $idsumday1=$this->db->query('select sum(flow) as sum from play where play_time >"'.date('Y-m-d H:i:s',strtotime('-1 day')).'"')->row()->sum;
         $idsummonth1=$this->db->query('select sum(flow) as sum from play where play_time >"'.date('Y-m-d H:i:s',strtotime('-1 month')).'"')->row()->sum; // 查询图表数据
         $idsumyear1=$this->db->query('select sum(flow) as sum from play where play_time >"'.date('Y-m-d H:i:s',strtotime('-1 year')).'"')->row()->sum; // 查询图表数据
-        $idsumday2=$this->db->limit(10)->order_by("cash_flow","desc")->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 day'))))->result_array(); // 查询图表数据
-        $idsummonth2=$this->db->limit(10)->order_by("cash_flow","desc")->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 month'))))->result_array(); // 查询图表数据
-        $idsumyear2=$this->db->limit(10)->order_by("cash_flow","desc")->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 year'))))->result_array(); // 查询图表数据
+        $idsumday2=$this->db->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 day')),'trade_status'=>1))->result_array(); // 查询图表数据
+        $idsummonth2=$this->db->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 month')),'trade_status'=>1))->result_array(); // 查询图表数据
+        $idsumyear2=$this->db->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 year')),'trade_status'=>1))->result_array(); // 查询图表数据
     	
 
     	$data['lishi'] = $this->db->limit(10)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array(); // 查询历史交易
