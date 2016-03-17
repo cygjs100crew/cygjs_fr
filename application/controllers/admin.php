@@ -40,9 +40,9 @@ class Admin extends MY_Controller{
         $idsumday1=$this->db->query('select sum(flow) as sum from play where play_time >"'.date('Y-m-d H:i:s',strtotime('-1 day')).'"')->row()->sum;
         $idsummonth1=$this->db->query('select sum(flow) as sum from play where play_time >"'.date('Y-m-d H:i:s',strtotime('-1 month')).'"')->row()->sum; // 查询图表数据
         $idsumyear1=$this->db->query('select sum(flow) as sum from play where play_time >"'.date('Y-m-d H:i:s',strtotime('-1 year')).'"')->row()->sum; // 查询图表数据
-        $idsumday2=$this->db->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 day')),'trade_status'=>1))->result_array(); // 查询图表数据
-        $idsummonth2=$this->db->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 month')),'trade_status'=>1))->result_array(); // 查询图表数据
-        $idsumyear2=$this->db->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 year')),'trade_status'=>1))->result_array(); // 查询图表数据
+        $idsumday2=$this->db->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 day')),'trade_status'=>1))->result_array(); // 统计一天的取现笔数
+        $idsummonth2=$this->db->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 month')),'trade_status'=>1))->result_array(); // 统计一个月的取现笔数
+        $idsumyear2=$this->db->get_where('user_flow',array('cash_time >'=>date('Y-m-d H:i:s',strtotime('-1 year')),'trade_status'=>1))->result_array(); // 统计一年的取现笔数
     	
 
     	$data['lishi'] = $this->db->limit(10)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>"XAU"))->result_array(); // 查询历史交易
