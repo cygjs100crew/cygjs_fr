@@ -122,7 +122,7 @@ public  function login_name(){
                $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
                $this->db->where('id',$new_customerId)->delete('customer');
            }
-           if( $data['password']!=$ret[0]['passwd'])
+           if(md5($data['password']) !=$ret[0]['passwd'])
            {
                echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
            }else{
