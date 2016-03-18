@@ -143,7 +143,8 @@ public  function login_name(){
 	
 	public  function login_phone(){
        $data=$this->input->post();
-       $sms_code=$this->session->userdata('sms_code');
+       //$sms_code=$this->session->userdata('sms_code');
+        $sms_code=get_cookie('sms_code');
        $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
        if(count($ret)>0){ 
            $username=$ret[0]['name'];
