@@ -112,9 +112,9 @@ public  function login_name(){
 		   die('你已经登陆！');
 	   }
        $data=$this->input->post();
-       $ret=$this->db->get_where('customer',array('name'=>$data['username'],'passwd'=>md5($data['password'])))->result_array();
-      // var_dump($ret);
-           
+       $ret=$this->db->get_where('customer',array('name'=>$data['username'],'passwd'=>$data['password']))->result_array();
+       $ret1=$this->db->get_where('customer',array('name'=>$data['username']))->result_array();
+ 
         if(count($ret)>0){
 		   $customerId=$ret[0]['id'];//登陆后从数据库里获取的id
 		  // var_dump($customerId);//3
@@ -131,14 +131,13 @@ public  function login_name(){
 			   $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
 			   $this->db->where('id',$new_customerId)->delete('customer');
 		   }
-		   if(count($ret)>0 && $data['username']!=''){
-		       echo json_encode(array('success'=>true,'info'=>'登陆成功'));
-		   }else{
-		       echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
-		        } 
+		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
         }else{
+		       echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
+		     } 
+      if(count($ret1)<0){
             echo json_encode(array('success'=>false,'info'=>'这个用户没有注册'));
-        }     
+          }     
 	}
 	
 	public  function login_phone(){
