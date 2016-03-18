@@ -108,8 +108,10 @@ class Huangjin extends MY_Controller{
 	}
     // 登入
 public  function login_name(){
-	   if(get_cookie('username')){//如果登陆了，就不用再登陆了
-		   die('你已经登陆！');
+	               $username=get_cookie('username');
+    	   	   if(!empty($username)){//如果登陆了，就不用再登陆了
+                             echo json_encode(array('success'=>false,'info'=>'你已经登录'));
+                             exit;
 	   }
        $data=$this->input->post();
        $ret=$this->db->get_where('customer',array('name'=>$data['username']))->result_array();
