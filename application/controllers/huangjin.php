@@ -112,32 +112,33 @@ public  function login_name(){
 		   die('你已经登陆！');
 	   }
        $data=$this->input->post();
-       $ret=$this->db->get_where('customer',array('name'=>$data['username'],'passwd'=>$data['password']))->result_array();
-       $ret1=$this->db->get_where('customer',array('name'=>$data['username']))->result_array();
- 
-        if(count($ret)>0){
-		   $customerId=$ret[0]['id'];//登陆后从数据库里获取的id
-		  // var_dump($customerId);//3
-		    
-		   $new_customerId=get_cookie('customerId');//cookie里的id,这是客户进来就有的id,可能跟数据库里的id不一致
-		  //var_dump( $new_customerId);//16
-		   if($customerId!=$new_customerId){//登陆成功后，把用户原来作为游客玩游戏和分享的记录更新为用户的名下
-			   set_cookie('customerId',$customerId,0);//覆盖原来的游客id
-			   set_cookie('username',$data['username'],0);//用户名存入cookie
-			   $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
-			   $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
-			   //原来游客id名下的flow要转移过来
-			   $total_flow=$this->db->select('total_flow')->where('id',$new_customerId)->get('customer')->row()->total_flow;
-			   $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
-			   $this->db->where('id',$new_customerId)->delete('customer');
-		   }
-		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
-        }else{
-		       echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
-		     } 
-      if(count($ret1)<0){
-            echo json_encode(array('success'=>false,'info'=>'这个用户没有注册'));
-          }     
+       $ret=$this->db->get_where('customer',array('name'=>$data['username']))->result_array();
+
+       if(count($ret)>0 ){
+           $customerId=$ret[0]['id'];//登陆后从数据库里获取的id
+           // var_dump($customerId);//3
+       
+           $new_customerId=get_cookie('customerId');//cookie里的id,这是客户进来就有的id,可能跟数据库里的id不一致
+           //var_dump( $new_customerId);//16
+           if($customerId!=$new_customerId){//登陆成功后，把用户原来作为游客玩游戏和分享的记录更新为用户的名下
+               set_cookie('customerId',$customerId,0);//覆盖原来的游客id
+               set_cookie('username',$data['username'],0);//用户名存入cookie
+               $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
+               $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
+               //原来游客id名下的flow要转移过来
+               $total_flow=$this->db->select('total_flow')->where('id',$new_customerId)->get('customer')->row()->total_flow;
+               $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
+               $this->db->where('id',$new_customerId)->delete('customer');
+           }
+           if( $data['password']!=$ret[0]['passwd'])
+           {
+               echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
+           }else{
+               echo json_encode(array('success'=>true,'info'=>'登陆成功'));
+           }
+       }else{
+           echo json_encode(array('success'=>false,'info'=>'这个用户没有注册'));
+       }
 	}
 	
 	public  function login_phone(){
