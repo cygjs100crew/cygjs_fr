@@ -113,7 +113,7 @@ public  function login_name(){
 	   }
        $data=$this->input->post();
        $ret=$this->db->get_where('customer',array('name'=>$data['username']))->result_array();
-
+       $username=$ret[0]['name'];
        if(count($ret)>0 ){
            $customerId=$ret[0]['id'];//登陆后从数据库里获取的id
            // var_dump($customerId);//3
@@ -135,6 +135,7 @@ public  function login_name(){
                echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
            }else{
                echo json_encode(array('success'=>true,'info'=>'登陆成功'));
+               set_cookie('username',$username,0);//存入cookie
            }
        }else{
            echo json_encode(array('success'=>false,'info'=>'这个用户没有注册'));
