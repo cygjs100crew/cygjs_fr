@@ -152,19 +152,35 @@ public  function login_name(){
     		   $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
                $this->db->where('id',$new_customerId)->delete('customer');
            }
-           if($sms_code !=$data['checkCode']){
-               echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
-               return;
-           }
-    	   if(count($ret)>0 && $data['checkCode']!=''){
-    		   set_cookie('username',$username,0);//存入cookie
+//            if($sms_code !=$data['checkCode']){
+//                echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
+//                return;
+//            }
+    	   if(md5($data['password']) !=$ret[0]['passwd']){
+    		  
     		   echo json_encode(array('success'=>true,'info'=>'登陆成功'));
+    		   set_cookie('username',$username,0);//存入cookie
     	   }else{
-    		   echo json_encode(array('success'=>false,'info'=>'手机号或者验证码不对'));
+    		   echo json_encode(array('success'=>false,'info'=>'手机号或者密码不对'));
     	   } 
       }else{
           echo json_encode(array('success'=>false,'info'=>'这个手机号没有注册'));
        }  
+	}
+	
+	//设置密码
+	public  function  set_password(){
+	    $data=$this->input->post();
+	    $userinfo['passwd']=md5($data['password']);
+	    $userinfo['phone']=$data['phone'];
+	    $id=get_cookie('customerId');
+	    $ret=$this->db->where('id',$id)->update('customer',$userinfo);
+	    if($ret && md5($data['password'])==md5($data['repassword']) ){
+	        echo json_encode(array('success'=>true,'info'=>'重置密码成功'));
+	    }else{
+	        echo json_encode(array('success'=>false,'info'=>'重置密码失败'));
+	    }
+	
 	}
 	//兑现流量
  function cash_flow(){

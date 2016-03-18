@@ -46,12 +46,20 @@ $(document).ready(function(){
 	});
 	
 	
-	$('#phone').click(function(){
+	$('#phone1').click(function(){
 		var pass1=$('#password').val();
 	    var pass2=$('#repassword').val();
 	    if(pass1!=pass2){
 	    	  alert('两次输入的密码不一致');
 	      }
 	});
+$('#setpasswd').click(function(){
+	var pass1=$('#password2').val();
+    var pass2=$('#repassword2').val();
+    if(pass1!=pass2){
+    	  alert('两次输入的密码不一致');
+    	  return false;
+      }
+});
 	
 })  
