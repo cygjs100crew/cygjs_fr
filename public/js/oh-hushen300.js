@@ -167,12 +167,12 @@ $('#zhang').on('click', function(){
 							if (json.info=='平') {
 								layer.alert('不涨也不跌，再接再厉。');
 							};
-							if (json.info=='未开奖') {
-								layer.alert('获奖信息去哪里？去历史交易看看。', {
-								    icon: 0,
-								    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
-								});
-							};
+							// if (json.info=='未开奖') {
+							// 	layer.alert('获奖信息去哪里？去历史交易看看。', {
+							// 	    icon: 0,
+							// 	    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+							// 	});
+							// };
 						});
 						$('.zhang').html('猜涨');
 						$('.zhang').attr('id','zhang');
@@ -334,12 +334,12 @@ $('#die').on('click', function(){
 							if (json.info=='平') {
 								layer.alert('不涨也不跌，再接再厉。');
 							};
-							if (json.info=='未开奖') {
-								layer.alert('获奖信息去哪里？去历史交易看看。', {
-								    icon: 0,
-								    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
-								});
-							};
+							// if (json.info=='未开奖') {
+							// 	layer.alert('获奖信息去哪里？去历史交易看看。', {
+							// 	    icon: 0,
+							// 	    skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+							// 	});
+							// };
 						});
 						$('.die').html('猜跌');
 						$('.die').attr('id','zhang');

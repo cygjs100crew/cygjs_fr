@@ -52,6 +52,7 @@
 				<div class="pos-link mart20"><a href="/">首页</a>  >  <a href="#">统计</a></div>
 			</div>
 			<!--postion end-->
+
 			<div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
@@ -97,7 +98,7 @@
                             <?php echo $row['share_time'] ?>
                         </td>
                         <td>
-                                <?php echo $row['flow'] ?>
+                            <?php echo $row['flow'] ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -121,69 +122,7 @@
 	<!--end js load--> 
 	<script src="<?php echo base_url()?>public/admin/js/jquery-1.9.1.min.js"></script> 
 	<script src="<?php echo base_url()?>public/admin/js/bootstrap.min.js"></script> 
-	<script src="<?php echo base_url()?>public/admin/js/highcharts.js"></script> 
-	<script src="<?php echo base_url()?>public/admin/js/common.js"></script>
-	<script type="text/javascript">
-	$(function () {
-		$('#chart-container').highcharts({
-			chart: {
-				type: 'area',
-				spacingBottom: 30
-			},
-			title: {
-				text: ''
-			},
-			subtitle: {
-				text: '',
-				floating: true,
-				align: 'right',
-				verticalAlign: 'bottom',
-				y: 15
-			},
-			legend: {
-				layout: 'vertical',
-				align: 'left',
-				verticalAlign: 'top',
-				x: 150,
-				y: 100,
-				floating: true,
-				borderWidth: 1,
-				backgroundColor: '#FFFFFF'
-			},
-			xAxis: {
-				categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
-			},
-			yAxis: {
-				title: {
-					text: 'Y-Axis'
-				},
-				labels: {
-					formatter: function() {
-						return this.value;
-					}
-				}
-			},
-			tooltip: {
-				formatter: function() {
-					return '<b>'+ this.series.name +'</b><br/>'+
-					this.x +': '+ this.y;
-				}
-			},
-			plotOptions: {
-				area: {
-					fillOpacity: 0.5
-				}
-			},
-			credits: {
-				enabled: false
-			},
-			series: [{
-				name: 'John',
-				data: [2000,4200, 3010, 1200, 5000, 3400, 3120, 7000,3400, 3120, 2000, 7000]
-			}]
-		});
-	});				
-</script>
+	
 <script type="text/javascript"> 
 function current(){ 
 var d=new Date(),str=''; 

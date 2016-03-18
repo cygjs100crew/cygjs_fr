@@ -238,7 +238,7 @@ if (option && typeof option === "object") {
 </div>
 
 <div class="user_info">
-	<dl id="dr"><dt id="oy"><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?></dd></dl>
+	<dl id="dr"><dt id="oy"><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd id="dr"><?php echo $username;?></dd></dl>
 	<ul><li><span>可用流量</span><span><em id="total"></em>M</span></li>
 	    <li><span><em id="cash_flow"></span></li>	
 	</ul>
@@ -296,12 +296,12 @@ if (option && typeof option === "object") {
 </div>
 
 </body>
-<script type="text/javascript" src="public/js/oh-huangjin.js"></script><!-- @author ohyeah -->
+<script type="text/javascript" src="public/js/oh-hushen300.js"></script><!-- @author ohyeah -->
 </html>
 <script>
 
 function get_current_flow(){
-	$.get('<?php echo site_url('huangjin/stat_total_flow')?>',function(data){
+	$.get('<?php echo site_url('hushen300/stat_total_flow')?>',function(data){
 		$('#total').html(data);
 	})
 }
@@ -315,14 +315,14 @@ $('#qx').click(function(){
 	if(username!='请登入')   //取现判断有没有用户登录
 		{
 			
-			$.get('<?php echo site_url('huangjin/cash_flow')?>',function(data){
+			$.get('<?php echo site_url('hushen300/cash_flow')?>',function(data){
 				alert(data.info);
 				//location.href="<?php echo site_url('huangjin/index')?>";
 				if(data.success){//如果下单成功，启动计时器
 					get_current_flow();//静态更新总流量
 					$('#cash_flow').html(data.flow_package+'M正在兑换，请耐心等候');//静态更新兑换流量
 					var stat_timer=setInterval(function(){
-							$.get('<?php echo site_url('huangjin/order_status')?>',function(data1){
+							$.get('<?php echo site_url('hushen300/order_status')?>',function(data1){
 								if(data1.success){//反馈后无论失败还是成功，都要终止计时器;否则就一直执行
 									clearInterval(stat_timer);
 									get_current_flow();
@@ -393,7 +393,7 @@ $(function(){
 		var phone=$('#phone1').val();
 		
 		$.ajax({
-			url:'<?php echo site_url("huangjin/send_sms")?>',
+			url:'<?php echo site_url("hushen300/send_sms")?>',
 			data:{phone:phone},
 			type:'post',
 			success:function(data){
@@ -406,7 +406,7 @@ $(function(){
 		var phone=$('#phone2').val();
 		
 		$.ajax({
-			url:'<?php echo site_url("huangjin/send_sms")?>',
+			url:'<?php echo site_url("hushen300/send_sms")?>',
 			data:{phone:phone},
 			type:'post',
 			success:function(data){
@@ -426,7 +426,7 @@ $(function(){
 		var post_data={};
 		post_data[field]=value;
 		$.ajax({
-			url:'<?php echo site_url("huangjin/check")?>',
+			url:'<?php echo site_url("hushen300/check")?>',
 		    dataType:"json",
 			type:'post',
 			data:post_data,
@@ -454,14 +454,14 @@ $(function(){
 			post_obj[item]=$('#regmodal').find('[name="'+item+'"]').val();
 		});
 		$.ajax({
-			url:"<?php echo site_url('huangjin/register')?>",
+			url:"<?php echo site_url('hushen300/register')?>",
 			dataType:"json",
 			type:"post",
 			data:post_obj,
 			success:function(data){
 				if(data && data.success){
 					alert(data.info);
-				  location.href="<?php echo site_url('huangjin/index')?>";
+				  location.href="<?php echo site_url('hushen300/index')?>";
 				}else{ 
 					alert(data.info);
 				 window.history.back();
@@ -479,11 +479,11 @@ $(function(){
 		var post_arr,post_url,$ele;
 		if($('#yh').hasClass('on')){//用户名登陆
 			post_arr=['username','password'];
-			post_url="<?php echo site_url('huangjin/login_name')?>";
+			post_url="<?php echo site_url('hushen300/login_name')?>";
 			$ele=$('#userlogin');
 		}else{//手机登陆
 			post_arr=['phone','checkCode'];
-			post_url="<?php echo site_url('huangjin/login_phone')?>";
+			post_url="<?php echo site_url('hushen300/login_phone')?>";
 			$ele=$('#phonelogin');
 		}
 		
@@ -501,7 +501,7 @@ $(function(){
 	    	// alert(data.info);
 	    	if(data && data.success){
 	    		alert(data.info);
-	    		location.href="<?php echo site_url('huangjin/index')?>";
+	    		location.href="<?php echo site_url('huashen300/index')?>";
 	    	}else{
 	    		alert(data.info);
 	    		//window.history.back();	
@@ -537,8 +537,8 @@ wx.ready(function () {
 	var config_obj={
 		title: '手机流量大放送，免费直领30M', // 分享标题
 		desc: '手机流量大放送，免费直领30M', // 分享描述
-		link: 'http://test-wx.cygjs100.com/cygjs_fr/index.php/index/index', // 分享链接
-		imgUrl: 'public/img/banner.jpg', // 分享图标
+		link: 'http://liuliang.jyqq9999.com/cygjs_fr/index.php/index/index', // 分享链接
+		imgUrl: '<?php echo base_url()?>public/img/banner.jpg', // 分享图标
 		type: '', // 分享类型,music、video或link，不填默认为link
 		dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 		success: function () { 

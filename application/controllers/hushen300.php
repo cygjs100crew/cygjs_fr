@@ -41,7 +41,8 @@ class hushen300 extends MY_Controller{
         $userinfo['phone']=$data['phone'];
 		$userinfo['register_time']=date('Y-m-d H:i:s');
 
-		$sms_code=$this->session->userdata('sms_code');
+		//$sms_code=$this->session->userdata('sms_code');
+		$sms_code=get_cookie('sms_code');
 		if($sms_code!=$data['checkCode']){
 			echo json_encode(array('success'=>false,'info'=>'短信验证码不对,请重新输入'));
 			return;
@@ -103,33 +104,33 @@ public  function login_name(){
 		   die('你已经登陆！');
 	   }
        $data=$this->input->post();
-       $ret=$this->db->get_where('customer',array('name'=>$data['username'],'passwd'=>md5($data['password'])))->result_array();
-      // var_dump($ret);
-           
-        if(count($ret)>0){
-		   $customerId=$ret[0]['id'];//登陆后从数据库里获取的id
-		  // var_dump($customerId);//3
-		    
-		   $new_customerId=get_cookie('customerId');//cookie里的id,这是客户进来就有的id,可能跟数据库里的id不一致
-		  //var_dump( $new_customerId);//16
-		   if($customerId!=$new_customerId){//登陆成功后，把用户原来作为游客玩游戏和分享的记录更新为用户的名下
-			   set_cookie('customerId',$customerId,0);//覆盖原来的游客id
-			   set_cookie('username',$data['username'],0);//用户名存入cookie
-			   $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
-			   $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
-			   //原来游客id名下的flow要转移过来
-			   $total_flow=$this->db->select('total_flow')->where('id',$new_customerId)->get('customer')->row()->total_flow;
-			   $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
-			   $this->db->where('id',$new_customerId)->delete('customer');
-		   }
-		   if(count($ret)>0 && $data['username']!=''){
-		       echo json_encode(array('success'=>true,'info'=>'登陆成功'));
-		   }else{
-		       echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
-		        } 
-        }else{
-            echo json_encode(array('success'=>false,'info'=>'这个用户没有注册'));
-        }     
+       $ret=$this->db->get_where('customer',array('name'=>$data['username']))->result_array();
+
+       if(count($ret)>0 ){
+           $customerId=$ret[0]['id'];//登陆后从数据库里获取的id
+           // var_dump($customerId);//3
+       
+           $new_customerId=get_cookie('customerId');//cookie里的id,这是客户进来就有的id,可能跟数据库里的id不一致
+           //var_dump( $new_customerId);//16
+           if($customerId!=$new_customerId){//登陆成功后，把用户原来作为游客玩游戏和分享的记录更新为用户的名下
+               set_cookie('customerId',$customerId,0);//覆盖原来的游客id
+               set_cookie('username',$data['username'],0);//用户名存入cookie
+               $this->db->where('customer_id',$new_customerId)->update('share',array('customer_id'=>$customerId));
+               $this->db->where('customer_id',$new_customerId)->update('play',array('customer_id'=>$customerId));
+               //原来游客id名下的flow要转移过来
+               $total_flow=$this->db->select('total_flow')->where('id',$new_customerId)->get('customer')->row()->total_flow;
+               $this->db->query("update customer set total_flow=total_flow+".$total_flow." where id=".$customerId);
+               $this->db->where('id',$new_customerId)->delete('customer');
+           }
+           if( $data['password']!=$ret[0]['passwd'])
+           {
+               echo json_encode(array('success'=>false,'info'=>'用户名或者密码不对'));
+           }else{
+               echo json_encode(array('success'=>true,'info'=>'登陆成功'));
+           }
+       }else{
+           echo json_encode(array('success'=>false,'info'=>'这个用户没有注册'));
+       }
 	}
 	
 	public  function login_phone(){
@@ -208,7 +209,7 @@ public  function login_name(){
 			echo json_encode(array('success'=>false,'info'=>'对不起，没有查到你的号码归属！'));
 		}
 		//此处调用流量公司提供的接口来下单
-		$callback=urlencode('http://test-wx.cygjs100.com/cygjs_fr/index.php/huangjin/callback');
+		$callback=urlencode('http://liuliang.jyqq9999.com/cygjs_fr/index.php/huangjin/callback');
 		$url='http://liuliang.huagaotx.cn/Interface/InfcForEC.aspx?INTECMD=A_CPCZ&USERNAME=18805710101&PASSWORD=710101&MOBILE='.$row['phone'].'&ORDERID='.$orderid.'&PRODUCTCODE='.$product_code.'&CTMRETURL='.$callback.'&APIKEY=4866f53d0563496385bc2f67009c9d4f';
 		//redirect($url);
 		//die;
@@ -290,7 +291,8 @@ public  function login_name(){
 		
 		//生成验证码
 		$code = rand(1000,9999);
-		$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
+		//$this->session->set_userdata('sms_code',$code);//动态生成的短信验证码存入session中，后面注册验证时要用
+		set_cookie('sms_code',$code,0);
 		//短信内容
 		//$date=date('Y年m月d日',time());
 		//$MessageContent ='您本次验证码为'.$code.'，如需退订回复TD。';

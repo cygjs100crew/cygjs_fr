@@ -213,7 +213,7 @@ $.post('/cygjs_fr/index.php/huangjin/e_data',{symbol:'XAU'},function(data){
             }]
         });
     });
-}, 3000);;
+}, 1000);;
 if (option && typeof option === "object") {
     var startTime = +new Date();myChart.setOption(option, true);
     var endTime = +new Date();
@@ -237,7 +237,7 @@ if (option && typeof option === "object") {
 </div>
 
 <div class="user_info">
-	<dl id="dr"><dt id="oy"><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd><?php echo $username;?></dd></dl>
+	<dl id="dr"><dt id="oy"><img src="<?php echo base_url()?>public/img/avatar.jpg" /></dt><dd id="dr"><?php echo $username;?></dd></dl>
 	<ul><li><span>可用流量</span><span><em id="total"></em>M</span></li>
 	    <li><span><em id="cash_flow"></span></li>	
 	</ul>
@@ -536,8 +536,8 @@ wx.ready(function () {
 	var config_obj={
 		title: '手机流量大放送，免费直领30M', // 分享标题
 		desc: '手机流量大放送，免费直领30M', // 分享描述
-		link: 'http://test-wx.cygjs100.com/cygjs_fr/index.php/index/index', // 分享链接
-		imgUrl: 'public/img/banner.jpg', // 分享图标
+		link: 'http://liuliang.jyqq9999.com/cygjs_fr/index.php/index/index', // 分享链接
+		imgUrl: '<?php echo base_url()?>public/img/banner.jpg', // 分享图标
 		type: '', // 分享类型,music、video或link，不填默认为link
 		dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 		success: function () { 

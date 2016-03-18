@@ -79,7 +79,7 @@ $db['default'] = array(
 	'username' => 'root',
 	'password' => 'root',
 	'database' => 'cygjs_fr',
-	'dbdriver' => 'mysql',
+	'dbdriver' => 'mysqli',
      
 	'dbprefix' => '',
 	'pconnect' => FALSE,
