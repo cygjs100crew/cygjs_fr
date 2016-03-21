@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-<?php exit();?>{"expire_time":1458530815,"access_token":"iGDy6kosBffRr91QGTcK87iMXFmTDCtn5Q7R-y-T3YW4gFl3PgZprQmG01s1XMGCw0QkTJNDAuDwB5ftB9SbHE-I_s0fv96tShjjmIxLn_iCJud_LxkQTzPP-g_7QkOXKORgABATXA"}
-=======
-<?php exit();?>{"expire_time":1458530301,"access_token":"NmZ8w9sw-cegedM02GPQyXLtEaYIEdOmI1lMhZC6nw_cBdLn7Dcpkqxc6Tp_wXNW9k8CexcVN9N8Lb7BH3qVZ2K9YbvOfyMifijkMox7L92NtTo5U_ASJvYpEELgYsU5DFBhAFAYAW"}
->>>>>>> origin/master
+<?php exit();?>{"expire_time":1458561716,"access_token":"xiPN1JAU0BqfQIFFk2o4CU8hgUwLYRRXZq2iLAJsGBdQgpQuyYKfJ8alc5Fq9bantIQdjTyth0eU_-Z87xPHjy6-vms_X0t_s_DLu-ZWV7Yey0GrMVhKd5vV4ZLHuOVHRYOeAAALSI"}
