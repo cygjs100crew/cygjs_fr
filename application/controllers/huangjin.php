@@ -183,10 +183,13 @@ public  function  set_password(){
    $data=$this->input->post();
    $userinfo['passwd']=md5($data['password']);
    $userinfo['phone']=$data['phone'];
-   $id=get_cookie('customerId'); 
+   $result=$this->db->where('phone',$data['phone'])->get('customer')->result_array();
+   $id=$result[0]['id'];
    $ret=$this->db->where('id',$id)->update('customer',$userinfo);
+   
    if($ret && md5($data['password'])==md5($data['repassword']) ){
        echo json_encode(array('success'=>true,'info'=>'重置密码成功'));
+       
    }else{
        echo json_encode(array('success'=>false,'info'=>'重置密码失败'));
    }
