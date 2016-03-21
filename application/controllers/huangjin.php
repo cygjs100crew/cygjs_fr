@@ -499,17 +499,18 @@ public  function login_name(){
 		$result['st'] =1;
 	
         if (count($list)<1) {                   
-            $result['st'] =0; //没有数据则提示
-           $d=$this->db->get_where('recentquotation',array('time <'=>date('Y-m-d H:i:s',time())))->result_array();//查询最近数据断掉的前一秒的数据
-           if(count($d)>0){
-                $this->sms();//发送短信提示
-            }
+            $result['st'] =0; //没有数据则提示         
             if (intval($openlishi)>0) {
             	$list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
             }else{
             	echo json_encode($result);
            		exit();
             }
+            $d=$this->db->get_where('recentquotation',array('time <'=>date('Y-m-d H:i:s',time())))->result_array();//查询最近数据断掉的前一秒的数据
+            if(count($d)>0){
+                $this->sms();//发送短信提示
+            }
+            
         }
  
         foreach($list as $k=>$v){
