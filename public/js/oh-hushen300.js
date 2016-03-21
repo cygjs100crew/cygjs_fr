@@ -411,15 +411,22 @@ $(function(){
 $(function(){  
 	$('<audio id="chatAudio"><source src="public/audio/pi.mp3" type="audio/ogg"> <source src="public/audio/pi.mp3" type="audio/mpeg"><source src="notify.wav" type="audio/wav"> </audio>').appendTo('body');//载入声音文件
 	$('<audio id="chatAudio1"><source src="public/audio/chime.mp3" type="audio/ogg"> <source src="public/audio/chime.mp3" type="audio/mpeg"><source src="notify.wav" type="audio/wav"> </audio>').appendTo('body');//载入声音文件
+	$('<audio id="chatAudio2"><source src="public/audio/cat.mp3" type="audio/ogg"> <source src="public/audio/chime.mp3" type="audio/mpeg"><source src="notify.wav" type="audio/wav"> </audio>').appendTo('body');//载入声音文件
+
 }); 
+    $("#oy").click(function(){ 
+    	
+            $('#chatAudio2')[0].play(); //播放声音 
+            layer.tips('恭喜发财！', '#oy', {
+					       tips: [1, '#78BA32']
+					});
+				
+    }); 
 window.setInterval(function() {
 	    
 	    var x = 12;
 		var y = 1;
 		var rand = parseInt(Math.random() * (x - y + 1) + y);
-		if (rand = parseInt($('#st').val())<1) {
-			rand=999；
-		}
 		switch(rand)
 				{
 				case 1:
@@ -449,11 +456,6 @@ window.setInterval(function() {
 			  break;
 			  case 6:
 			    layer.tips('好棒哦！', '#oy', {
-				       tips: [1, '#78BA32']
-				});
-			  break;
-			  case 999:
-			    layer.tips('咱们换个地方玩吧。', '#oy', {
 				       tips: [1, '#78BA32']
 				});
 			  break;

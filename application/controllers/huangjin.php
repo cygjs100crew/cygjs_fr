@@ -145,7 +145,8 @@ public  function login_name(){
 	}
 	
 	public  function login_phone(){
-       $data=$this->input->post();
+	    
+	    $data=$this->input->post();    
        //$sms_code=$this->session->userdata('sms_code');
         //$sms_code=get_cookie('sms_code');
        $ret=$this->db->get_where('customer',array('phone'=>$data['phone']))->result_array();
@@ -179,22 +180,22 @@ public  function login_name(){
 	}
 	
 //设置密码
-public  function  set_password(){
-   $data=$this->input->post();
-   $userinfo['passwd']=md5($data['password']);
-   $userinfo['phone']=$data['phone'];
-   $result=$this->db->where('phone',$data['phone'])->get('customer')->result_array();
-   $id=$result[0]['id'];
-   $ret=$this->db->where('id',$id)->update('customer',$userinfo);
-   
-   if($ret && md5($data['password'])==md5($data['repassword']) ){
-       echo json_encode(array('success'=>true,'info'=>'重置密码成功'));
+    public  function  set_password(){
+       $data=$this->input->post();
+       $userinfo['passwd']=md5($data['password']);
+       $userinfo['phone']=$data['phone'];
+       $result=$this->db->where('phone',$data['phone'])->get('customer')->result_array();
+       $id=$result[0]['id'];
+       $ret=$this->db->where('id',$id)->update('customer',$userinfo);
        
-   }else{
-       echo json_encode(array('success'=>false,'info'=>'重置密码失败'));
-   }
-    
-}
+       if($ret && md5($data['password'])==md5($data['repassword']) ){
+           echo json_encode(array('success'=>true,'info'=>'重置密码成功'));
+           
+       }else{
+           echo json_encode(array('success'=>false,'info'=>'重置密码失败'));
+       }
+        
+    }
 	//兑现流量
     function cash_flow(){
 		$customerId=get_cookie('customerId');
@@ -347,7 +348,13 @@ public  function  set_password(){
  			echo json_encode(array('success'=>false,'info'=>$ret));
  		}*/
 	}
-	
+	public function sms(){
+	   $MessageContent='服务器数据已断，请重启【金裕黄金】';
+	   $url="http://120.24.167.205/msg/HttpSendSM?account=gzjygjs&pswd=GZjygjs05&mobile=13760654845&msg=".$MessageContent."&needstatus=true&product=";
+	   $ret=file_get_contents($url);
+	   die;
+	   
+	}
 	//统计总流量
 	private function _stat_total_flow(){
 		$customerId=get_cookie('customerId');
@@ -482,6 +489,7 @@ public  function  set_password(){
     function e_data(){
         $symbol=$_POST['symbol'];
         $list=$this->db->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-5 minutes')),'time <'=>date('Y-m-d H:i:s',strtotime('-60 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
+        
          // $list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-10 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
         // $list=$this->$list->limit(50,100)->result_array();
         // $list=$this->db->limit(200,count($list)-200)->get_where('recentquotation',array('time >'=>date('Y-m-d H:i:s',strtotime('-10 minutes')),'symbol'=>$symbol))->result_array(); // 查询图表数据
@@ -491,6 +499,10 @@ public  function  set_password(){
 		$result['st'] =1;
         if (count($list)<1) {                   
             $result['st'] =0; //没有数据则提示
+          $d=$this->db->get_where('recentquotation',array('time <'=>date('Y-m-d H:i:s',time()),'time>'=>date('Y-m-d H:i:s',strtotime('-1 seconds'))))->result_array();
+           if(count($d)>0){
+                $this->sms();
+            }
             if (intval($openlishi)>0) {
             	$list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
             }else{
