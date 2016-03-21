@@ -254,10 +254,10 @@ if (option && typeof option === "object") {
 		<input type="text" name="username" id=username1  class="txtfield" tabindex="1" /></li>
 	
 		<li><label for="password">密码:</label>
-		<input type="password" name="password"  class="txtfield" tabindex="2" /></li>
+		<input type="password" name="password" id="password"  class="txtfield" tabindex="2" /></li>
 
 		<li><label for="password">确认密码:</label>
-		<input type="password" name="repassword"  class="txtfield" tabindex="3" /></li>
+		<input type="password" name="repassword" id="repassword" class="txtfield" tabindex="3" /></li>
 
 		<li><label for="tel">手机号:</label>
 		<input type="text" name="phone" id="phone1" class="txtfield" tabindex="4" /></li>
@@ -268,33 +268,49 @@ if (option && typeof option === "object") {
 		<div class="center"><input type="submit" name="loginbtn" id="loginbtn" class="flatbtn-red hidemodal" value="确定注册" tabindex="3"></div>
 	</div>
 </div>
-
+<!-- 登录 -->
 <div id="loginmodal" class="modal2" style="display:none">
 <div class="gb">X</div>
 	<h3>请登陆</h3>
-	<ol><li class="on" id="yh">用户名登陆</li><li id="sj">手机登陆</li></ol>
+	<!--  <ol><li class="on" id="yh">用户名登陆</li><li id="sj">手机登陆</li></ol>--> 
 	<div id="loginform">
 	<div id="dialog">
 	<div id="userlogin"><ul>
-		<li><label for="username">用户名:</label>
-		<input type="text" name="username" id="username" class="txtfield" tabindex="1" /></li>
+		<li><label for="username">手机号:</label>
+		<input type="text" name="phone" id="phone" class="txtfield" tabindex="1" /></li>
 		<li><label for="password">密码:</label>
-		<input type="password" name="password"  class="txtfield" tabindex="2" /></li>
+		<input type="password" name="password"  class="txtfield" tabindex="2" />
+		<span id="pw"><a href="javascript:void(0);">忘记密码</a></span></li>
 	</ul></div>
-	<div id="phonelogin" style="display:none;"><ul>
+	<!--  <div id="phonelogin" style="display:none;"><ul>
 		<li><label for="username">手机号:</label>
 		<input type="text" name="phone" id="phone2" class="txtfield" tabindex="1" /></li>
 	
 		<li><label for="code">验证码:</label>
 		<input type="text" name="checkCode"  class="txtfield w2" tabindex="5" /><input id="btnSendCode2" type="button" value="发送验证码" /></li>
-	</ul></div></div>
+	</ul></div>--></div>
 	  <div class="center">
 		<a id="login_btn" class="flatbtn-red hidemodal">登陆</a>
-		<a id="register_btn" class="flatbtn-red hidemodal">注册</a>
+		<a id="register_btn" class="flatbtn-red hidemodal">没有账号快速注册</a>
 		</div>
     </div>
 </div>
-
+<!-- 重置密码 -->
+<div id="remodal" class="modal2" style="display:none" >
+<div class="gb">X</div>
+<h3>设置密码</h3>
+   <div id="repasswd">
+     <ul>
+      <li><label for="username">手机号:</label>
+		<input type="text" name="phone" id="phone" class="txtfield" tabindex="1" /></li>
+		<li><label for="password">新密码:</label>
+		<input type="password" name="password" id="password2" class="txtfield" tabindex="2" /></li>
+		<li><label for="password">确认密码:</label>
+		<input type="password" name="repassword" id="repassword2" class="txtfield" tabindex="3" /></li>
+	</ul>
+	 <div class="center"><input type="submit" name="confirm" id="setpasswd" class="flatbtn-red hidemodal" value="确定" tabindex="3"></div>
+   </div>
+</div>
 </body>
 <script type="text/javascript" src="public/js/oh-hushen300.js"></script><!-- @author ohyeah -->
 </html>
@@ -347,10 +363,16 @@ $('#qx').click(function(){
 });
 
 $('#dr').click(function(){
-	$('#loginmodal').show();
+	
+	if(username!='请登入'){
+		//alert('已经登录！')
+		
+	}else{
+	   $('#loginmodal').show();
+	}
 })
 //弹出 用户登入框
-$('#yh').click(function(){
+/*$('#yh').click(function(){
 	$('#yh').addClass('on');
 	$('#sj').removeClass('on');
 	$('#phonelogin').hide();
@@ -366,6 +388,12 @@ $('#sj').click(function(){
 	$('#userlogin').hide();
 	$('#phonelogin').show();
 		
+})*/
+//弹出设置密码页
+$('#pw').click(function(){
+	$('#loginmodal').hide();
+	$('#remodal').show();
+		
 })
 //关闭对话框
 $('.gb').click(function(){
@@ -376,14 +404,7 @@ $('.gb').click(function(){
 $(function(){
 	//弹出注册框的时候，同时向后台请求验证码图片
 	$('#register_btn').on('click',function(){
-		/*$.ajax({
-			url:'<?php echo site_url("huangjin/img")?>',
-			dataType:'html',
-			async:false,
-			success:function(data){
-				$('#img_td').prepend(data);
-			}
-		});*/
+		
 		//$('#mask').show();
 		$('#loginmodal').hide();
 		$('#regmodal').show();	
@@ -476,7 +497,7 @@ $(function(){
 	
 	$('#login_btn').click(function(){
 		//这里判断一下是哪种登陆方式
-		var post_arr,post_url,$ele;
+		/*var post_arr,post_url,$ele;
 		if($('#yh').hasClass('on')){//用户名登陆
 			post_arr=['username','password'];
 			post_url="<?php echo site_url('hushen300/login_name')?>";
@@ -485,8 +506,8 @@ $(function(){
 			post_arr=['phone','checkCode'];
 			post_url="<?php echo site_url('hushen300/login_phone')?>";
 			$ele=$('#phonelogin');
-		}
-		
+		}*/
+		var post_arr=['phone','password'];
 		var post_obj={};
 		$.each(post_arr,function(index,item){
 			post_obj[item]=$ele.find('[name="'+item+'"]').val();
@@ -509,6 +530,32 @@ $(function(){
 	    	
 	       }
 	   })	
+	});
+	
+	//设置密码
+	$('#setpasswd').click(function(){
+		var post_arr=['phone','password','repassword'];
+		var post_obj={};
+		$.each(post_arr,function(index,item){
+			post_obj[item]=$('#repasswd').find('[name="'+item+'"]').val();
+		})
+	
+	   $.ajax({
+		   url:"<?php echo site_url('huangjin/set_password')?>",
+		   dataType:"json",
+		   type:"post",
+		   data:post_obj,
+		   success:function(data){
+			   if(data && data.success){
+				   alert(data.info);
+				   location.href="<?php echo site_url('huangjin/index')?>";
+			   }else{
+				   alert(data.info);
+			   }
+		   }
+	   })
+	   
+		
 	});
 })
 
