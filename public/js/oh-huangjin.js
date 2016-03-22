@@ -22,7 +22,7 @@ $('#zhang').on('click', function(){
     	layer.close(index);
         $('#capital1').html($('#capital').html());
         var json=JSON.parse(data);
-        if (!json.xznum==false) {
+        if (json.xznum==false) {
         	layer.closeAll('page');
         	layer.alert('今天的游戏次数已使用完毕，明天再来吧！', {
 		    icon: 5,
@@ -182,7 +182,7 @@ $('#die').on('click', function(){
     	layer.close(index); 
         $('#capital1').html($('#capital').html());
         var json=JSON.parse(data);
-        if (!json.xznum==false) {
+        if (json.xznum==false) {
         	layer.closeAll('page');
         	layer.alert('今天的游戏次数已使用完毕，明天再来吧！', {
 		    icon: 5,
