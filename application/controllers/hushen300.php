@@ -14,6 +14,10 @@ class hushen300 extends MY_Controller{
 
 //判断cookie中是否有username,没有就是游客,看看游客有多少流量
  function index(){
+         $opentime=$this->is_opentime();//开市时间
+         if ($opentime<0) {
+             redirect('huangjin/index');
+         }
         $this->load->database();		
         $username=get_cookie('username')?get_cookie('username'):'请登入';
         

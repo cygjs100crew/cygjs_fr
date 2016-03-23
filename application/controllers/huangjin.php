@@ -13,6 +13,10 @@ class Huangjin extends MY_Controller{
     
 //判断cookie中是否有username,没有就是游客,看看游客有多少流量
     function index(){
+        $opentime=$this->is_opentime();//开市时间
+        if ($opentime>0) {
+            redirect('hushen300/index');
+        }
         $this->load->database();		
         $username=get_cookie('username')?get_cookie('username'):'请登入';
         
@@ -472,7 +476,7 @@ public  function login_name(){
 
         $id=$this->is_uid();
         $data = $this->db->select('result')->limit(1)->order_by("id","desc")->get_where('investor_detail',array('symbol'=>$symbol,'investor_uid'=>$id))->result_array(); // 查询历史交易
-
+        var_dump($data);
         
         $result['flow']=$this->_stat_total_flow();
         $num=$this->ying_num();
@@ -501,13 +505,14 @@ public  function login_name(){
         if (count($list)<1) {                   
             $result['st'] =0; //没有数据则提示         
             if (intval($openlishi)<=0) {
-            	$list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>date('Y-m-d 09:40:00',strtotime('-5 minutes')),'time <'=>date('Y-m-d 09:40:00',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据           	
-            	$result['st'] =1;      	
+            	$list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据            	
+            	//$result['st'] =1;  
+            	    	
             }else{
             	echo json_encode($result);
            		exit();
             }
-
+        //var_dump($list);
             
         }
  
