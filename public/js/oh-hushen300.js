@@ -368,32 +368,6 @@ $('#ls').on('click', function(){
         content: '/cygjs_fr/index.php/huangjin/huangjin_html_list'
     });
 });
-
-	$('#rule_link').on('click', function(){
-			layer.open({
-			    type: 1,
-			    title: false,
-			    skin: 'layui-layer-nobg', //样式类名
-			    closeBtn: 1, //不显示关闭按钮
-			    scrollbar: true,
-			    shift: 2,
-			    shadeClose: true, //开启遮罩关闭
-			    content: '<div class="bag-popup2"><div id="rule_cont2" class="rule_cont"><center><b>《活动须知》</b></center><h2>2016年金裕二元期权<br />“玩游戏赚流量，无限流量助你玩转猴年”</h2><h3>一、活动时间：即日起至</h3><h3>二、活动介绍：</h3><p>1、从手机界面进入游戏，金裕二元期权猜涨跌。每次猜对即送你3M流量，根据兑换规则，流量可以累积，可以提取。</p><p>2、奔走相告抢流量，动动你的手指，把此链接分享到你的朋友圈，即送1M流量，每天有5次机会哦！</p><h3>三、兑换流量规则：</h3><p>流量可以累积，累积满30M及以上即可作首次提取（第二次后需累积满100M以上方可提取），点击页面“领取流量”按钮，根据提示操作即可，就是这么简单、便捷。</p><h3>四、活动说明：</h3><p>1、根据页面提示，先注册，流量才可以领取。</p><p>2、请按照须知要求参与活动，一旦发现有非正常行为作弊的用户，金裕将有权取消其继续参与活动的资格。</p><p>3、本次活动最终解释权归金裕所有。</p></div></div>'
-		});
-	});
-	$('#ifollow').on('click', function(){
-			layer.open({
-			    type: 1,
-			    title: false,
-			    skin: 'layui-layer-nobg', //样式类名
-			    closeBtn: 0, //不显示关闭按钮
-			    scrollbar: false,
-			    shift: 2,
-			    shadeClose: true, //开启遮罩关闭
-			    content: '<div class="bag-popup2"><div id="rule_cont2" class="rule_cont text-center"><img src="public/img/code.gif"><h3>更多现金大奖尽在金裕期权公众号</h3><p>（长按二维码选择识别）</p><h3 class="text-center">亲,每天有<em>五次</em>分享机会<br />可以免费获取流量的哟！</h3></div></div>'
-			});
-	});
-
 $('#sinalink').on('click', function(){
            $("#dd").attr('src','/cygjs_fr/index.php/huangjin/huangjin_sinalink');
            $('#symbol').val('hf_GC');

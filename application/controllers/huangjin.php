@@ -348,13 +348,13 @@ public  function login_name(){
  			echo json_encode(array('success'=>false,'info'=>$ret));
  		}*/
 	}
-	public function sms(){
-	   $MessageContent='服务器数据已断，请重启【金裕黄金】';
-	   $url="http://120.24.167.205/msg/HttpSendSM?account=gzjygjs&pswd=GZjygjs05&mobile=13760654845&msg=".$MessageContent."&needstatus=true&product=";
-	   $ret=file_get_contents($url);
-	   die;
+// 	public function sms(){
+// 	   $MessageContent='服务器数据已断，请重启【金裕黄金】';
+// 	   $url="http://120.24.167.205/msg/HttpSendSM?account=gzjygjs&pswd=GZjygjs05&mobile=13760654845&msg=".$MessageContent."&needstatus=true&product=";
+// 	   $ret=file_get_contents($url);
+// 	   die;
 	   
-	}
+// 	}
 	//统计总流量
 	private function _stat_total_flow(){
 		$customerId=get_cookie('customerId');
@@ -500,16 +500,13 @@ public  function login_name(){
 	
         if (count($list)<1) {                   
             $result['st'] =0; //没有数据则提示         
-            if (intval($openlishi)>0) {
+            if (intval($openlishi)<=0) {
             	$list=$this->db->select('price,time')->get_where('recentquotation',array('time >'=>'2016-01-25 '.date('H:i:s',strtotime('-5 minutes')),'time <'=>'2016-01-25 '.date('H:i:s',strtotime('-30 seconds')),'symbol'=>$symbol))->result_array(); // 查询图表数据
             }else{
             	echo json_encode($result);
            		exit();
             }
-            $d=$this->db->get_where('recentquotation',array('time <'=>date('Y-m-d H:i:s',time())))->result_array();//查询最近数据断掉的前一秒的数据
-            if(count($d)>0){
-                $this->sms();//发送短信提示
-            }
+
             
         }
  
